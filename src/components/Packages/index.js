@@ -1,0 +1,1 @@
+export { default as PackagesVariant1 } from './PackagesVariant1'; 

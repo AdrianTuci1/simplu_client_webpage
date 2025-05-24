@@ -12,54 +12,6 @@ export const AVAILABLE_PAGES = {
   [BUSINESS_TYPES.HOTEL]: ['ROOMS', 'FACILITIES', 'ATTRACTIONS']
 };
 
-// Component types and their variants
-export const COMPONENT_TYPES = {
-  HERO: {
-    type: 1,
-    variants: {
-      1: 'HeroVariant1',
-      2: 'HeroVariant2',
-      3: 'HeroVariant3'
-    }
-  },
-  FEATURES: {
-    type: 2,
-    variants: {
-      1: 'FeaturesVariant1',
-      2: 'FeaturesVariant2',
-      3: 'FeaturesVariant3'
-    }
-  },
-  TESTIMONIALS: {
-    type: 3,
-    variants: {
-      1: 'TestimonialsVariant1',
-      2: 'TestimonialsVariant2'
-    }
-  },
-  GALLERY: {
-    type: 4,
-    variants: {
-      1: 'GalleryVariant1',
-      2: 'GalleryVariant2'
-    }
-  },
-  CONTACT: {
-    type: 5,
-    variants: {
-      1: 'ContactVariant1',
-      2: 'ContactVariant2'
-    }
-  },
-  DESCRIPTION: {
-    type: 6,
-    variants: {
-      1: 'DescriptionVariant1',
-      2: 'DescriptionVariant2'
-    }
-  }
-};
-
 // Parse environment variables
 const parseEnvArray = (envString) => {
   if (!envString) return [];
@@ -113,18 +65,8 @@ export const isPageActive = (page) => {
 
 export const getHomeLayout = () => businessConfig.homeLayout;
 
-// Helper to get component type and variant from a number
+// Helper to get component from a number
 export const getComponentInfo = (number) => {
   if (number === 0) return null;
-  
-  const type = Math.floor(number / 10);
-  const variant = number % 10;
-  
-  const componentType = Object.values(COMPONENT_TYPES).find(comp => comp.type === type);
-  if (!componentType) return null;
-  
-  return {
-    type: componentType.type,
-    variant: componentType.variants[variant] || null
-  };
+  return COMPONENT_CODES[number] || null;
 }; 

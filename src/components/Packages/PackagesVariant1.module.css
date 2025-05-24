@@ -1,0 +1,298 @@
+.container {
+  position: relative;
+  padding: 0;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding: 4rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding: 4rem 2rem;
+  }
+}
+
+.wrapper {
+  max-width: 100%;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  margin-top: 0.75rem;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: #666;
+  font-weight: 400;
+}
+
+.carouselContainer {
+  position: relative;
+  padding: 0 20px;
+  overflow: hidden;
+}
+
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  background-color: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.navButton:hover {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.navButtonLeft {
+  left: 0;
+}
+
+.navButtonRight {
+  right: 0;
+}
+
+.navIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.carousel {
+  overflow: hidden;
+  width: 100%;
+}
+
+.slidesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.slide {
+  flex: 0 0 280px;
+  transition: all 0.5s ease;
+  opacity: 0.3;
+  transform: scale(0.85);
+}
+
+.activeSlide {
+  flex: 0 0 600px;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.card {
+  background-color: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  height: 400px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Tier Colors */
+.gold .colorBar {
+  background: linear-gradient(90deg, #ffd700, #ffa500);
+}
+
+.silver .colorBar {
+  background: linear-gradient(90deg, #c0c0c0, #a9a9a9);
+}
+
+.black .colorBar {
+  background: linear-gradient(90deg, #1a1a1a, #333333);
+}
+
+.service .colorBar {
+  background: linear-gradient(90deg, #4b5563, #6b7280);
+}
+
+.none .colorBar {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.colorBar {
+  height: 4px;
+  width: 100%;
+}
+
+.cardContent {
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.activeHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.iconWrapper {
+  width: 48px;
+  height: 48px;
+  background-color: #f3f4f6;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  font-size: 1.5rem;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.priceContainer {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.period {
+  font-size: 1rem;
+  color: #666;
+  font-weight: 400;
+}
+
+.entryInfo {
+  padding: 0.25rem 0.75rem;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #4b5563;
+  text-align: center;
+}
+
+.featuresList {
+  flex: 1;
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow-y: auto;
+  max-height: 200px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: #4b5563;
+  font-size: 0.95rem;
+  padding-right: 0.5rem;
+}
+
+.featureIcon {
+  color: #2563eb;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.featureText {
+  line-height: 1.4;
+}
+
+.ctaButton {
+  margin-top: auto;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 120px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
+  align-self: center;
+}
+
+.ctaButton:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+.inactiveContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+.inactiveContent .iconWrapper {
+  width: 40px;
+  height: 40px;
+  font-size: 1.25rem;
+}
+
+.inactiveContent .cardTitle {
+  font-size: 1.25rem;
+  text-align: center;
+}
+
+.inactiveContent .entryInfo {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+} 
