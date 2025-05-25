@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './FeaturesVariant1.css';
 
@@ -50,11 +50,33 @@ const facilities = [
 const FeaturesVariant1 = () => {
   const [selectedFacility, setSelectedFacility] = useState(facilities[0]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setVisibleCount(1);
+      } else if (window.innerWidth <= 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+
+    // Set initial count
+    handleResize();
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => {
       if (prev <= 0) {
-        return selectedFacility.images.length - 3;
+        return selectedFacility.images.length - visibleCount;
       }
       return prev - 1;
     });
@@ -62,7 +84,7 @@ const FeaturesVariant1 = () => {
 
   const handleNext = () => {
     setCurrentIndex((prev) => {
-      if (prev >= selectedFacility.images.length - 3) {
+      if (prev >= selectedFacility.images.length - visibleCount) {
         return 0;
       }
       return prev + 1;
@@ -71,7 +93,6 @@ const FeaturesVariant1 = () => {
 
   const getVisibleImages = () => {
     const images = selectedFacility.images;
-    const visibleCount = 3;
     let result = [];
 
     for (let i = 0; i < visibleCount; i++) {

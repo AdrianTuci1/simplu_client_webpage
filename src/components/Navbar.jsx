@@ -1,10 +1,25 @@
 import { Link, useLocation } from 'react-router-dom';
 import { businessConfig, isPageActive } from '../config/businessConfig';
+import { FaHome, FaUserMd, FaTooth, FaDumbbell, FaCalendarAlt, FaBed, FaSwimmingPool, FaMapMarkedAlt, FaCog, FaChartLine } from 'react-icons/fa';
 import './Navbar.css';
 
 const Navbar = () => {
   const location = useLocation();
   
+  const getPageIcon = (page) => {
+    const icons = {
+      MEDICS: <FaUserMd />,
+      TREATMENTS: <FaTooth />,
+      PACKAGES: <FaDumbbell />,
+      CLASSES: <FaCalendarAlt />,
+      ROOMS: <FaBed />,
+      FACILITIES: <FaSwimmingPool />,
+      ATTRACTIONS: <FaMapMarkedAlt />,
+      SETTINGS: <FaCog />
+    };
+    return icons[page] || null;
+  };
+
   const getPageTitle = (page) => {
     const titles = {
       MEDICS: 'Medics',
@@ -20,39 +35,56 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">
-        <Link to="/">{businessConfig.type}</Link>
-      </div>
-      
+    <nav className="navbar">      
       <div className="navbar-menu">
         {/* Home link is always active */}
         <Link 
           to="/" 
-          className={location.pathname === '/' ? 'active' : ''}
+          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          title="Home"
         >
-          Home
+          <FaHome className="nav-icon" />
+          <span className="nav-text">Home</span>
         </Link>
 
         {/* Business specific pages */}
-        {Object.keys(businessConfig.activePages).map((page) => (
+        {businessConfig.activePages.map((page) => (
           isPageActive(page) && (
             <Link
               key={page}
               to={`/${page.toLowerCase()}`}
-              className={location.pathname === `/${page.toLowerCase()}` ? 'active' : ''}
+              className={`nav-link ${location.pathname === `/${page.toLowerCase()}` ? 'active' : ''}`}
+              title={getPageTitle(page)}
             >
-              {getPageTitle(page)}
+              {getPageIcon(page)}
+              <span className="nav-text">{getPageTitle(page)}</span>
             </Link>
           )
         ))}
 
+        {/* Separator */}
+        <div className="nav-separator" />
+
+        {/* Dashboard link */}
+        <a 
+          href="https://dashboard.simplu.ro" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="nav-link"
+          title="Dashboard"
+        >
+          <FaChartLine className="nav-icon" />
+          <span className="nav-text">Dashboard</span>
+        </a>
+
         {/* Settings link is always available */}
         <Link 
           to="/settings" 
-          className={location.pathname === '/settings' ? 'active' : ''}
+          className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}
+          title="Settings"
         >
-          Settings
+          <FaCog className="nav-icon" />
+          <span className="nav-text">Settings</span>
         </Link>
       </div>
     </nav>
