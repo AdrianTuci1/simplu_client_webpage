@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import './FeaturesVariant1.css';
+import styles from './FeaturesVariant1.module.css';
 
 const facilities = [
   {
@@ -104,13 +104,13 @@ const FeaturesVariant1 = () => {
   };
 
   return (
-    <section className="features features-variant-1">
-      <div className="container">
-        <div className="facilities-list">
+    <section className={`features ${styles.featuresVariant1}`}>
+      <div className={styles.container}>
+        <div className={styles.facilitiesList}>
           {facilities.map((facility) => (
             <button
               key={facility.id}
-              className={`facility-btn ${selectedFacility.id === facility.id ? 'active' : ''}`}
+              className={`${styles.facilityBtn} ${selectedFacility.id === facility.id ? styles.active : ''}`}
               onClick={() => {
                 setSelectedFacility(facility);
                 setCurrentIndex(0);
@@ -121,21 +121,21 @@ const FeaturesVariant1 = () => {
           ))}
         </div>
 
-        <div className="carousel-container">
+        <div className={styles.carouselContainer}>
           <button 
-            className="carousel-nav prev"
+            className={`${styles.carouselNav} ${styles.prev}`}
             onClick={handlePrev}
           >
             <FaChevronLeft />
           </button>
 
-          <div className="carousel">
+          <div className={styles.carousel}>
             {getVisibleImages().map((image, index) => (
-              <div key={index} className="carousel-item">
-                <div className="image-container">
+              <div key={index} className={styles.carouselItem}>
+                <div className={styles.imageContainer}>
                   <img src={image} alt={`${selectedFacility.name} ${index + 1}`} />
                 </div>
-                <div className="image-info">
+                <div className={styles.imageInfo}>
                   <h3>{selectedFacility.name}</h3>
                   <p>{selectedFacility.location}</p>
                 </div>
@@ -144,7 +144,7 @@ const FeaturesVariant1 = () => {
           </div>
 
           <button 
-            className="carousel-nav next"
+            className={`${styles.carouselNav} ${styles.next}`}
             onClick={handleNext}
           >
             <FaChevronRight />

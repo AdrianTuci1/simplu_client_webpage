@@ -1,4 +1,4 @@
-.features-variant-1 {
+.featuresVariant1 {
   padding: 3rem 0;
 }
 
@@ -7,14 +7,14 @@
   padding: 0 1rem;
 }
 
-.facilities-list {
+.facilitiesList {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
   flex-wrap: wrap;
 }
 
-.facility-btn {
+.facilityBtn {
   padding: 0.75rem 1.5rem;
   border: 2px solid #e0e0e0;
   border-radius: 4px;
@@ -24,17 +24,17 @@
   font-size: 1rem;
 }
 
-.facility-btn:hover {
+.facilityBtn:hover {
   border-color: #666;
 }
 
-.facility-btn.active {
+.facilityBtn.active {
   background: #333;
   color: white;
   border-color: #333;
 }
 
-.carousel-container {
+.carouselContainer {
   position: relative;
   width: 100%;
 }
@@ -46,12 +46,12 @@
   overflow: hidden;
 }
 
-.carousel-item {
+.carouselItem {
   position: relative;
   width: 100%;
 }
 
-.image-container {
+.imageContainer {
   position: relative;
   width: 100%;
   padding-top: 133.33%; /* 4:3 aspect ratio (inverted to 3:4) */
@@ -60,7 +60,7 @@
   background-color: #f5f5f5;
 }
 
-.image-container img {
+.imageContainer img {
   position: absolute;
   top: 0;
   left: 0;
@@ -70,23 +70,23 @@
   object-position: center;
 }
 
-.image-info {
+.imageInfo {
   padding: 1rem 0;
   text-align: left;
 }
 
-.image-info h3 {
+.imageInfo h3 {
   margin: 0;
   font-size: 1.2rem;
   color: #333;
 }
 
-.image-info p {
+.imageInfo p {
   margin: 0.5rem 0 0;
   color: #666;
 }
 
-.carousel-nav {
+.carouselNav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -103,19 +103,19 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.carousel-nav:hover {
+.carouselNav:hover {
   background: white;
 }
 
-.carousel-nav.prev {
+.carouselNav.prev {
   left: -20px;
 }
 
-.carousel-nav.next {
+.carouselNav.next {
   right: -20px;
 }
 
-.carousel-nav:disabled {
+.carouselNav:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -133,16 +133,16 @@
     grid-template-columns: 1fr;
   }
 
-  .carousel-nav {
+  .carouselNav {
     width: 32px;
     height: 32px;
   }
 
-  .carousel-nav.prev {
+  .carouselNav.prev {
     left: 0;
   }
 
-  .carousel-nav.next {
+  .carouselNav.next {
     right: 0;
   }
 } 

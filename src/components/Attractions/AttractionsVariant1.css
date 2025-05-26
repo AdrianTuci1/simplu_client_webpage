@@ -1,0 +1,185 @@
+.attractions-container {
+  padding: 2rem 0rem;
+}
+
+.attractions-title {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2.5rem;
+  color: #333;
+}
+
+.attractions-swiper {
+  width: 100%;
+  margin: 0 auto;
+  padding-bottom: 50px;
+}
+
+.attraction-card {
+  width: 100%;
+
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.attraction-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+}
+
+.attraction-image {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  /* 4:5 ratio */
+  aspect-ratio: 4/5;
+}
+
+.attraction-image img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.attraction-card:hover .attraction-image img {
+  transform: scale(1.05);
+}
+
+.attraction-info {
+  padding: 1.2rem;
+  background: white;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.attraction-info h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+}
+
+.attraction-info p {
+  margin: 0;
+  color: #666;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  flex: 1;
+}
+
+/* Swiper Navigation Buttons */
+.swiper-button-next,
+.swiper-button-prev {
+  color: #007bff !important;
+  background: rgba(255, 255, 255, 0.9);
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+  font-size: 20px !important;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Swiper Pagination */
+.swiper-pagination-bullet {
+  background: #007bff !important;
+  opacity: 0.5;
+}
+
+.swiper-pagination-bullet-active {
+  background: #0056b3 !important;
+  opacity: 1;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .attractions-container {
+    padding: 3rem 1.5rem;
+  }
+
+  .attraction-info h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .attractions-container {
+    padding: 2rem 1rem;
+  }
+
+  .attractions-title {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .attraction-info {
+    padding: 1rem;
+  }
+
+  .attraction-info h3 {
+    font-size: 1.1rem;
+  }
+
+  .attraction-info p {
+    font-size: 0.85rem;
+  }
+
+  /* Hide navigation arrows on mobile */
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important;
+  }
+
+  /* Adjust pagination for better mobile visibility */
+  .swiper-pagination {
+    bottom: 0 !important;
+  }
+
+  .swiper-pagination-bullet {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .attractions-container {
+    padding: 1.5rem 0.5rem;
+  }
+
+  .attractions-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .attraction-info {
+    padding: 0.8rem;
+  }
+
+  .attraction-info h3 {
+    font-size: 1rem;
+  }
+
+  .attraction-info p {
+    font-size: 0.8rem;
+  }
+} 

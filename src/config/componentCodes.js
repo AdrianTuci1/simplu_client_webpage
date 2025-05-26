@@ -8,6 +8,8 @@ import FooterVariant1 from '../components/Footer/FooterVariant1';
 import ClinicStatsVariant1 from '../components/ClinicStats/ClinicStatsVariant1';
 import ReviewsVariant1 from '../components/Reviews/ReviewsVariant1';
 import GalleryVariant1 from '../components/Gallery/GalleryVariant1';
+import RoomsVariant1 from '../components/Rooms/RoomsVariant1';
+import AttractionsVariant1 from '../components/Attractions/AttractionsVariant1';
 
 // Mapare coduri componente
 export const COMPONENT_CODES = {
@@ -39,4 +41,10 @@ export const COMPONENT_CODES = {
 
   // Reviews variants
   91: ReviewsVariant1,
+
+  // Rooms variants
+  101: RoomsVariant1,
+
+  // Attractions variants
+  111: AttractionsVariant1,
 }; 

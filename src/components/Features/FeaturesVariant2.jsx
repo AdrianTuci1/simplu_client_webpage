@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaArrowRight } from 'react-icons/fa';
-import './FeaturesVariant2.css';
+import styles from './FeaturesVariant2.module.css';
 
 const features = [
   {
@@ -31,19 +31,19 @@ const features = [
 
 const FeaturesVariant2 = () => {
   return (
-    <section className="features features-variant-2">
-      <div className="container">
-        <div className="features-grid">
+    <section className={`features ${styles.featuresVariant2}`}>
+      <div className={styles.container}>
+        <div className={styles.featuresGrid}>
           {features.map((feature, index) => (
             <div 
               key={feature.id} 
-              className="feature-card"
+              className={styles.featureCard}
               style={{ backgroundColor: feature.color }}
             >
-              <div className="feature-content">
-                <span className="feature-type">{feature.type}</span>
-                <h3 className="feature-name">{feature.name}</h3>
-                <button className="feature-button">
+              <div className={styles.featureContent}>
+                <span className={styles.featureType}>{feature.type}</span>
+                <h3 className={styles.featureName}>{feature.name}</h3>
+                <button className={styles.featureButton}>
                   <FaArrowRight />
                 </button>
               </div>
@@ -51,11 +51,11 @@ const FeaturesVariant2 = () => {
           ))}
           {/* Placeholder cards for missing items */}
           {Array.from({ length: 4 - features.length }).map((_, index) => (
-            <div key={`missing-${index}`} className="feature-card missing">
-              <div className="feature-content">
-                <span className="feature-type">CARD LIPSA</span>
-                <h3 className="feature-name">CARD LIPSA</h3>
-                <button className="feature-button" disabled>
+            <div key={`missing-${index}`} className={`${styles.featureCard} ${styles.missing}`}>
+              <div className={styles.featureContent}>
+                <span className={styles.featureType}>CARD LIPSA</span>
+                <h3 className={styles.featureName}>CARD LIPSA</h3>
+                <button className={styles.featureButton} disabled>
                   <FaArrowRight />
                 </button>
               </div>
