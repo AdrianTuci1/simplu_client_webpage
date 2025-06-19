@@ -1,6 +1,9 @@
 import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './HeroVariant1.css';
 import useHeroStore from '../../store/heroStore';
+import useLocationStore from '../../store/locationStore';
+import LocationSelector from '../LocationSelector/LocationSelector';
 import { FaEdit } from 'react-icons/fa';
 
 const EditPanel = ({ onClose }) => {
@@ -123,6 +126,7 @@ const EditPanel = ({ onClose }) => {
 };
 
 const HeroVariant1 = () => {
+  const navigate = useNavigate();
   const {
     coverImage,
     logoImage,
@@ -135,6 +139,17 @@ const HeroVariant1 = () => {
     fetchHeroData
   } = useHeroStore();
 
+  const { switchLocation, getLocationInfo, initializeLocations, allLocations } = useLocationStore();
+  
+  // Initialize locations on component mount
+  useEffect(() => {
+    if (allLocations.length === 0) {
+      initializeLocations();
+    }
+  }, [allLocations.length, initializeLocations]);
+  
+  const locationInfo = getLocationInfo();
+
   useEffect(() => {
     fetchHeroData();
   }, [fetchHeroData]);
@@ -145,6 +160,16 @@ const HeroVariant1 = () => {
 
   const handleClose = () => {
     setIsEditing(false);
+  };
+
+  // Handle location change and navigation
+  const handleLocationChange = (location) => {
+    switchLocation(location.id);
+    
+    // Navigate to the new location's home page
+    if (location.slug) {
+      navigate(`/${location.slug}`);
+    }
   };
 
   return (
@@ -163,6 +188,14 @@ const HeroVariant1 = () => {
         <button className="edit-button" onClick={handleEdit}>
           <FaEdit />
         </button>
+        
+        {/* Location Navigation */}
+        {locationInfo.isMultiLocation && (
+          <div className="location-selector-container">
+            <LocationSelector onLocationChange={handleLocationChange} />
+          </div>
+        )}
+        
         <div className="logo-container">
           <img src={logoImage} alt="Company Logo" className="logo" />
         </div>

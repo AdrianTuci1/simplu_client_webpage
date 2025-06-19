@@ -1,10 +1,23 @@
 import { Link, useLocation } from 'react-router-dom';
-import { businessConfig, isPageActive } from '../config/businessConfig';
+import { businessConfig, isPageActive, getAllLocations } from '../config/businessConfig';
+import useLocationStore from '../store/locationStore';
 import { FaHome, FaUserMd, FaTooth, FaDumbbell, FaCalendarAlt, FaBed, FaSwimmingPool, FaMapMarkedAlt, FaCog, FaChartLine } from 'react-icons/fa';
 import './Navbar.css';
+import { useEffect } from 'react';
 
 const Navbar = () => {
   const location = useLocation();
+  const { currentLocation, getLocationInfo, initializeLocations, allLocations } = useLocationStore();
+  
+  // Initialize locations on component mount
+  useEffect(() => {
+    if (allLocations.length === 0) {
+      initializeLocations();
+    }
+  }, [allLocations.length, initializeLocations]);
+  
+  const locationInfo = getLocationInfo();
+  const hasMultipleLocations = allLocations.length > 1;
   
   const getPageIcon = (page) => {
     const icons = {
@@ -34,13 +47,29 @@ const Navbar = () => {
     return titles[page] || page;
   };
 
+  // Helper function to get the correct path for navigation
+  const getPagePath = (page) => {
+    if (hasMultipleLocations && currentLocation) {
+      return `/${currentLocation.slug}/${page.toLowerCase()}`;
+    }
+    return `/${page.toLowerCase()}`;
+  };
+
+  // Helper function to check if a path is active
+  const isPathActive = (path) => {
+    if (hasMultipleLocations && currentLocation) {
+      return location.pathname === path || location.pathname.startsWith(`/${currentLocation.slug}/`);
+    }
+    return location.pathname === path;
+  };
+
   return (
     <nav className="navbar">      
       <div className="navbar-menu">
         {/* Home link is always active */}
         <Link 
-          to="/" 
-          className={`nav-link ${location.pathname === '/' ? 'active' : ''}`}
+          to={hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/"} 
+          className={`nav-link ${isPathActive(hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/") ? 'active' : ''}`}
           title="Home"
         >
           <FaHome className="nav-icon" />
@@ -52,8 +81,8 @@ const Navbar = () => {
           isPageActive(page) && (
             <Link
               key={page}
-              to={`/${page.toLowerCase()}`}
-              className={`nav-link ${location.pathname === `/${page.toLowerCase()}` ? 'active' : ''}`}
+              to={getPagePath(page)}
+              className={`nav-link ${isPathActive(getPagePath(page)) ? 'active' : ''}`}
               title={getPageTitle(page)}
             >
               {getPageIcon(page)}

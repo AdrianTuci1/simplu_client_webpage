@@ -1,5 +1,7 @@
+import React from 'react';
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { businessConfig, isPageActive } from '../config/businessConfig';
+import { businessConfig, isPageActive, getAllLocations } from '../config/businessConfig';
+import useLocationStore from '../store/locationStore';
 import PageError from '../components/PageError';
 
 // Import pages
@@ -43,10 +45,52 @@ const ProtectedRoute = ({ page, Component }) => {
   return <Component />;
 };
 
+// Location-aware route component
+const LocationRoute = ({ page, Component }) => {
+  const { currentLocation } = useLocationStore();
+  
+  if (!isPageActive(page)) {
+    return (
+      <PageError 
+        message={`This page is not available for the current business type (${businessConfig.type}) or is not active in the configuration.`}
+      />
+    );
+  }
+
+  return <Component location={currentLocation} />;
+};
+
+// Location selector component for route-based location switching
+const LocationRedirect = () => {
+  const { currentLocation, allLocations, initializeLocations } = useLocationStore();
+  
+  // Initialize locations if needed
+  if (allLocations.length === 0) {
+    initializeLocations();
+  }
+  
+  // If no location is selected, redirect to the first available location
+  if (!currentLocation && allLocations.length > 0) {
+    return <Navigate to={`/${allLocations[0].slug}`} replace />;
+  }
+  
+  // If current location exists, redirect to it
+  if (currentLocation) {
+    return <Navigate to={`/${currentLocation.slug}`} replace />;
+  }
+  
+  // Fallback to home if no locations are available
+  return <Navigate to="/" replace />;
+};
+
 const AppRoutes = () => {
+  const allLocations = getAllLocations();
+  const hasMultipleLocations = allLocations.length > 1;
+
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      {/* Root route - redirects based on location */}
+      <Route path="/" element={<LocationRedirect />} />
       
       {/* Auth routes */}
       <Route path="/signin" element={<SignIn />} />
@@ -54,18 +98,61 @@ const AppRoutes = () => {
       {/* Settings route - available for all business types */}
       <Route path="/settings" element={<Settings />} />
       
-      {/* Dynamic routes based on active pages */}
-      {Object.entries(pageComponents).map(([page, Component]) => (
-        <Route 
-          key={page}
-          path={`/${page.toLowerCase()}`}
-          element={<ProtectedRoute page={page} Component={Component} />}
-        />
-      ))}
+      {/* Location-specific routes */}
+      {hasMultipleLocations ? (
+        // Multiple locations - use location-based routing
+        <>
+          {/* Location-specific home routes */}
+          {allLocations.map(location => (
+            <Route 
+              key={location.slug}
+              path={`/${location.slug}`}
+              element={<Home location={location} />}
+            />
+          ))}
+          
+          {/* Location-specific business pages */}
+          {allLocations.map(location => 
+            Object.entries(pageComponents).map(([page, Component]) => (
+              <Route 
+                key={`${location.slug}-${page}`}
+                path={`/${location.slug}/${page.toLowerCase()}`}
+                element={<LocationRoute page={page} Component={Component} />}
+              />
+            ))
+          )}
+          
+          {/* Location-specific room routes */}
+          {allLocations.map(location => (
+            <React.Fragment key={`rooms-${location.slug}`}>
+              <Route 
+                path={`/${location.slug}/room/:roomId`}
+                element={<RoomDetails location={location} />}
+              />
+              <Route 
+                path={`/${location.slug}/room/:roomId/booking`}
+                element={<RoomBooking location={location} />}
+              />
+            </React.Fragment>
+          ))}
+        </>
+      ) : (
+        // Single location - use traditional routing
+        <>
+          {/* Dynamic routes based on active pages */}
+          {Object.entries(pageComponents).map(([page, Component]) => (
+            <Route 
+              key={page}
+              path={`/${page.toLowerCase()}`}
+              element={<ProtectedRoute page={page} Component={Component} />}
+            />
+          ))}
 
-      {/* Room specific routes */}
-      <Route path="/room/:roomId" element={<RoomDetails />} />
-      <Route path="/room/:roomId/booking" element={<RoomBooking />} />
+          {/* Room specific routes */}
+          <Route path="/room/:roomId" element={<RoomDetails />} />
+          <Route path="/room/:roomId/booking" element={<RoomBooking />} />
+        </>
+      )}
 
       {/* Fallback route */}
       <Route path="*" element={<Navigate to="/" replace />} />
