@@ -1,23 +1,21 @@
 .home-layout {
   width: 100%;
   box-sizing: border-box;
+  padding-inline: 10px; /* Mobile default */
 }
 
-/* Default padding for desktop */
-.home-layout {
-  padding-inline: 100px;
-}
+/* adauga padding 100px desktop, 50px tableta, 10px mobil */
 
 /* Tablet padding */
-@media screen and (max-width: 1024px) {
+@media (min-width: 768px) {
   .home-layout {
-    padding: 50px;
+    padding-inline: 50px;
   }
 }
 
-/* Mobile padding */
-@media screen and (max-width: 768px) {
+/* Desktop padding */
+@media (min-width: 1024px) {
   .home-layout {
-    padding: 10px;
+    padding-inline: 100px;
   }
-} 
+}

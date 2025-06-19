@@ -1,0 +1,133 @@
+.calendar {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  max-width: 350px;
+}
+
+.calendarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.navButton {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.navButton:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.monthTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dayHeader {
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+  padding: 0.5rem 0;
+}
+
+.day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.day:hover:not(.emptyDay) {
+  background: #f3f4f6;
+}
+
+.emptyDay {
+  cursor: default;
+}
+
+.available {
+  color: #374151;
+}
+
+.busy {
+  color: #9ca3af;
+  background: #f9fafb;
+  cursor: not-allowed;
+}
+
+.partial {
+  color: #f59e0b;
+  background: #fef3c7;
+}
+
+.selected {
+  background: #3b82f6;
+  color: white;
+  font-weight: 600;
+}
+
+.inRange {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.checkButton {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #111827;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkButton:hover {
+  background: #000000;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .calendar {
+    padding: 1rem;
+  }
+  
+  .day {
+    font-size: 0.8rem;
+  }
+  
+  .monthTitle {
+    font-size: 1rem;
+  }
+} 

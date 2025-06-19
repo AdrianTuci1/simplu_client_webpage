@@ -23,14 +23,14 @@ const AttractionsVariant1 = () => {
     {
       id: 3,
       name: "Pădurea Seculară",
-      image: "/images/attraction3.jpg",
+      image: "https://xplorer.ro/wp-content/uploads/2023/02/Locuri-de-vizitat-langa-Brasov-1-1024x682.webp",
       description: "Plimbări prin pădurea seculară cu copaci seculari",
     },
     {
       id: 4,
       name: "Cascada",
-      image: "/images/attraction4.jpg",
-      description: "O cascadă impresionantă în inima naturii",
+      image: "https://www.clubulcopiilor.ro/wp-content/uploads/2023/05/Prapastiile-Zarnestiului-681x1024.webp",
+      description: "descriere",
     },
   ];
 

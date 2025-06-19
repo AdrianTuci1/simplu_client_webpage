@@ -4,51 +4,119 @@
 
 .container {
   margin: 0 auto;
-  padding: 0 1rem;
+}
+
+.headerSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  padding: 1rem;
 }
 
 .facilitiesList {
   display: flex;
   gap: 1rem;
-  margin-bottom: 2rem;
   flex-wrap: wrap;
+  flex: 1;
 }
 
 .facilityBtn {
   padding: 0.75rem 1.5rem;
   border: 2px solid #e0e0e0;
-  border-radius: 4px;
+  border-radius: 8px;
   background: none;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
+  white-space: nowrap;
+  font-weight: 500;
 }
 
 .facilityBtn:hover {
   border-color: #666;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .facilityBtn.active {
-  background: #333;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
-  border-color: #333;
+  border-color: transparent;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.navigationControls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+  min-width: fit-content;
+}
+
+.navBtn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  position: relative;
+  z-index: 10;
+}
+
+.navBtn svg {
+  width: 16px;
+  height: 16px;
+  color: inherit;
+}
+
+.navBtn:hover {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(102, 126, 234, 0.3);
+}
+
+.navBtn:active {
+  transform: translateY(0);
+}
+
+.navBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .carouselContainer {
   position: relative;
   width: 100%;
+  padding: 0 1rem;
 }
 
-.carousel {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  overflow: hidden;
+/* Swiper Styles */
+.swiper {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 3rem; /* Space for pagination */
+}
+
+.swiperSlide {
+  height: auto;
 }
 
 .carouselItem {
   position: relative;
   width: 100%;
+  height: 100%;
 }
 
 .imageContainer {
@@ -56,8 +124,9 @@
   width: 100%;
   padding-top: 133.33%; /* 4:3 aspect ratio (inverted to 3:4) */
   overflow: hidden;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: #f5f5f5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .imageContainer img {
@@ -68,6 +137,11 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transition: transform 0.3s ease;
+}
+
+.carouselItem:hover .imageContainer img {
+  transform: scale(1.05);
 }
 
 .imageInfo {
@@ -79,70 +153,82 @@
   margin: 0;
   font-size: 1.2rem;
   color: #333;
+  font-weight: 600;
 }
 
 .imageInfo p {
   margin: 0.5rem 0 0;
   color: #666;
+  font-size: 0.9rem;
 }
 
-.carouselNav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+/* Custom Pagination */
+.swiper-pagination {
+  bottom: 0;
 }
 
-.carouselNav:hover {
-  background: white;
-}
-
-.carouselNav.prev {
-  left: -20px;
-}
-
-.carouselNav.next {
-  right: -20px;
-}
-
-.carouselNav:disabled {
+.swiper-pagination-bullet {
+  background: #ccc;
   opacity: 0.5;
-  cursor: not-allowed;
+  width: 8px;
+  height: 8px;
+  transition: all 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 1;
+  transform: scale(1.2);
 }
 
 /* Tablet */
 @media (max-width: 1024px) {
-  .carousel {
-    grid-template-columns: repeat(2, 1fr);
+  .headerSection {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.5rem;
+  }
+  
+  .navigationControls {
+    justify-content: center;
+  }
+  
+  .carouselContainer {
+    padding: 0 0.5rem;
   }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  .carousel {
-    grid-template-columns: 1fr;
+  .facilitiesList {
+    gap: 0.5rem;
+    justify-content: center;
   }
-
-  .carouselNav {
-    width: 32px;
-    height: 32px;
+  
+  .facilityBtn {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
   }
-
-  .carouselNav.prev {
-    left: 0;
+  
+  .navigationControls {
+    gap: 0.25rem;
   }
-
-  .carouselNav.next {
-    right: 0;
+  
+  .navBtn {
+    width: 40px;
+    height: 40px;
+    font-size: 12px;
+  }
+  
+  .carouselContainer {
+    padding: 0;
+  }
+  
+  .imageInfo h3 {
+    font-size: 1.1rem;
+  }
+  
+  .imageContainer {
+    border-radius: 8px;
   }
 } 

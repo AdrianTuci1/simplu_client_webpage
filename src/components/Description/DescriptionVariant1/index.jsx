@@ -2,9 +2,8 @@ import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LocationMap from '../LocationMap/LocationMap';
 import useDescriptionStore from '../../../store/descriptionStore';
+import { DESCRIPTION_CHAR_LIMIT } from '../../../constants';
 import styles from './DescriptionVariant1.module.css';
-
-const DESCRIPTION_CHAR_LIMIT = 300;
 
 const DescriptionVariant1 = () => {
   const { description, location, setDescription } = useDescriptionStore();

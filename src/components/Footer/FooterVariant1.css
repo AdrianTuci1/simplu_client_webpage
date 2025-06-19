@@ -1,17 +1,15 @@
 .footer-variant-1 {
   position: relative;
-  width: 100%;
-  padding: 2rem 0;
+  width: calc(100% + 200px);
   margin-top: 4rem;
+  margin-inline: -100px;
 }
 
 .footer-variant-1 .main-frame {
   position: relative;
   width: 100%;
   background-color: #f8f9fa;
-  border-radius: 96px 96px 24px 24px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .footer-variant-1 .content-container {

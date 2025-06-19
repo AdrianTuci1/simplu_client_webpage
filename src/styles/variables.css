@@ -1,8 +1,8 @@
 :root {
   /* Colors */
-  --primary: #ffffff;
-  --secondary: #e5e5e5;
-  --text: #333333;
+  --primary: #1c1c1f;
+  --secondary: #26262d;
+  --text: #f3f3f3;
   
   /* Spacing */
   --spacing-xs: 4px;
@@ -23,8 +23,8 @@
   
   /* Font Sizes */
   --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.25rem;
+  --font-size-md: 1.10rem;
+  --font-size-lg: 1.30rem;
   --font-size-xl: 1.5rem;
   --font-size-2xl: 2rem;
   

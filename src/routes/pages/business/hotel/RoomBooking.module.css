@@ -1,0 +1,518 @@
+/* Room Booking Page Styles - Minimalist & Modern */
+.bookingPage {
+  min-height: 100vh;
+  background: white;
+  padding: 0;
+}
+
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 100px 80px;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #222222;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  background: #f7f7f7;
+}
+
+.backButton svg {
+  font-size: 16px;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Main Content */
+.mainContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Summary Card */
+.summaryCard {
+  background: white;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  height: fit-content;
+}
+
+.summaryCard h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0 0 24px 0;
+}
+
+.roomInfo {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.roomInfo img {
+  width: 80px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.roomDetails h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0 0 4px 0;
+}
+
+.roomType {
+  font-size: 14px;
+  color: #717171;
+  margin: 0 0 8px 0;
+}
+
+.roomSpecs {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  color: #717171;
+}
+
+.roomSpecs span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.roomSpecs svg {
+  font-size: 12px;
+}
+
+.bookingDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  color: #222222;
+}
+
+.detailItem svg {
+  color: #717171;
+  font-size: 16px;
+  width: 16px;
+}
+
+.detailItem div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.totalPrice {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+}
+
+/* Form Card */
+.formCard {
+  background: white;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.formCard h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0 0 32px 0;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formGroup label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222222;
+}
+
+.inputWrapper {
+  position: relative;
+}
+
+.inputWrapper svg {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #717171;
+  font-size: 16px;
+  z-index: 1;
+}
+
+.inputWrapper input {
+  width: 100%;
+  padding: 12px 12px 12px 44px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #222222;
+  transition: all 0.2s ease;
+}
+
+.inputWrapper input:focus {
+  outline: none;
+  border-color: #222222;
+  box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+.formGroup select {
+  padding: 12px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #222222;
+  transition: all 0.2s ease;
+}
+
+.formGroup select:focus {
+  outline: none;
+  border-color: #222222;
+  box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+.formGroup textarea {
+  padding: 12px;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  font-size: 16px;
+  background: white;
+  color: #222222;
+  transition: all 0.2s ease;
+  resize: vertical;
+  font-family: inherit;
+  min-height: 100px;
+}
+
+.formGroup textarea:focus {
+  outline: none;
+  border-color: #222222;
+  box-shadow: 0 0 0 2px rgba(34, 34, 34, 0.1);
+}
+
+.formActions {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.cancelButton {
+  flex: 1;
+  padding: 14px 24px;
+  background: white;
+  color: #222222;
+  border: 1px solid #ebebeb;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancelButton:hover {
+  background: #f7f7f7;
+  border-color: #222222;
+}
+
+.submitButton {
+  flex: 2;
+  padding: 14px 24px;
+  background: #222222;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #000000;
+  transform: scale(1.02);
+}
+
+.submitButton:disabled {
+  background: #dddddd;
+  color: #717171;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Success Card */
+.successCard {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #ebebeb;
+  border-radius: 12px;
+  padding: 48px 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  text-align: center;
+}
+
+.successIcon {
+  width: 80px;
+  height: 80px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+
+.successIcon svg {
+  color: white;
+  font-size: 32px;
+}
+
+.successCard h1 {
+  font-size: 28px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0 0 16px 0;
+}
+
+.successCard p {
+  font-size: 16px;
+  color: #717171;
+  margin: 0 0 32px 0;
+  line-height: 1.6;
+}
+
+.bookingSummary {
+  background: #f7f7f7;
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+
+.bookingSummary h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #222222;
+  margin: 0 0 16px 0;
+}
+
+.summaryGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.summaryItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.summaryLabel {
+  font-size: 14px;
+  color: #717171;
+  font-weight: 500;
+}
+
+.summaryValue {
+  font-size: 16px;
+  color: #222222;
+  font-weight: 600;
+}
+
+.confirmButton {
+  padding: 14px 32px;
+  background: #222222;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.confirmButton:hover {
+  background: #000000;
+  transform: scale(1.02);
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 16px;
+  color: #717171;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .container {
+    padding: 80px 40px;
+  }
+  
+  .mainContent {
+    gap: 60px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainContent {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .summaryCard {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  .formRow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 60px 24px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header h1 {
+    font-size: 24px;
+  }
+
+  .summaryCard, .formCard {
+    padding: 20px;
+  }
+
+  .roomInfo {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .roomInfo img {
+    width: 100%;
+    height: 120px;
+    margin: 0 auto;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .submitButton, .cancelButton {
+    flex: none;
+  }
+
+  .successCard {
+    padding: 32px 24px;
+  }
+
+  .summaryGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 40px 16px;
+  }
+
+  .header h1 {
+    font-size: 22px;
+  }
+
+  .summaryCard, .formCard {
+    padding: 16px;
+  }
+
+  .successCard {
+    padding: 24px 16px;
+  }
+
+  .successIcon {
+    width: 60px;
+    height: 60px;
+  }
+
+  .successIcon svg {
+    font-size: 24px;
+  }
+
+  .successCard h1 {
+    font-size: 24px;
+  }
+} 

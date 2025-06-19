@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import styles from './FeaturesVariant1.module.css';
 
 const facilities = [
@@ -49,106 +53,83 @@ const facilities = [
 
 const FeaturesVariant1 = () => {
   const [selectedFacility, setSelectedFacility] = useState(facilities[0]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCount, setVisibleCount] = useState(3);
+  const [swiperInstance, setSwiperInstance] = useState(null);
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setVisibleCount(1);
-      } else if (window.innerWidth <= 1024) {
-        setVisibleCount(2);
-      } else {
-        setVisibleCount(3);
-      }
-    };
-
-    // Set initial count
-    handleResize();
-
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const handlePrev = () => {
-    setCurrentIndex((prev) => {
-      if (prev <= 0) {
-        return selectedFacility.images.length - visibleCount;
-      }
-      return prev - 1;
-    });
-  };
-
-  const handleNext = () => {
-    setCurrentIndex((prev) => {
-      if (prev >= selectedFacility.images.length - visibleCount) {
-        return 0;
-      }
-      return prev + 1;
-    });
-  };
-
-  const getVisibleImages = () => {
-    const images = selectedFacility.images;
-    let result = [];
-
-    for (let i = 0; i < visibleCount; i++) {
-      const index = (currentIndex + i) % images.length;
-      result.push(images[index]);
+  const handleFacilityChange = (facility) => {
+    setSelectedFacility(facility);
+    if (swiperInstance) {
+      swiperInstance.slideTo(0);
     }
-
-    return result;
   };
 
   return (
     <section className={`features ${styles.featuresVariant1}`}>
       <div className={styles.container}>
-        <div className={styles.facilitiesList}>
-          {facilities.map((facility) => (
-            <button
-              key={facility.id}
-              className={`${styles.facilityBtn} ${selectedFacility.id === facility.id ? styles.active : ''}`}
-              onClick={() => {
-                setSelectedFacility(facility);
-                setCurrentIndex(0);
-              }}
+        <div className={styles.headerSection}>
+          <div className={styles.facilitiesList}>
+            {facilities.map((facility) => (
+              <button
+                key={facility.id}
+                className={`${styles.facilityBtn} ${selectedFacility.id === facility.id ? styles.active : ''}`}
+                onClick={() => handleFacilityChange(facility)}
+              >
+                {facility.name}
+              </button>
+            ))}
+          </div>
+          
+          <div className={styles.navigationControls}>
+            <button 
+              className={`${styles.navBtn} ${styles.prevBtn}`}
+              onClick={() => swiperInstance?.slidePrev()}
             >
-              {facility.name}
+              <FaChevronLeft />
             </button>
-          ))}
+            <button 
+              className={`${styles.navBtn} ${styles.nextBtn}`}
+              onClick={() => swiperInstance?.slideNext()}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
         </div>
 
         <div className={styles.carouselContainer}>
-          <button 
-            className={`${styles.carouselNav} ${styles.prev}`}
-            onClick={handlePrev}
+          <Swiper
+            modules={[Pagination]}
+            spaceBetween={20}
+            slidesPerView={1}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+              },
+            }}
+            onSwiper={setSwiperInstance}
+            className={styles.swiper}
           >
-            <FaChevronLeft />
-          </button>
-
-          <div className={styles.carousel}>
-            {getVisibleImages().map((image, index) => (
-              <div key={index} className={styles.carouselItem}>
-                <div className={styles.imageContainer}>
-                  <img src={image} alt={`${selectedFacility.name} ${index + 1}`} />
+            {selectedFacility.images.map((image, index) => (
+              <SwiperSlide key={index} className={styles.swiperSlide}>
+                <div className={styles.carouselItem}>
+                  <div className={styles.imageContainer}>
+                    <img src={image} alt={`${selectedFacility.name} ${index + 1}`} />
+                  </div>
+                  <div className={styles.imageInfo}>
+                    <h3>{selectedFacility.name}</h3>
+                    <p>{selectedFacility.location}</p>
+                  </div>
                 </div>
-                <div className={styles.imageInfo}>
-                  <h3>{selectedFacility.name}</h3>
-                  <p>{selectedFacility.location}</p>
-                </div>
-              </div>
+              </SwiperSlide>
             ))}
-          </div>
-
-          <button 
-            className={`${styles.carouselNav} ${styles.next}`}
-            onClick={handleNext}
-          >
-            <FaChevronRight />
-          </button>
+          </Swiper>
         </div>
       </div>
     </section>

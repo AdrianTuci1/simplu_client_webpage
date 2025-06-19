@@ -3,14 +3,13 @@
   width: 100%;
   border-radius: var(--border-radius-lg);
   gap: var(--spacing-lg);
+  background-color: var(--secondary);
 }
 
 .description {
   width: 100%;
-  background: var(--primary);
   display: flex;
   border-radius: var(--border-radius-lg);
-  outline: 2px solid var(--secondary);
   flex-direction: column;
 }
 
@@ -34,26 +33,23 @@
   justify-content: flex-start;
   padding: 0;
   border-radius: var(--border-radius-md);
-  outline: 2px solid var(--secondary);
 }
 
 .businessDescription {
+  position: relative;
   height: 100%;
   color: var(--text);
-  padding: 10px;
+  padding-inline: 10px;
   font-size: var(--font-size-md);
   line-height: var(--line-height-normal);
+  border-radius: var(--border-radius-md);
   text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: flex-start;
   overflow-y: auto;
 }
 
-.businessDescription p {
-  margin: 0 0 10px 0;
-}
 
 .charCount {
   margin-top: auto;

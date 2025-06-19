@@ -10,6 +10,7 @@ import ReviewsVariant1 from '../components/Reviews/ReviewsVariant1';
 import GalleryVariant1 from '../components/Gallery/GalleryVariant1';
 import RoomsVariant1 from '../components/Rooms/RoomsVariant1';
 import AttractionsVariant1 from '../components/Attractions/AttractionsVariant1';
+import EndInfo from '../components/EndInfo/EndInfo';
 
 // Mapare coduri componente
 export const COMPONENT_CODES = {
@@ -41,6 +42,9 @@ export const COMPONENT_CODES = {
 
   // Reviews variants
   91: ReviewsVariant1,
+
+  // End Info variants
+  92: EndInfo,
 
   // Rooms variants
   101: RoomsVariant1,

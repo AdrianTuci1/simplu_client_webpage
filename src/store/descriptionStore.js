@@ -1,6 +1,5 @@
 import { create } from 'zustand';
-
-const DESCRIPTION_CHAR_LIMIT = 250;
+import { DESCRIPTION_CHAR_LIMIT } from '../constants';
 
 const useDescriptionStore = create((set) => ({
   description: '',

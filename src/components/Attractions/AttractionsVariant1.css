@@ -1,12 +1,12 @@
 .attractions-container {
-  padding: 2rem 0rem;
+  padding: var(--spacing-xl) 0rem;
 }
 
 .attractions-title {
-  text-align: center;
+  text-align: left;
   margin-bottom: 3rem;
-  font-size: 2.5rem;
-  color: #333;
+  font-size: var(--font-size-2xl);
+  color: var(--text);
 }
 
 .attractions-swiper {
@@ -17,11 +17,7 @@
 
 .attraction-card {
   width: 100%;
-
-  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  background: white;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   height: 100%;
   display: flex;
@@ -29,8 +25,7 @@
 }
 
 .attraction-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-0px);
 }
 
 .attraction-image {
@@ -39,6 +34,7 @@
   overflow: hidden;
   /* 4:5 ratio */
   aspect-ratio: 4/5;
+  border-radius: var(--border-radius-sm);
 }
 
 .attraction-image img {
@@ -57,36 +53,36 @@
 
 .attraction-info {
   padding: 1.2rem;
-  background: white;
   flex: 1;
   display: flex;
   flex-direction: column;
+  text-align: left;
 }
 
 .attraction-info h3 {
   margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
-  color: #333;
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  color: var(--text);
+  font-weight: var(--font-weight-medium);
 }
 
 .attraction-info p {
   margin: 0;
-  color: #666;
-  line-height: 1.4;
-  font-size: 0.9rem;
+  color: var(--text);
+  line-height: var(--line-height-loose);
+  font-size: var(--font-size-sm);
   flex: 1;
 }
 
 /* Swiper Navigation Buttons */
 .swiper-button-next,
 .swiper-button-prev {
-  color: #007bff !important;
+  color: var(--text) !important;
   background: rgba(255, 255, 255, 0.9);
   width: 40px !important;
   height: 40px !important;
   border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-sm);
 }
 
 .swiper-button-next:after,
@@ -97,51 +93,51 @@
 .swiper-button-next:hover,
 .swiper-button-prev:hover {
   background: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: var(--shadow-md);
 }
 
 /* Swiper Pagination */
 .swiper-pagination-bullet {
-  background: #007bff !important;
+  background: var(--text) !important;
   opacity: 0.5;
 }
 
 .swiper-pagination-bullet-active {
-  background: #0056b3 !important;
+  background: var(--text) !important;
   opacity: 1;
 }
 
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .attractions-container {
-    padding: 3rem 1.5rem;
+    padding: 3rem var(--spacing-lg);
   }
 
   .attraction-info h3 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
   }
 }
 
 @media (max-width: 768px) {
   .attractions-container {
-    padding: 2rem 1rem;
+    padding: var(--spacing-xl) var(--spacing-md);
   }
 
   .attractions-title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--spacing-xl);
   }
 
   .attraction-info {
-    padding: 1rem;
+    padding: var(--spacing-md);
   }
 
   .attraction-info h3 {
-    font-size: 1.1rem;
+    font-size: var(--font-size-md);
   }
 
   .attraction-info p {
-    font-size: 0.85rem;
+    font-size: var(--font-size-sm);
   }
 
   /* Hide navigation arrows on mobile */
@@ -163,23 +159,23 @@
 
 @media (max-width: 480px) {
   .attractions-container {
-    padding: 1.5rem 0.5rem;
+    padding: var(--spacing-lg) var(--spacing-sm);
   }
 
   .attractions-title {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+    font-size: var(--font-size-lg);
+    margin-bottom: var(--spacing-lg);
   }
 
   .attraction-info {
-    padding: 0.8rem;
+    padding: var(--spacing-sm);
   }
 
   .attraction-info h3 {
-    font-size: 1rem;
+    font-size: var(--font-size-md);
   }
 
   .attraction-info p {
-    font-size: 0.8rem;
+    font-size: var(--font-size-sm);
   }
 } 

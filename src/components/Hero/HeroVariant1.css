@@ -1,8 +1,8 @@
 .hero-variant-1 {
-  width: 100%;
+  width: calc(100% + 200px);
   margin-bottom: 50px;
-  margin-top: 30px;
   position: relative;
+  margin-inline: -100px;
 }
 
 .hero-variant-1 .main-frame {
@@ -10,7 +10,6 @@
   height: 400px;
   background-size: cover;
   background-position: center;
-  border-radius: 24px 24px 96px 96px;
   overflow: visible;
   background-color: #360b56;
 }
@@ -32,13 +31,12 @@
   width: 200px;
   height: 200px;
   background-color: #360433;
-  border-radius: 50%;
+  border-radius: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 2;
-  padding: 10px;
   box-sizing: border-box;
   overflow: hidden;
   object-fit: cover;
@@ -47,7 +45,7 @@
 .hero-variant-1 .logo {
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  border-radius: 14px;
 }
 
 .hero-variant-1 .content-container {
@@ -169,7 +167,6 @@
   width: 100%;
   margin: 10px 0;
   height: 6px;
-  -webkit-appearance: none;
   background: #ddd;
   border-radius: 3px;
   outline: none;
