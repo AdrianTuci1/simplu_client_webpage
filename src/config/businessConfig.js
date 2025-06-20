@@ -1,77 +1,145 @@
 // Import component codes
 import { COMPONENT_CODES } from './componentCodes';
+import dataService, { BUSINESS_TYPES } from '../services/dataService.js';
 
-// Business types
-export const BUSINESS_TYPES = {
-  HOTEL: 'HOTEL',
-  GYM: 'GYM',
-  DENTAL: 'DENTAL'
-};
+/**
+ * Business Configuration using Design Patterns
+ * - Strategy Pattern: Different business types have different configurations
+ * - Factory Pattern: Configuration objects are created by factory
+ * - Singleton Pattern: Single configuration instance
+ * - Environment Configuration: Uses VITE_BUSINESS_TYPE and VITE_TENANT_ID
+ */
 
-// Available pages for each business type
-export const AVAILABLE_PAGES = {
-  [BUSINESS_TYPES.DENTAL]: ['MEDICS', 'TREATMENTS'],
-  [BUSINESS_TYPES.GYM]: ['PACKAGES', 'CLASSES'],
-  [BUSINESS_TYPES.HOTEL]: ['ROOMS', 'FACILITIES']
-};
+// Business types (using the ones from dataService for consistency)
+export { BUSINESS_TYPES };
 
-// Component codes for each business type
-export const BUSINESS_COMPONENT_CODES = {
-  [BUSINESS_TYPES.HOTEL]: [11, 61, 111, 21, 101, 92, 71],
-  [BUSINESS_TYPES.GYM]: [11, 61, 21, 51, 92, 71],
-  [BUSINESS_TYPES.DENTAL]: [11, 61, 22, 81, 31, 92, 71]
-};
-
-// Helper function to parse environment array
-const parseEnvArray = (envString) => {
-  if (!envString) {
-    // Default active pages based on business type
-    const businessType = import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL;
-    return AVAILABLE_PAGES[businessType] || [];
+// Strategy Pattern: Base configuration strategy
+class BusinessConfigStrategy {
+  getAvailablePages() {
+    throw new Error('getAvailablePages must be implemented');
   }
-  try {
-    return JSON.parse(envString.replace(/'/g, '"'));
-  } catch (error) {
-    console.error('Error parsing environment array:', error);
-    // Fallback to default pages
-    const businessType = import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL;
-    return AVAILABLE_PAGES[businessType] || [];
+  
+  getComponentCodes() {
+    throw new Error('getComponentCodes must be implemented');
   }
-};
+  
+  getDefaultLayout() {
+    throw new Error('getDefaultLayout must be implemented');
+  }
+}
 
-// Helper function to parse layout array
-const parseLayoutArray = (envString) => {
-  if (!envString) {
-    // Default layout based on business type
-    const businessType = import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL;
-    return BUSINESS_COMPONENT_CODES[businessType] || [11, 61, 21, 30, 41, 51];
+// Strategy Pattern: Hotel configuration
+class HotelConfigStrategy extends BusinessConfigStrategy {
+  getAvailablePages() {
+    return ['ROOMS', 'FACILITIES'];
   }
-  try {
-    const parsedArray = JSON.parse(envString.replace(/'/g, '"'));
-    
-    // Validate that all codes are valid component codes
-    const validCodes = Object.keys(COMPONENT_CODES).map(Number);
-    const invalidCodes = parsedArray.filter(code => !validCodes.includes(code) && code !== 0);
-    
-    if (invalidCodes.length > 0) {
-      console.warn(`Invalid component codes in VITE_HOME_LAYOUT: ${invalidCodes.join(', ')}. Using fallback layout.`);
-      const businessType = import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL;
-      return BUSINESS_COMPONENT_CODES[businessType] || [11, 61, 21, 30, 41, 51];
+  
+  getComponentCodes() {
+    return [11, 61, 111, 21, 101, 92, 71];
+  }
+  
+  getDefaultLayout() {
+    return [11, 61, 111, 21, 101, 92, 71];
+  }
+}
+
+// Strategy Pattern: Gym configuration
+class GymConfigStrategy extends BusinessConfigStrategy {
+  getAvailablePages() {
+    return ['PACKAGES', 'CLASSES'];
+  }
+  
+  getComponentCodes() {
+    return [11, 61, 21, 51, 92, 71];
+  }
+  
+  getDefaultLayout() {
+    return [11, 61, 21, 51, 92, 71];
+  }
+}
+
+// Strategy Pattern: Clinic configuration
+class ClinicConfigStrategy extends BusinessConfigStrategy {
+  getAvailablePages() {
+    return ['MEDICS', 'TREATMENTS'];
+  }
+  
+  getComponentCodes() {
+    return [11, 61, 22, 81, 31, 92, 71];
+  }
+  
+  getDefaultLayout() {
+    return [11, 61, 22, 81, 31, 92, 71];
+  }
+}
+
+// Factory Pattern: Configuration factory
+class BusinessConfigFactory {
+  static createStrategy(businessType) {
+    switch (businessType.toUpperCase()) {
+      case BUSINESS_TYPES.HOTEL:
+        return new HotelConfigStrategy();
+      case BUSINESS_TYPES.GYM:
+        return new GymConfigStrategy();
+      case BUSINESS_TYPES.CLINIC:
+        return new ClinicConfigStrategy();
+      default:
+        console.warn(`Unknown business type: ${businessType}. Using hotel as fallback.`);
+        return new HotelConfigStrategy();
+    }
+  }
+}
+
+/**
+ * Environment Configuration Parser
+ * Uses the same environment configuration as dataService
+ */
+class EnvironmentParser {
+  static parseArray(envString, fallbackValue) {
+    if (!envString) {
+      return fallbackValue;
+    }
+    try {
+      return JSON.parse(envString.replace(/'/g, '"'));
+    } catch (error) {
+      console.error('Error parsing environment array:', error);
+      return fallbackValue;
+    }
+  }
+  
+  static parseLocations(envString) {
+    if (!envString) {
+      return this.getDefaultLocations();
     }
     
-    return parsedArray;
-  } catch (error) {
-    console.error('Error parsing layout array:', error);
-    // Fallback to business-specific layout
-    const businessType = import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL;
-    return BUSINESS_COMPONENT_CODES[businessType] || [11, 61, 21, 30, 41, 51];
+    try {
+      const parsedArray = JSON.parse(envString.replace(/'/g, '"'));
+      
+      // Validate locations structure
+      const validLocations = parsedArray.filter(location => 
+        location.id && location.name && location.slug && location.address
+      );
+      
+      if (validLocations.length === 0) {
+        console.warn('No valid locations found in VITE_LOCATIONS. Using default locations.');
+        return this.getDefaultLocations();
+      }
+      
+      // Always set the first location as active
+      validLocations.forEach((location, index) => {
+        location.isActive = index === 0;
+      });
+      
+      console.log(`Initialized ${validLocations.length} locations. Active location: ${validLocations[0].name}`);
+      
+      return validLocations;
+    } catch (error) {
+      console.error('Error parsing locations array:', error);
+      return this.getDefaultLocations();
+    }
   }
-};
-
-// Helper function to parse locations array
-const parseLocationsArray = (envString) => {
-  if (!envString) {
-    // Default locations - first location is always active
+  
+  static getDefaultLocations() {
     return [
       {
         id: 'location-1',
@@ -102,180 +170,247 @@ const parseLocationsArray = (envString) => {
       }
     ];
   }
-  try {
-    const parsedArray = JSON.parse(envString.replace(/'/g, '"'));
+}
+
+/**
+ * Singleton Pattern: Main business configuration
+ */
+class BusinessConfiguration {
+  constructor() {
+    if (BusinessConfiguration.instance) {
+      return BusinessConfiguration.instance;
+    }
+    BusinessConfiguration.instance = this;
     
-    // Validate locations structure
-    const validLocations = parsedArray.filter(location => 
-      location.id && location.name && location.slug && location.address
+    this.initialize();
+  }
+  
+  initialize() {
+    // Get current business type from dataService
+    this.businessType = dataService.getCurrentBusinessType();
+    this.tenantId = dataService.getCurrentTenantId();
+    
+    // Create strategy for current business type
+    this.strategy = BusinessConfigFactory.createStrategy(this.businessType);
+    
+    // Parse environment variables
+    this.activePages = EnvironmentParser.parseArray(
+      import.meta.env.VITE_ACTIVE_PAGES,
+      this.strategy.getAvailablePages()
     );
     
-    if (validLocations.length === 0) {
-      console.warn('No valid locations found in VITE_LOCATIONS. Using default locations.');
-      return parseLocationsArray(null);
+    this.homeLayout = EnvironmentParser.parseArray(
+      import.meta.env.VITE_HOME_LAYOUT,
+      this.strategy.getDefaultLayout()
+    );
+    
+    this.locations = EnvironmentParser.parseLocations(
+      import.meta.env.VITE_LOCATIONS
+    );
+    
+    // Validate configuration
+    this.validate();
+  }
+  
+  validate() {
+    // Validate business type
+    if (!Object.values(BUSINESS_TYPES).includes(this.businessType)) {
+      console.error(`Invalid business type: ${this.businessType}`);
+      return false;
     }
     
-    // Always set the first location as active, regardless of what's in the config
-    validLocations.forEach((location, index) => {
-      location.isActive = index === 0;
-    });
+    // Validate active pages
+    const validPages = this.strategy.getAvailablePages();
+    const invalidPages = this.activePages.filter(page => !validPages.includes(page));
     
-    console.log(`Initialized ${validLocations.length} locations. Active location: ${validLocations[0].name}`);
+    if (invalidPages.length > 0) {
+      console.error(`Invalid pages for ${this.businessType}: ${invalidPages.join(', ')}`);
+      return false;
+    }
     
-    return validLocations;
-  } catch (error) {
-    console.error('Error parsing locations array:', error);
-    return parseLocationsArray(null);
-  }
-};
-
-// Configuration object
-export const businessConfig = {
-  type: import.meta.env.VITE_BUSINESS_TYPE || BUSINESS_TYPES.HOTEL,
-  activePages: parseEnvArray(import.meta.env.VITE_ACTIVE_PAGES),
-  homeLayout: parseLayoutArray(import.meta.env.VITE_HOME_LAYOUT),
-  // Add support for multiple locations
-  locations: parseLocationsArray(import.meta.env.VITE_LOCATIONS)
-};
-
-// Validation
-export const validateConfig = () => {
-  if (!Object.values(BUSINESS_TYPES).includes(businessConfig.type)) {
-    console.error(`Invalid business type: ${businessConfig.type}`);
-    return false;
-  }
-
-  const validPages = AVAILABLE_PAGES[businessConfig.type];
-  const invalidPages = businessConfig.activePages.filter(page => !validPages.includes(page));
-  
-  if (invalidPages.length > 0) {
-    console.error(`Invalid pages for ${businessConfig.type}: ${invalidPages.join(', ')}`);
-    return false;
-  }
-
-  return true;
-};
-
-// Helper functions
-export const getAvailablePages = () => AVAILABLE_PAGES[businessConfig.type];
-
-// Check if a page is active for the current business type
-export const isPageActive = (page) => {
-  // First check if the page is valid for the current business type
-  const validPages = AVAILABLE_PAGES[businessConfig.type];
-  if (!validPages.includes(page)) {
-    return false;
+    // Validate layout
+    const validCodes = Object.keys(COMPONENT_CODES).map(Number);
+    const invalidCodes = this.homeLayout.filter(code => !validCodes.includes(code) && code !== 0);
+    
+    if (invalidCodes.length > 0) {
+      console.warn(`Invalid component codes in layout: ${invalidCodes.join(', ')}. Using fallback layout.`);
+      this.homeLayout = this.strategy.getDefaultLayout();
+    }
+    
+    return true;
   }
   
-  // Then check if it's in the active pages list
-  return businessConfig.activePages.includes(page);
-};
-
-export const getHomeLayout = () => businessConfig.homeLayout;
-
-// Helper functions for layout management
-export const getLayoutComponents = () => {
-  return businessConfig.homeLayout.map(code => ({
-    code,
-    component: COMPONENT_CODES[code],
-    isValid: code === 0 || !!COMPONENT_CODES[code]
-  }));
-};
-
-export const validateLayout = () => {
-  const validCodes = Object.keys(COMPONENT_CODES).map(Number);
-  const invalidCodes = businessConfig.homeLayout.filter(code => !validCodes.includes(code) && code !== 0);
-  
-  if (invalidCodes.length > 0) {
-    console.error(`Invalid component codes in layout: ${invalidCodes.join(', ')}`);
-    return false;
+  // Getters
+  getType() {
+    return this.businessType;
   }
   
-  return true;
-};
-
-export const getLayoutInfo = () => {
-  return {
-    layout: businessConfig.homeLayout,
-    totalSections: businessConfig.homeLayout.length,
-    activeSections: businessConfig.homeLayout.filter(code => code !== 0).length,
-    businessType: businessConfig.type,
-    isValid: validateLayout()
-  };
-};
-
-// Get business-specific component codes
-export const getBusinessComponentCodes = () => {
-  return BUSINESS_COMPONENT_CODES[businessConfig.type] || [];
-};
-
-// Get component info for business type
-export const getBusinessComponentInfo = (number) => {
-  if (number === 0) return null;
-  
-  // First check if it's a valid component code
-  const componentInfo = COMPONENT_CODES[number];
-  if (!componentInfo) return null;
-  
-  // Check if it's in the business-specific codes
-  const businessCodes = BUSINESS_COMPONENT_CODES[businessConfig.type];
-  if (businessCodes && businessCodes.includes(number)) {
-    return componentInfo;
+  getTenantId() {
+    return this.tenantId;
   }
   
-  return null;
-};
+  getActivePages() {
+    return this.activePages;
+  }
+  
+  getHomeLayout() {
+    return this.homeLayout;
+  }
+  
+  getLocations() {
+    return this.locations;
+  }
+  
+  getAvailablePages() {
+    return this.strategy.getAvailablePages();
+  }
+  
+  getComponentCodes() {
+    return this.strategy.getComponentCodes();
+  }
+  
+  getDefaultLayout() {
+    return this.strategy.getDefaultLayout();
+  }
+  
+  // Page validation
+  isPageActive(page) {
+    const validPages = this.strategy.getAvailablePages();
+    if (!validPages.includes(page)) {
+      return false;
+    }
+    return this.activePages.includes(page);
+  }
+  
+  // Layout helpers
+  getLayoutComponents() {
+    return this.homeLayout.map(code => ({
+      code,
+      component: COMPONENT_CODES[code],
+      isValid: code === 0 || !!COMPONENT_CODES[code]
+    }));
+  }
+  
+  getLayoutInfo() {
+    return {
+      layout: this.homeLayout,
+      totalSections: this.homeLayout.length,
+      activeSections: this.homeLayout.filter(code => code !== 0).length,
+      businessType: this.businessType,
+      isValid: this.validateLayout()
+    };
+  }
+  
+  validateLayout() {
+    const validCodes = Object.keys(COMPONENT_CODES).map(Number);
+    const invalidCodes = this.homeLayout.filter(code => !validCodes.includes(code) && code !== 0);
+    return invalidCodes.length === 0;
+  }
+  
+  // Location helpers
+  getCurrentLocation() {
+    return this.locations[0] || null;
+  }
+  
+  getInitialLocation() {
+    return this.locations[0] || null;
+  }
+  
+  getActiveLocation() {
+    return this.locations[0] || null;
+  }
+  
+  getLocationBySlug(slug) {
+    return this.locations.find(loc => loc.slug === slug);
+  }
+  
+  getLocationById(id) {
+    return this.locations.find(loc => loc.id === id);
+  }
+  
+  getAllLocations() {
+    return this.locations;
+  }
+  
+  getLocationCount() {
+    return this.locations.length;
+  }
+  
+  hasMultipleLocations() {
+    return this.locations.length > 1;
+  }
+  
+  // Component helpers
+  getComponentInfo(number) {
+    if (number === 0) return null;
+    return COMPONENT_CODES[number] || null;
+  }
+  
+  getBusinessComponentInfo(number) {
+    if (number === 0) return null;
+    
+    const componentInfo = COMPONENT_CODES[number];
+    if (!componentInfo) return null;
+    
+    const businessCodes = this.strategy.getComponentCodes();
+    if (businessCodes.includes(number)) {
+      return componentInfo;
+    }
+    
+    return null;
+  }
+  
+  // Configuration info
+  getConfig() {
+    return {
+      type: this.businessType,
+      tenantId: this.tenantId,
+      activePages: this.activePages,
+      homeLayout: this.homeLayout,
+      locations: this.locations,
+      availablePages: this.getAvailablePages(),
+      componentCodes: this.getComponentCodes(),
+      isValid: this.validate()
+    };
+  }
+  
+  // Refresh configuration (useful for testing)
+  refresh() {
+    this.initialize();
+  }
+}
 
-// Location helper functions
-export const getCurrentLocation = () => {
-  // Always return the first location as the current/initial location
-  return businessConfig.locations[0] || null;
-};
+// Create singleton instance
+const businessConfigInstance = new BusinessConfiguration();
 
-export const getInitialLocation = () => {
-  return businessConfig.locations[0] || null;
-};
+// Export the singleton instance
+export default businessConfigInstance;
 
-export const getLocationBySlug = (slug) => {
-  return businessConfig.locations.find(loc => loc.slug === slug);
-};
+// Export convenience functions
+export const getBusinessType = () => businessConfigInstance.getType();
+export const getTenantId = () => businessConfigInstance.getTenantId();
+export const getActivePages = () => businessConfigInstance.getActivePages();
+export const getHomeLayout = () => businessConfigInstance.getHomeLayout();
+export const getLocations = () => businessConfigInstance.getLocations();
+export const getAvailablePages = () => businessConfigInstance.getAvailablePages();
+export const getComponentCodes = () => businessConfigInstance.getComponentCodes();
+export const getDefaultLayout = () => businessConfigInstance.getDefaultLayout();
+export const isPageActive = (page) => businessConfigInstance.isPageActive(page);
+export const getLayoutComponents = () => businessConfigInstance.getLayoutComponents();
+export const getLayoutInfo = () => businessConfigInstance.getLayoutInfo();
+export const validateLayout = () => businessConfigInstance.validateLayout();
+export const getCurrentLocation = () => businessConfigInstance.getCurrentLocation();
+export const getInitialLocation = () => businessConfigInstance.getInitialLocation();
+export const getActiveLocation = () => businessConfigInstance.getActiveLocation();
+export const getLocationBySlug = (slug) => businessConfigInstance.getLocationBySlug(slug);
+export const getLocationById = (id) => businessConfigInstance.getLocationById(id);
+export const getAllLocations = () => businessConfigInstance.getAllLocations();
+export const getLocationCount = () => businessConfigInstance.getLocationCount();
+export const hasMultipleLocations = () => businessConfigInstance.hasMultipleLocations();
+export const getComponentInfo = (number) => businessConfigInstance.getComponentInfo(number);
+export const getBusinessComponentInfo = (number) => businessConfigInstance.getBusinessComponentInfo(number);
+export const getConfig = () => businessConfigInstance.getConfig();
+export const validateConfig = () => businessConfigInstance.validate();
 
-export const getLocationById = (id) => {
-  return businessConfig.locations.find(loc => loc.id === id);
-};
-
-export const getAllLocations = () => {
-  return businessConfig.locations;
-};
-
-export const getActiveLocation = () => {
-  // For now, we always return the first location as active
-  // This can be extended later to support dynamic active location
-  return businessConfig.locations[0] || null;
-};
-
-export const getLocationCount = () => {
-  return businessConfig.locations.length;
-};
-
-export const hasMultipleLocations = () => {
-  return businessConfig.locations.length > 1;
-};
-
-// Helper to get component from a number (legacy support)
-export const getComponentInfo = (number) => {
-  if (number === 0) return null;
-  return COMPONENT_CODES[number] || null;
-};
-
-export const getBusinessLayout = (businessType = null) => {
-  const type = businessType || businessConfig.type;
-  return BUSINESS_COMPONENT_CODES[type] || [];
-};
-
-export const getAvailableLayouts = () => {
-  return Object.keys(BUSINESS_COMPONENT_CODES).reduce((acc, businessType) => {
-    acc[businessType] = BUSINESS_COMPONENT_CODES[businessType];
-    return acc;
-  }, {});
-}; 
+// Legacy exports for backward compatibility
+export const businessConfig = businessConfigInstance.getConfig(); 

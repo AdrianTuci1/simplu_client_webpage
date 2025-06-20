@@ -5,7 +5,7 @@ export const homeDataHotel = {
     businessType: "hotel",
     currentLocation: 1,
     availablePages: ["rooms", "facilities"],
-    "locations": [
+    locations: [
         {
             "id": 1,
             "name": "Location 1",
@@ -19,8 +19,8 @@ export const homeDataHotel = {
             "coordinates": [46.7712, 23.6236],
         },
     ],
-    "locationData": {
-        "hero": {
+    locationData: {
+        hero: {
             "coverImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             "logoImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             "blurAmount": 10,
@@ -28,7 +28,7 @@ export const homeDataHotel = {
             "bussinesName": "Hotel Transylvania",
             "bussinesSlug": "Transylvania",
         },
-        "attractions": [
+        attractions: [
             {
                 "id": 1,
                 "name": "Attraction 1",
@@ -50,7 +50,7 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             },
         ],
-        "facilities": [
+        facilities: [
             {
                 "id": 1,
                 "name": "Hotel",
@@ -76,7 +76,7 @@ export const homeDataHotel = {
                 ],
             },
         ],
-        "rooms": [
+        rooms: [
             {
                 "id": 1,
                 "name": "Room 1",
@@ -98,12 +98,11 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             },
         ],
-        "roomsCalendar": {      
+        roomsCalendar: {      
         },
-    },
-    "footer": {
-        "logo": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        "socialMedia": [
+        footer: {
+        logo: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        socialMedia: [
             {
                 "id": 1,
                 "name": "Facebook",
@@ -120,28 +119,29 @@ export const homeDataHotel = {
                 "url": "https://www.twitter.com/hoteltransylvania",
             },
         ],
-        "links": [
+        links: [
             {
                 "id": 1,
                 "name": "Home",
                 "url": "/",
             }
         ],
-        "phone": "+40722222222",
-        "email": "hoteltransylvania@gmail.com",
-        "address": "Strada Transylvania, nr. 1, Cluj-Napoca",
-        "city": "Cluj-Napoca",
-        "country": "Romania",
-        "copyright": "Hotel Transylvania",
+        phone: "+40722222222",
+        email: "hoteltransylvania@gmail.com",
+        address: "Strada Transylvania, nr. 1, Cluj-Napoca",
+        city: "Cluj-Napoca",
+        country: "Romania",
+        copyright: "Hotel Transylvania",
     }
+    },
 
 }
 
 
-// Optained by GET /api/?=tenantId&=locationId&?dateFrom&?dateTo&? roomId optional
+// Optained by GET /api/?=tenantId&=locationId&?dateFrom&?dateTo&? roomId, dateFrom-dateTo optional
 
-export const availableRooms = {
-    "rooms": [
+export const roomsData = {
+    rooms: [
         {
             "id": 1,
             "name": "Room 1",
@@ -191,7 +191,7 @@ export const createBookingHotel =
 // GET /api/settings/?tenantId?userId
 // POST /api/settings/?tenantId?userId
 
-export const settings = {
+export const settingsHotel = {
         tenantId: 1,
         userId: 1,
         settings: {
