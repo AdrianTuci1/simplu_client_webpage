@@ -195,4 +195,27 @@
   .alternative-buttons {
     grid-template-columns: 1fr;
   }
+}
+
+.error-message {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.submit-button:disabled,
+.alternative-button:disabled,
+.toggle-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 } 

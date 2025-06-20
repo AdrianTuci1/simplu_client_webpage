@@ -8,6 +8,7 @@ import PageError from '../components/PageError';
 import Home from './Home';
 import Settings from './pages/Settings';
 import SignIn from './pages/SignIn';
+import AuthCallback from './pages/AuthCallback';
 
 // Import business pages
 import Medics from './pages/business/dental/Medics';
@@ -94,6 +95,7 @@ const AppRoutes = () => {
       
       {/* Auth routes */}
       <Route path="/signin" element={<SignIn />} />
+      <Route path="/auth/callback" element={<AuthCallback />} />
       
       {/* Settings route - available for all business types */}
       <Route path="/settings" element={<Settings />} />

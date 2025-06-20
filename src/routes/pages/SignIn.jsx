@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import authService from '../../services/authService';
 import './styles.css';
 
 const SignIn = () => {
@@ -9,11 +11,42 @@ const SignIn = () => {
     password: '',
     confirmPassword: '',
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // Check for error from OAuth callback
+  useEffect(() => {
+    if (location.state?.error) {
+      setError(location.state.error);
+      // Clear the error from location state
+      navigate(location.pathname, { replace: true });
+    }
+  }, [location.state, navigate, location.pathname]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement authentication logic
-    console.log(isSignIn ? 'Sign in:' : 'Register:', formData);
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // TODO: Implement traditional email/password authentication
+      console.log(isSignIn ? 'Sign in:' : 'Register:', formData);
+      
+      // For now, simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Redirect to home or intended page
+      const returnUrl = new URLSearchParams(location.search).get('returnUrl') || '/';
+      navigate(returnUrl, { replace: true });
+      
+    } catch (error) {
+      setError('Authentication failed. Please try again.');
+      console.error('Authentication error:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e) => {
@@ -24,9 +57,26 @@ const SignIn = () => {
     }));
   };
 
-  const handleGoogleSignIn = () => {
-    // TODO: Implement Google sign in
-    console.log('Google sign in clicked');
+  const handleOAuthSignIn = async () => {
+    setIsLoading(true);
+    setError('');
+
+    try {
+      // Store current URL as return URL
+      const returnUrl = new URLSearchParams(location.search).get('returnUrl') || '/';
+      const oauthReturnUrl = `${window.location.origin}/auth/callback?returnUrl=${encodeURIComponent(returnUrl)}`;
+      
+      // Update redirect URI for this session
+      authService.redirectUri = oauthReturnUrl;
+      
+      // Initiate external OAuth flow
+      authService.initiateExternalOAuthFlow();
+      
+    } catch (error) {
+      setError('Failed to initiate external OAuth authentication. Please try again.');
+      console.error('External OAuth initiation error:', error);
+      setIsLoading(false);
+    }
   };
 
   const handlePasskeySignIn = () => {
@@ -46,16 +96,24 @@ const SignIn = () => {
           </p>
         </div>
 
+        {error && (
+          <div className="error-message">
+            {error}
+          </div>
+        )}
+
         <div className="toggle-container">
           <button
             onClick={() => setIsSignIn(true)}
             className={`toggle-button ${isSignIn ? 'active' : ''}`}
+            disabled={isLoading}
           >
             Sign In
           </button>
           <button
             onClick={() => setIsSignIn(false)}
             className={`toggle-button ${!isSignIn ? 'active' : ''}`}
+            disabled={isLoading}
           >
             Register
           </button>
@@ -76,6 +134,7 @@ const SignIn = () => {
                 placeholder="John Doe"
                 value={formData.name}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
           )}
@@ -93,6 +152,7 @@ const SignIn = () => {
               placeholder="you@example.com"
               value={formData.email}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
 
@@ -109,6 +169,7 @@ const SignIn = () => {
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
+              disabled={isLoading}
             />
           </div>
 
@@ -126,12 +187,17 @@ const SignIn = () => {
                 placeholder="••••••••"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                disabled={isLoading}
               />
             </div>
           )}
 
-          <button type="submit" className="submit-button">
-            {isSignIn ? 'Sign in' : 'Create account'}
+          <button 
+            type="submit" 
+            className="submit-button"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Processing...' : (isSignIn ? 'Sign in' : 'Create account')}
           </button>
         </form>
 
@@ -141,8 +207,9 @@ const SignIn = () => {
 
         <div className="alternative-buttons">
           <button
-            onClick={handleGoogleSignIn}
+            onClick={handleOAuthSignIn}
             className="alternative-button"
+            disabled={isLoading}
           >
             <svg className="icon" viewBox="0 0 24 24">
               <path
@@ -150,11 +217,12 @@ const SignIn = () => {
                 d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"
               />
             </svg>
-            Google
+            {isLoading ? 'Processing...' : 'OAuth Sign In'}
           </button>
           <button
             onClick={handlePasskeySignIn}
             className="alternative-button"
+            disabled={isLoading}
           >
             <svg className="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path
