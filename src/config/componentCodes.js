@@ -6,7 +6,6 @@ import { ClassesVariant1 } from '../components/Classes';
 import { ClassesVariant2 } from '../components/Classes/ClassesVariant2';
 import FooterVariant1 from '../components/Footer/FooterVariant1';
 import ClinicStatsVariant1 from '../components/ClinicStats/ClinicStatsVariant1';
-import ReviewsVariant1 from '../components/Reviews/ReviewsVariant1';
 import GalleryVariant1 from '../components/Gallery/GalleryVariant1';
 import RoomsVariant1 from '../components/Rooms/RoomsVariant1';
 import AttractionsVariant1 from '../components/Attractions/AttractionsVariant1';
@@ -39,9 +38,6 @@ export const COMPONENT_CODES = {
 
   // Clinic Stats variants
   81: ClinicStatsVariant1,
-
-  // Reviews variants
-  91: ReviewsVariant1,
 
   // End Info variants
   92: EndInfo,

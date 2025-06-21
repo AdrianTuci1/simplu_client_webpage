@@ -1,38 +1,71 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation } from 'swiper/modules';
+import { Navigation, Autoplay } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import 'swiper/css/autoplay';
 import './GalleryVariant1.css';
 
+// Import from centralized store registry
+import { useGalleryStore } from '../../store';
+
 const GalleryVariant1 = () => {
-  const images = [
-    {
-      id: 1,
-      src: 'https://img.qunomedical.com/images.ctfassets.net/kfkw517g6gvn/4I49n9FXlZGuDQY3b8SxHt/4ab5b0e4b8df6a43cd35616b2313c466/580A0044.jpg?w=1700&q=75&func=fit&force_format=webp&org_if_sml=1',
-      alt: 'Imagine 1'
-    },
-    {
-      id: 2,
-      src: 'https://localdentalclinics.com.au/blogs/1678785522.png',
-      alt: 'Imagine 2'
-    },
-    {
-      id: 3,
-      src: 'https://hddentalclinic.ro/wp-content/uploads/2023/04/HD-Dental-Clinic-Cabinet-Dentar-Bucuresti-6.jpg',
-      alt: 'Imagine 3'
-    },
-    {
-      id: 4,
-      src: '/images/gallery/image4.jpg',
-      alt: 'Imagine 4'
-    },
-    {
-      id: 5,
-      src: '/images/gallery/image5.jpg',
-      alt: 'Imagine 5'
-    }
-  ];
+  // Use the gallery store
+  const {
+    images,
+    settings,
+    ui,
+    fetchGalleryData,
+    setSelectedImage,
+    setIsFullscreen
+  } = useGalleryStore();
+
+  // Fetch gallery data on component mount
+  useEffect(() => {
+    fetchGalleryData();
+  }, [fetchGalleryData]);
+
+  // Handle image click for fullscreen view
+  const handleImageClick = (image) => {
+    setSelectedImage(image);
+    setIsFullscreen(true);
+  };
+
+  // Show loading state
+  if (ui.isLoading) {
+    return (
+      <section className="gallery-section">
+        <div className="container">
+          <h2 className="section-title">Galerie</h2>
+          <div className="gallery-container">
+            <div className="loading-state">
+              <div className="loading-spinner"></div>
+              <p>Se încarcă galeria...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (ui.error) {
+    return (
+      <section className="gallery-section">
+        <div className="container">
+          <h2 className="section-title">Galerie</h2>
+          <div className="gallery-container">
+            <div className="error-state">
+              <p>Eroare la încărcarea galeriei: {ui.error}</p>
+              <button onClick={fetchGalleryData} className="retry-button">
+                Încearcă din nou
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="gallery-section">
@@ -40,24 +73,63 @@ const GalleryVariant1 = () => {
         <h2 className="section-title">Galerie</h2>
         <div className="gallery-container">
           <Swiper
-            grabCursor={true}
-            slidesPerView={1.2}
-            spaceBetween={20}
-            loop={true}
-            navigation={true}
-            modules={[Navigation]}
+            grabCursor={settings.grabCursor}
+            slidesPerView={settings.slidesPerView}
+            spaceBetween={settings.spaceBetween}
+            loop={settings.loop}
+            navigation={settings.navigation}
+            autoplay={settings.autoplay ? {
+              delay: settings.autoplayDelay,
+              disableOnInteraction: false,
+            } : false}
+            modules={[Navigation, Autoplay]}
             className="gallery-swiper"
           >
             {images.map((image) => (
               <SwiperSlide key={image.id} className="gallery-slide">
-                <div className="image-container">
+                <div className="image-container" onClick={() => handleImageClick(image)}>
                   <img src={image.src} alt={image.alt} className="gallery-image" />
+                  {image.title && (
+                    <div className="image-overlay">
+                      <h3 className="image-title">{image.title}</h3>
+                      {image.description && (
+                        <p className="image-description">{image.description}</p>
+                      )}
+                    </div>
+                  )}
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
+
+      {/* Fullscreen Modal */}
+      {ui.isFullscreen && ui.selectedImage && (
+        <div className="fullscreen-modal" onClick={() => setIsFullscreen(false)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button 
+              className="close-button" 
+              onClick={() => setIsFullscreen(false)}
+            >
+              ×
+            </button>
+            <img 
+              src={ui.selectedImage.src} 
+              alt={ui.selectedImage.alt} 
+              className="fullscreen-image" 
+            />
+            {ui.selectedImage.title && (
+              <div className="fullscreen-info">
+                <h3>{ui.selectedImage.title}</h3>
+                {ui.selectedImage.description && (
+                  <p>{ui.selectedImage.description}</p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </section>
   );
 };
