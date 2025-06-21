@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaBed, FaUsers, FaArrowRight, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
+import { useCurrentDataByType } from '../../../../hooks/useBusinessData';
+import { useHotelStore } from '../../../../store';
 import styles from './Rooms.module.css';
-import { roomsData } from '../../../../data/roomsData';
 
 const Rooms = () => {
   const navigate = useNavigate();
   const [filterType, setFilterType] = useState('all'); // 'all' or 'available'
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+
+  // Use the new data flow architecture
+  const { data: roomsData, loading, error } = useCurrentDataByType('rooms');
+  const { ui } = useHotelStore();
 
   // Hide navbar for this page
   useEffect(() => {
@@ -42,9 +47,30 @@ const Rooms = () => {
     setFilterType(type);
   };
 
+  // Handle loading state
+  if (loading || ui.isLoading) {
+    return (
+      <div className={styles.roomsPage}>
+        <div className={styles.loading}>Se încarcă...</div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (error || ui.error) {
+    return (
+      <div className={styles.roomsPage}>
+        <div className={styles.error}>
+          <p>Eroare la încărcarea datelor: {error?.message || ui.error}</p>
+          <button onClick={() => window.location.reload()}>Încearcă din nou</button>
+        </div>
+      </div>
+    );
+  }
+
   const filteredRooms = filterType === 'all' 
-    ? roomsData 
-    : roomsData.filter(room => room.availability);
+    ? (roomsData || [])
+    : (roomsData || []).filter(room => room.availability);
 
   return (
     <div className={styles.roomsPage}>

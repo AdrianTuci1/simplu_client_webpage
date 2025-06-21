@@ -1,16 +1,20 @@
 // User API Module - Handles user-related operations
 // Supports fallback to local data when API is unavailable
 
+import { userDataHotel, userDataClinic, userDataGym } from '../../data/apiUserData.js';
+import { getCurrentBusinessType } from '../../config/businessConfig.js';
+
 export class UserApi {
   constructor(baseUrl, useFallback, authService) {
     this.baseUrl = baseUrl;
     this.useFallback = useFallback;
     this.authService = authService;
+    this.isDemo = import.meta.env.VITE_IS_DEMO === 'true';
   }
 
   // Get user profile
   async getProfile() {
-    if (this.useFallback) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserProfile();
     }
 
@@ -32,7 +36,7 @@ export class UserApi {
 
   // Update user profile
   async updateProfile(profileData) {
-    if (this.useFallback) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserProfile();
     }
 
@@ -57,8 +61,8 @@ export class UserApi {
   }
 
   // Get user bookings/appointments
-  async getUserBookings(businessType = 'hotel') {
-    if (this.useFallback) {
+  async getUserBookings(businessType = null) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserBookings(businessType);
     }
 
@@ -80,7 +84,7 @@ export class UserApi {
 
   // Get user appointments (clinic specific)
   async getUserAppointments() {
-    if (this.useFallback) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserAppointments();
     }
 
@@ -102,7 +106,7 @@ export class UserApi {
 
   // Get user packages (gym specific)
   async getUserPackages() {
-    if (this.useFallback) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserPackages();
     }
 
@@ -124,7 +128,7 @@ export class UserApi {
 
   // Get user classes (gym specific)
   async getUserClasses() {
-    if (this.useFallback) {
+    if (this.useFallback || this.isDemo) {
       return this.getFallbackUserClasses();
     }
 
@@ -144,35 +148,106 @@ export class UserApi {
     }
   }
 
+  // Get user settings
+  async getUserSettings() {
+    if (this.useFallback || this.isDemo) {
+      return this.getFallbackUserSettings();
+    }
+
+    try {
+      const response = await this.authService.makeAuthenticatedRequest(
+        `${this.baseUrl}/user/settings`
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch user settings: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.warn('API call failed, using fallback data:', error.message);
+      return this.getFallbackUserSettings();
+    }
+  }
+
+  // Update user settings
+  async updateUserSettings(settings) {
+    if (this.useFallback || this.isDemo) {
+      return this.getFallbackUserSettings();
+    }
+
+    try {
+      const response = await this.authService.makeAuthenticatedRequest(
+        `${this.baseUrl}/user/settings`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(settings),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to update user settings: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.warn('API call failed, using fallback data:', error.message);
+      return this.getFallbackUserSettings();
+    }
+  }
+
+  // Helper method to get current business type
+  getCurrentBusinessType() {
+    return getCurrentBusinessType();
+  }
+
+  // Helper method to get user data based on business type
+  getUserDataByBusinessType(businessType = null) {
+    const currentBusinessType = businessType || this.getCurrentBusinessType();
+    
+    switch (currentBusinessType.toLowerCase()) {
+      case 'hotel':
+        return userDataHotel;
+      case 'clinic':
+        return userDataClinic;
+      case 'gym':
+        return userDataGym;
+      default:
+        console.warn(`Unknown business type: ${currentBusinessType}. Using hotel data as fallback.`);
+        return userDataHotel;
+    }
+  }
+
   // Fallback data methods
   getFallbackUserProfile() {
+    const userData = this.getUserDataByBusinessType();
     return {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      phone: "+40722222222",
-      address: "Strada Example, nr. 1, Cluj-Napoca",
-      city: "Cluj-Napoca",
+      id: userData.userId,
+      name: userData.userInfo.name,
+      email: userData.userInfo.email,
+      phone: userData.userInfo.phone,
+      address: userData.userInfo.address,
+      city: userData.userInfo.city,
       country: "Romania",
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
     };
   }
 
-  getFallbackUserBookings(businessType) {
-    switch (businessType) {
+  getFallbackUserBookings(businessType = null) {
+    const userData = this.getUserDataByBusinessType(businessType);
+    
+    switch (userData.userType) {
       case 'hotel':
         return {
-          bookings: [
-            {
-              id: 1,
-              roomId: 1,
-              roomName: "Room 1",
-              dateFrom: "2025-01-01",
-              dateTo: "2025-01-03",
-              adults: 2,
-              status: "confirmed"
-            }
-          ]
+          bookings: userData.activeBookings || []
+        };
+      case 'clinic':
+        return {
+          bookings: userData.followingAppointment || []
+        };
+      case 'gym':
+        return {
+          bookings: userData.activePackage ? [userData.activePackage] : []
         };
       default:
         return { bookings: [] };
@@ -180,47 +255,61 @@ export class UserApi {
   }
 
   getFallbackUserAppointments() {
-    return {
-      appointments: [
-        {
-          id: 1,
-          serviceId: 1,
-          serviceName: "Dental Checkup",
-          date: "2025-01-01",
-          time: "10:00",
-          status: "confirmed"
-        }
-      ]
-    };
+    const userData = this.getUserDataByBusinessType();
+    
+    if (userData.userType === 'clinic') {
+      return {
+        appointments: userData.followingAppointment || []
+      };
+    }
+    
+    return { appointments: [] };
   }
 
   getFallbackUserPackages() {
-    return {
-      packages: [
-        {
-          id: 1,
-          packageId: 1,
-          packageName: "Premium Package",
-          startDate: "2025-01-01",
-          endDate: "2025-02-01",
-          status: "active"
-        }
-      ]
-    };
+    const userData = this.getUserDataByBusinessType();
+    
+    if (userData.userType === 'gym') {
+      return {
+        packages: userData.activePackage ? [userData.activePackage] : []
+      };
+    }
+    
+    return { packages: [] };
   }
 
   getFallbackUserClasses() {
-    return {
-      classes: [
-        {
-          id: 1,
-          classId: 1,
-          className: "Yoga Class",
-          date: "2025-01-01",
-          time: "18:00",
-          status: "booked"
-        }
-      ]
-    };
+    // For demo purposes, return some sample classes
+    const userData = this.getUserDataByBusinessType();
+    
+    if (userData.userType === 'gym') {
+      return {
+        classes: [
+          {
+            id: 1,
+            classId: 1,
+            className: "Yoga Class",
+            date: "2025-01-01",
+            time: "18:00",
+            status: "booked"
+          },
+          {
+            id: 2,
+            classId: 2,
+            className: "Pilates",
+            date: "2025-01-02",
+            time: "19:00",
+            status: "booked"
+          }
+        ]
+      };
+    }
+    
+    return { classes: [] };
+  }
+
+  getFallbackUserSettings() {
+    const userData = this.getUserDataByBusinessType();
+    return userData.settings || {};
   }
 } 

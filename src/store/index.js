@@ -24,9 +24,10 @@ const businessDataStrategies = {
       rooms: [],
       bookings: [],
       facilities: [],
-      attractions: []
+      attractions: [],
+      hero: {}
     }),
-    getDataTypes: () => ['rooms', 'facilities', 'attractions', 'roomscalendar'],
+    getDataTypes: () => ['rooms', 'facilities', 'attractions', 'roomscalendar', 'hero'],
     transformData: (data, type) => {
       switch (type) {
         case 'rooms':
@@ -37,6 +38,8 @@ const businessDataStrategies = {
           return data?.attractions || [];
         case 'roomscalendar':
           return data?.roomsCalendar || [];
+        case 'hero':
+          return data?.hero || {};
         default:
           return data;
       }
@@ -47,9 +50,10 @@ const businessDataStrategies = {
       services: [],
       medics: [],
       appointments: [],
-      availability: {}
+      availability: {},
+      hero: {}
     }),
-    getDataTypes: () => ['services', 'gallery', 'availabilitycalendar'],
+    getDataTypes: () => ['services', 'gallery', 'availabilitycalendar', 'hero'],
     transformData: (data, type) => {
       switch (type) {
         case 'services':
@@ -58,6 +62,8 @@ const businessDataStrategies = {
           return data?.gallery || [];
         case 'availabilitycalendar':
           return data?.availabilityCalendar || {};
+        case 'hero':
+          return data?.hero || {};
         default:
           return data;
       }
@@ -67,9 +73,10 @@ const businessDataStrategies = {
     getInitialState: () => ({
       classes: [],
       packages: [],
-      facilities: []
+      facilities: [],
+      hero: {}
     }),
-    getDataTypes: () => ['facilities', 'packages', 'classes'],
+    getDataTypes: () => ['facilities', 'packages', 'classes', 'hero'],
     transformData: (data, type) => {
       switch (type) {
         case 'facilities':
@@ -78,6 +85,8 @@ const businessDataStrategies = {
           return data?.packages || [];
         case 'classes':
           return data?.classes || [];
+        case 'hero':
+          return data?.hero || {};
         default:
           return data;
       }
@@ -230,7 +239,8 @@ export const useHotelStore = () => {
     rooms: store.businessData.rooms || [],
     facilities: store.businessData.facilities || [],
     attractions: store.businessData.attractions || [],
-    roomsCalendar: store.businessData.roomscalendar || []
+    roomsCalendar: store.businessData.roomscalendar || [],
+    hero: store.businessData.hero || {}
   };
 };
 
@@ -240,7 +250,8 @@ export const useClinicStore = () => {
     ...store,
     services: store.businessData.services || [],
     gallery: store.businessData.gallery || [],
-    availabilityCalendar: store.businessData.availabilitycalendar || {}
+    availabilityCalendar: store.businessData.availabilitycalendar || {},
+    hero: store.businessData.hero || {}
   };
 };
 
@@ -250,7 +261,31 @@ export const useGymStore = () => {
     ...store,
     classes: store.businessData.classes || [],
     packages: store.businessData.packages || [],
-    facilities: store.businessData.facilities || []
+    facilities: store.businessData.facilities || [],
+    hero: store.businessData.hero || {}
+  };
+};
+
+// Hero-specific convenience hook
+export const useHeroStoreFromCentralized = () => {
+  const store = useCentralizedStore();
+  const heroData = store.businessData.hero || {};
+  
+  return {
+    ...store,
+    // Hero-specific data
+    coverImage: heroData.coverImage || '',
+    logoImage: heroData.logoImage || '',
+    blurAmount: heroData.blurAmount || 0,
+    tintColor: heroData.tintColor || 'rgba(0,0,0,0)',
+    title: heroData.bussinesName || heroData.title || '',
+    subtitle: heroData.bussinesSlug || heroData.subtitle || '',
+    businessName: heroData.bussinesName || '',
+    businessSlug: heroData.bussinesSlug || '',
+    
+    // Hero-specific actions
+    loadHeroData: () => store.loadBusinessData('hero'),
+    updateHeroData: (heroData) => store.updateBusinessData('hero', heroData)
   };
 };
 

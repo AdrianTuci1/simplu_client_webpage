@@ -22,6 +22,11 @@ import {
   bookClass, 
   settings as settingsGym 
 } from '../../data/apiDataGym';
+import {
+  userDataHotel,
+  userDataClinic,
+  userDataGym
+} from '../../data/apiUserData';
 
 // Import specialized API modules
 import { HomeApi } from './homeApi';
@@ -34,6 +39,7 @@ class ApiService {
   constructor() {
     this.baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
     this.useFallback = import.meta.env.VITE_USE_API_FALLBACK === 'true' || !this.baseUrl;
+    this.isDemo = import.meta.env.VITE_IS_DEMO === 'true';
     
     // Initialize specialized API modules
     this.home = new HomeApi(this.baseUrl, this.useFallback, authService);
@@ -60,7 +66,12 @@ class ApiService {
 
   // Check if using fallback data
   isUsingFallback() {
-    return this.useFallback;
+    return this.useFallback || this.isDemo;
+  }
+
+  // Check if in demo mode
+  isDemoMode() {
+    return this.isDemo;
   }
 
   // Get API status
@@ -68,6 +79,7 @@ class ApiService {
     return {
       baseUrl: this.baseUrl,
       useFallback: this.useFallback,
+      isDemo: this.isDemo,
       isAuthenticated: this.isAuthenticated(),
       hasUserInfo: !!this.getUserInfo()
     };
@@ -126,5 +138,10 @@ export const fallbackData = {
     acquirePackage,
     bookClass,
     settings: settingsGym
+  },
+  userData: {
+    hotel: userDataHotel,
+    clinic: userDataClinic,
+    gym: userDataGym
   }
 }; 

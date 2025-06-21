@@ -24,10 +24,12 @@ export const homeDataHotel = {
             "coverImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             "logoImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             "blurAmount": 10,
-            "tintColor": "#000000",
+            "tintColor": "rgba(54, 4, 51, 0.3)",
             "bussinesName": "Hotel Transylvania",
             "bussinesSlug": "Transylvania",
         },
+        description: "Clinic Dynamics is a clinic that provides services to the community.",
+        coordinates: [46.7712, 23.6236],
         attractions: [
             {
                 "id": 1,
@@ -79,23 +81,55 @@ export const homeDataHotel = {
         rooms: [
             {
                 "id": 1,
-                "name": "Room 1",
+                "name": "Camera Deluxe",
+                "type": "Deluxe",
                 "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "price": 450,
+                "currency": "RON",
+                "rating": 4.8,
+                "size": "35m²",
+                "capacity": 2,
+                "description": "O cameră spațioasă cu vedere panoramică la munte, perfectă pentru o escapadă romantică.",
+                "availability": true
             },
             {
                 "id": 2,
-                "name": "Room 2",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "name": "Camera Standard",
+                "type": "Standard",
+                "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "price": 320,
+                "currency": "RON",
+                "rating": 4.5,
+                "size": "25m²",
+                "capacity": 2,
+                "description": "O cameră confortabilă pentru o pereche, cu toate facilitățile necesare pentru o ședere plăcută.",
+                "availability": true
             },
             {
                 "id": 3,
-                "name": "Room 3",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "name": "Camera Family",
+                "type": "Family",
+                "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "price": 580,
+                "currency": "RON",
+                "rating": 4.7,
+                "size": "45m²",
+                "capacity": 4,
+                "description": "Perfectă pentru familii cu copii, această cameră spațioasă oferă confort și funcționalitate.",
+                "availability": true
             },
             {
                 "id": 4,
-                "name": "Room 4",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "name": "Camera Executive",
+                "type": "Executive",
+                "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                "price": 520,
+                "currency": "RON",
+                "rating": 4.9,
+                "size": "40m²",
+                "capacity": 2,
+                "description": "Pentru călătoriile de afaceri, această cameră executive oferă toate facilitățile necesare pentru productivitate și confort.",
+                "availability": true
             },
         ],
         roomsCalendar: {      
@@ -141,17 +175,135 @@ export const homeDataHotel = {
 // Optained by GET /api/?=tenantId&=locationId&?dateFrom&?dateTo&? roomId, dateFrom-dateTo optional
 
 export const roomsData = {
+    tenantId: 1,
+    locationId: 1,
     rooms: [
         {
             "id": 1,
-            "name": "Room 1",
+            "name": "Camera Deluxe",
+            "type": "Deluxe",
             "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "price": 450,
+            "currency": "RON",
+            "rating": 4.8,
+            "size": "35m²",
+            "capacity": 2,
+            "description": "O cameră spațioasă cu vedere panoramică la munte, perfectă pentru o escapadă romantică. Cameră cu pat king-size, baie privată cu duș și cadă, și balcon privat cu vedere la peisajul montan.",
+            "amenities": [
+                "Pat king-size",
+                "Baie privată cu duș",
+                "Cadă de hidromasaj",
+                "Balcon privat",
+                "Vedere la munte",
+                "Wi-Fi gratuit",
+                "TV cu ecran plat",
+                "Minibar",
+                "Aer condiționat",
+                "Sistem de încălzire"
+            ],
+            "features": [
+                "Vedere panoramică",
+                "Balcon privat",
+                "Cadă de hidromasaj",
+                "Room service 24/7",
+                "Acces la spa",
+                "Parcare gratuită"
+            ],
+            "availability": true
         },
         {
             "id": 2,
-            "name": "Room 2",
-            "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "name": "Camera Standard",
+            "type": "Standard",
+            "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "price": 320,
+            "currency": "RON",
+            "rating": 4.5,
+            "size": "25m²",
+            "capacity": 2,
+            "description": "O cameră confortabilă pentru o pereche, cu toate facilitățile necesare pentru o ședere plăcută. Cameră cu pat dublu, baie privată și toate facilitățile moderne.",
+            "amenities": [
+                "Pat dublu",
+                "Baie privată cu duș",
+                "Wi-Fi gratuit",
+                "TV cu ecran plat",
+                "Aer condiționat",
+                "Sistem de încălzire",
+                "Birou de lucru",
+                "Dulap pentru haine"
+            ],
+            "features": [
+                "Vedere la oraș",
+                "Room service",
+                "Acces la piscină",
+                "Parcare gratuită"
+            ],
+            "availability": true
         },
+        {
+            "id": 3,
+            "name": "Camera Family",
+            "type": "Family",
+            "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "price": 580,
+            "currency": "RON",
+            "rating": 4.7,
+            "size": "45m²",
+            "capacity": 4,
+            "description": "Perfectă pentru familii cu copii, această cameră spațioasă oferă confort și funcționalitate. Cu două camere separate, baie privată și toate facilitățile necesare pentru o familie.",
+            "amenities": [
+                "Două camere separate",
+                "Pat king-size + 2 paturi simple",
+                "Baie privată cu duș",
+                "Wi-Fi gratuit",
+                "TV cu ecran plat în fiecare cameră",
+                "Aer condiționat",
+                "Sistem de încălzire",
+                "Dulap pentru haine",
+                "Birou de lucru",
+                "Zonă de joacă pentru copii"
+            ],
+            "features": [
+                "Cameră separată pentru copii",
+                "Zonă de joacă",
+                "Acces la piscină pentru copii",
+                "Room service pentru familii",
+                "Parcare gratuită"
+            ],
+            "availability": true
+        },
+        {
+            "id": 4,
+            "name": "Camera Executive",
+            "type": "Executive",
+            "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "price": 520,
+            "currency": "RON",
+            "rating": 4.9,
+            "size": "40m²",
+            "capacity": 2,
+            "description": "Pentru călătoriile de afaceri, această cameră executive oferă toate facilitățile necesare pentru productivitate și confort. Cu birou de lucru spațios, acces la business center și facilități premium.",
+            "amenities": [
+                "Pat king-size",
+                "Baie privată cu duș",
+                "Birou de lucru spațios",
+                "Wi-Fi de mare viteză",
+                "TV cu ecran plat",
+                "Minibar",
+                "Aer condiționat",
+                "Sistem de încălzire",
+                "Dulap pentru haine",
+                "Seif electronic"
+            ],
+            "features": [
+                "Acces la business center",
+                "Room service premium",
+                "Acces la sala de conferințe",
+                "Parcare gratuită",
+                "Transfer aeroport"
+            ],
+            "availability": true
+        }
     ],
 }
 

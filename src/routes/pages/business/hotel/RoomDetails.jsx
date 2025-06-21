@@ -1,28 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaBed, FaUsers, FaStar, FaCheck, FaMapMarkerAlt, FaPhone, FaEnvelope, FaHeart, FaShare, FaCalendarAlt } from 'react-icons/fa';
-import { roomsData } from '../../../../data/roomsData';
+import { useCurrentDataByType } from '../../../../hooks/useBusinessData';
+import { useHotelStore } from '../../../../store';
 import Calendar from '../../../../components/Calendar/Calendar';
 import styles from './RoomDetails.module.css';
 
 const RoomDetails = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
-  const [room, setRoom] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedDates, setSelectedDates] = useState([]);
   const [nights, setNights] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Find room data
-  useEffect(() => {
-    const foundRoom = roomsData.find(r => r.id === parseInt(roomId));
-    if (foundRoom) {
-      setRoom(foundRoom);
-    } else {
-      navigate('/rooms');
-    }
-  }, [roomId, navigate]);
+  // Use the new data flow architecture
+  const { data: roomsData, loading, error } = useCurrentDataByType('rooms');
+  const { ui } = useHotelStore();
+
+  // Find room data from the fetched rooms
+  const room = roomsData?.find(r => r.id === parseInt(roomId));
+
+  // Handle loading state
+  if (loading || ui.isLoading) {
+    return <div className={styles.loading}>Se încarcă...</div>;
+  }
+
+  // Handle error state
+  if (error || ui.error) {
+    return (
+      <div className={styles.error}>
+        <p>Eroare la încărcarea datelor: {error?.message || ui.error}</p>
+        <button onClick={() => window.location.reload()}>Încearcă din nou</button>
+      </div>
+    );
+  }
+
+  // Handle room not found
+  if (!room) {
+    navigate('/rooms');
+    return null;
+  }
 
   // Calculate nights
   useEffect(() => {
@@ -70,10 +88,6 @@ const RoomDetails = () => {
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
   };
-
-  if (!room) {
-    return <div className={styles.loading}>Se încarcă...</div>;
-  }
 
   // Generate additional images for gallery (using the main image for demo)
   const roomImages = [
@@ -159,12 +173,14 @@ const RoomDetails = () => {
             <div className={styles.section}>
               <h3>Ce oferă această cameră</h3>
               <div className={styles.amenitiesList}>
-                {room.amenities.map((amenity, index) => (
+                {room.amenities?.map((amenity, index) => (
                   <div key={index} className={styles.amenityItem}>
                     <FaCheck />
                     <span>{amenity}</span>
                   </div>
-                ))}
+                )) || (
+                  <p>Nu sunt amenități disponibile pentru această cameră.</p>
+                )}
               </div>
             </div>
 
@@ -172,12 +188,14 @@ const RoomDetails = () => {
             <div className={styles.section}>
               <h3>Caracteristici speciale</h3>
               <div className={styles.featuresList}>
-                {room.features.map((feature, index) => (
+                {room.features?.map((feature, index) => (
                   <div key={index} className={styles.featureItem}>
                     <FaCheck />
                     <span>{feature}</span>
                   </div>
-                ))}
+                )) || (
+                  <p>Nu sunt caracteristici speciale disponibile pentru această cameră.</p>
+                )}
               </div>
             </div>
 

@@ -1,8 +1,10 @@
 .hero-variant-1 {
   width: calc(100% + 200px);
-  margin-bottom: 50px;
+  margin-bottom: 60px;
   position: relative;
   margin-inline: -100px;
+  display: flex;
+  flex-direction: column;
 }
 
 .hero-variant-1 .main-frame {
@@ -12,6 +14,20 @@
   background-position: center;
   overflow: visible;
   background-color: #360b56;
+  margin-bottom: 0; /* Remove any bottom margin */
+}
+
+/* Create a separate background layer for blur effect */
+.hero-variant-1 .background-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
 }
 
 .hero-variant-1 .tint-overlay {
@@ -20,13 +36,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  mix-blend-mode: multiply;
-  border-radius: 0 0 96px 96px;
+  z-index: 1;
 }
 
 .hero-variant-1 .logo-container {
-  position: relative;
-  bottom: -300px;
+  position: absolute;
+  bottom: -100px; /* Position logo outside the main-frame */
   left: 10%;
   width: 200px;
   height: 200px;
@@ -49,18 +64,22 @@
 }
 
 .hero-variant-1 .content-container {
+  position: relative;
   display: flex;
   align-items: flex-start;
   padding: 20px;
   margin-left: calc(10% + 220px); /* 10% (logo left) + 200px (logo width) + 20px (spacing) */
+  margin-top: 10px; /* Space from the main-frame */
+  z-index: 3;
 }
 
 .hero-variant-1 .content {
   max-width: 300px;
   text-align: left;
-  color: #ffffff;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  color: #e5e5e5; /* Changed to dark color since it's outside the cover */
+  text-shadow: none; /* Remove text shadow since it's not over the image */
   z-index: 1;
+  position: relative;
 }
 
 .hero-variant-1 h1 {
@@ -235,19 +254,27 @@
 
 /* Mobile styles */
 @media screen and (max-width: 768px) {
+  .hero-variant-1 {
+    margin-bottom: 100px; /* Slightly reduced spacing on mobile but still generous */
+    flex-direction: column;
+  }
+
   .hero-variant-1 .logo-container {
     left: 50%;
     transform: translateX(-50%);
+    bottom: -100px; /* Keep logo outside main-frame on mobile */
   }
 
   .hero-variant-1 .content-container {
     margin-left: 0;
     justify-content: center;
-    margin-top: 120px; /* Ajustăm pentru a fi sub logo */
+    margin-top: 120px; /* Space for the logo */
+    padding: 0 20px;
   }
 
   .hero-variant-1 .content {
     text-align: center;
+    max-width: 100%;
   }
 
   .edit-panel {
@@ -269,4 +296,48 @@
   bottom: 20px;
   right: 20px;
   z-index: 10;
+}
+
+/* Loading and Error States */
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 1.2rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+.error {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  text-align: center;
+  padding: 2rem;
+}
+
+.error p {
+  font-size: 1.1rem;
+  color: #dc2626;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.error button {
+  padding: 0.75rem 1.5rem;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.error button:hover {
+  background: #b91c1c;
 } 

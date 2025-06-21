@@ -5,6 +5,11 @@ const ApiServiceExample = () => {
   const [apiStatus, setApiStatus] = useState(null);
   const [homeData, setHomeData] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
+  const [userBookings, setUserBookings] = useState(null);
+  const [userAppointments, setUserAppointments] = useState(null);
+  const [userPackages, setUserPackages] = useState(null);
+  const [userClasses, setUserClasses] = useState(null);
+  const [userSettings, setUserSettings] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -128,6 +133,66 @@ const ApiServiceExample = () => {
     }
   };
 
+  // Test user data operations
+  const testUserData = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // Test user bookings for different business types
+      const hotelBookings = await apiService.user.getUserBookings('hotel');
+      setUserBookings(hotelBookings);
+      console.log('Hotel bookings:', hotelBookings);
+      
+      const clinicAppointments = await apiService.user.getUserAppointments();
+      setUserAppointments(clinicAppointments);
+      console.log('Clinic appointments:', clinicAppointments);
+      
+      const gymPackages = await apiService.user.getUserPackages();
+      setUserPackages(gymPackages);
+      console.log('Gym packages:', gymPackages);
+      
+      const gymClasses = await apiService.user.getUserClasses();
+      setUserClasses(gymClasses);
+      console.log('Gym classes:', gymClasses);
+      
+      const settings = await apiService.user.getUserSettings();
+      setUserSettings(settings);
+      console.log('User settings:', settings);
+      
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Test demo mode functionality
+  const testDemoMode = async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      console.log('Demo mode status:', apiService.isDemoMode());
+      console.log('Using fallback:', apiService.isUsingFallback());
+      
+      // Test all user operations in demo mode
+      const profile = await apiService.user.getProfile();
+      console.log('Demo profile:', profile);
+      
+      const bookings = await apiService.user.getUserBookings();
+      console.log('Demo bookings:', bookings);
+      
+      const settings = await apiService.user.getUserSettings();
+      console.log('Demo settings:', settings);
+      
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="api-service-example">
       <h2>API Service Example</h2>
@@ -139,6 +204,7 @@ const ApiServiceExample = () => {
           <div className="status-info">
             <p><strong>Base URL:</strong> {apiStatus.baseUrl}</p>
             <p><strong>Using Fallback:</strong> {apiStatus.useFallback ? 'Yes' : 'No'}</p>
+            <p><strong>Demo Mode:</strong> {apiStatus.isDemo ? 'Yes' : 'No'}</p>
             <p><strong>Authenticated:</strong> {apiStatus.isAuthenticated ? 'Yes' : 'No'}</p>
             <p><strong>Has User Info:</strong> {apiStatus.hasUserInfo ? 'Yes' : 'No'}</p>
           </div>
@@ -165,15 +231,24 @@ const ApiServiceExample = () => {
           <button onClick={loadUserProfile} disabled={loading}>
             Load User Profile
           </button>
-          <button onClick={testBooking} disabled={loading}>
-            Test Booking Operations
+          <button onClick={testUserData} disabled={loading}>
+            Test User Data
+          </button>
+          <button onClick={testDemoMode} disabled={loading}>
+            Test Demo Mode
           </button>
         </div>
         
         <div className="button-group">
+          <button onClick={testBooking} disabled={loading}>
+            Test Booking Operations
+          </button>
           <button onClick={testSettings} disabled={loading}>
             Test Settings Operations
           </button>
+        </div>
+        
+        <div className="button-group">
           <button onClick={testBusinessOperations} disabled={loading}>
             Test Business Operations
           </button>
@@ -240,6 +315,110 @@ const ApiServiceExample = () => {
         </div>
       )}
 
+      {/* User Bookings Display */}
+      {userBookings && (
+        <div className="data-display">
+          <h3>User Bookings</h3>
+          <div className="data-section">
+            {userBookings.bookings && userBookings.bookings.length > 0 ? (
+              <ul>
+                {userBookings.bookings.map(booking => (
+                  <li key={booking.id}>
+                    <strong>ID:</strong> {booking.id} | 
+                    <strong>Room:</strong> {booking.roomName || booking.roomId} | 
+                    <strong>Status:</strong> {booking.status || booking.roomStatus}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No bookings found</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* User Appointments Display */}
+      {userAppointments && (
+        <div className="data-display">
+          <h3>User Appointments</h3>
+          <div className="data-section">
+            {userAppointments.appointments && userAppointments.appointments.length > 0 ? (
+              <ul>
+                {userAppointments.appointments.map(appointment => (
+                  <li key={appointment.id}>
+                    <strong>ID:</strong> {appointment.id} | 
+                    <strong>Service:</strong> {appointment.serviceName || appointment.appointmentName} | 
+                    <strong>Date:</strong> {appointment.date || appointment.appointmentDate} | 
+                    <strong>Time:</strong> {appointment.time || appointment.appointmentTime}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No appointments found</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* User Packages Display */}
+      {userPackages && (
+        <div className="data-display">
+          <h3>User Packages</h3>
+          <div className="data-section">
+            {userPackages.packages && userPackages.packages.length > 0 ? (
+              <ul>
+                {userPackages.packages.map(packageItem => (
+                  <li key={packageItem.id}>
+                    <strong>ID:</strong> {packageItem.id} | 
+                    <strong>Name:</strong> {packageItem.packageName || packageItem.name} | 
+                    <strong>Status:</strong> {packageItem.status}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No packages found</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* User Classes Display */}
+      {userClasses && (
+        <div className="data-display">
+          <h3>User Classes</h3>
+          <div className="data-section">
+            {userClasses.classes && userClasses.classes.length > 0 ? (
+              <ul>
+                {userClasses.classes.map(classItem => (
+                  <li key={classItem.id}>
+                    <strong>ID:</strong> {classItem.id} | 
+                    <strong>Class:</strong> {classItem.className} | 
+                    <strong>Date:</strong> {classItem.date} | 
+                    <strong>Time:</strong> {classItem.time}
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No classes found</p>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* User Settings Display */}
+      {userSettings && (
+        <div className="data-display">
+          <h3>User Settings</h3>
+          <div className="data-section">
+            <p><strong>Language:</strong> {userSettings.language}</p>
+            <p><strong>Currency:</strong> {userSettings.currency}</p>
+            <p><strong>Theme:</strong> {userSettings.theme}</p>
+            <p><strong>Notifications:</strong> {userSettings.notifications ? 'Enabled' : 'Disabled'}</p>
+            <p><strong>Email Notifications:</strong> {userSettings.emailNotifications ? 'Enabled' : 'Disabled'}</p>
+          </div>
+        </div>
+      )}
+
       {/* Usage Instructions */}
       <div className="usage-instructions">
         <h3>Usage Instructions</h3>
@@ -256,6 +435,29 @@ const profile = await apiService.user.getProfile();
 
 // Create booking
 const booking = await apiService.booking.createRoomBooking(bookingData);`}
+          </pre>
+          
+          <h4>User Data Operations</h4>
+          <pre>
+{`// Get user bookings (business-type specific)
+const hotelBookings = await apiService.user.getUserBookings('hotel');
+const clinicAppointments = await apiService.user.getUserAppointments();
+const gymPackages = await apiService.user.getUserPackages();
+const gymClasses = await apiService.user.getUserClasses();
+
+// Get and update user settings
+const settings = await apiService.user.getUserSettings();
+const updatedSettings = await apiService.user.updateUserSettings(newSettings);`}
+          </pre>
+          
+          <h4>Demo Mode</h4>
+          <pre>
+{`// Check if in demo mode
+const isDemo = apiService.isDemoMode();
+const usingFallback = apiService.isUsingFallback();
+
+// Demo mode uses fallback data from apiUserData.js
+// Set VITE_IS_DEMO=true in your .env file to enable demo mode`}
           </pre>
           
           <h4>Business-Specific Operations</h4>

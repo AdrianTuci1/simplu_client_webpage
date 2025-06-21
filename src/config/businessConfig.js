@@ -50,11 +50,11 @@ class GymConfigStrategy extends BusinessConfigStrategy {
   }
   
   getComponentCodes() {
-    return [11, 61, 21, 51, 92, 71];
+    return [11, 61, 21, 44,51, 92, 71];
   }
   
   getDefaultLayout() {
-    return [11, 61, 21, 51, 92, 71];
+    return [11, 61, 21, 44, 51, 92, 71];
   }
 }
 
@@ -65,18 +65,32 @@ class ClinicConfigStrategy extends BusinessConfigStrategy {
   }
   
   getComponentCodes() {
-    return [11, 61, 22, 81, 31, 92, 71];
+    return [11, 61, 22, 81, 31, 71];
   }
   
   getDefaultLayout() {
-    return [11, 61, 22, 81, 31, 92, 71];
+    return [11, 61, 22, 81, 31, 71];
   }
 }
 
 // Factory Pattern: Configuration factory
 class BusinessConfigFactory {
   static createStrategy(businessType) {
-    switch (businessType.toUpperCase()) {
+    // Handle business type mappings
+    const businessTypeMappings = {
+      'dental': BUSINESS_TYPES.CLINIC,
+      'medical': BUSINESS_TYPES.CLINIC,
+      'hospital': BUSINESS_TYPES.CLINIC,
+      'fitness': BUSINESS_TYPES.GYM,
+      'sport': BUSINESS_TYPES.GYM,
+      'accommodation': BUSINESS_TYPES.HOTEL,
+      'lodging': BUSINESS_TYPES.HOTEL
+    };
+    
+    // Map the business type if needed
+    const mappedBusinessType = businessTypeMappings[businessType.toLowerCase()] || businessType;
+    
+    switch (mappedBusinessType) {
       case BUSINESS_TYPES.HOTEL:
         return new HotelConfigStrategy();
       case BUSINESS_TYPES.GYM:

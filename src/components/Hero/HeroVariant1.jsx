@@ -20,7 +20,8 @@ const EditPanel = ({ onClose }) => {
     setTitle,
     subtitle,
     setSubtitle,
-    saveHeroData
+    saveHeroData,
+    isLoading
   } = useHeroStore();
 
   const handleSave = async () => {
@@ -109,16 +110,18 @@ const EditPanel = ({ onClose }) => {
             min="0" 
             max="1" 
             step="0.1" 
-            value={tintColor.match(/[\d.]+\)$/)[0].slice(0, -1)} 
+            value={tintColor.match(/[\d.]+\)$/)?.[0]?.slice(0, -1) || 0} 
             onChange={(e) => {
-              const color = tintColor.match(/rgba?\([\d\s,]+\)/)[0];
-              const newAlpha = e.target.value;
-              setTintColor(color.replace(/[\d.]+\)$/, `${newAlpha})`));
+              const color = tintColor.match(/rgba?\([\d\s,]+\)/)?.[0];
+              if (color) {
+                const newAlpha = e.target.value;
+                setTintColor(color.replace(/[\d.]+\)$/, `${newAlpha})`));
+              }
             }}
           />
         </div>
-        <button className="save-button" onClick={handleSave}>
-          Save Changes
+        <button className="save-button" onClick={handleSave} disabled={isLoading}>
+          {isLoading ? 'Saving...' : 'Save Changes'}
         </button>
       </div>
     </div>
@@ -136,7 +139,9 @@ const HeroVariant1 = () => {
     setIsEditing,
     title,
     subtitle,
-    fetchHeroData
+    loadHeroData,
+    isLoading,
+    error
   } = useHeroStore();
 
   const { switchLocation, getLocationInfo, initializeLocations, allLocations } = useLocationStore();
@@ -150,9 +155,10 @@ const HeroVariant1 = () => {
   
   const locationInfo = getLocationInfo();
 
+  // Load hero data on component mount
   useEffect(() => {
-    fetchHeroData();
-  }, [fetchHeroData]);
+    loadHeroData();
+  }, [loadHeroData]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -172,19 +178,48 @@ const HeroVariant1 = () => {
     }
   };
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <section className="hero hero-variant-1">
+        <div className="loading">Se încarcă...</div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section className="hero hero-variant-1">
+        <div className="error">
+          <p>Eroare la încărcarea datelor: {error}</p>
+          <button onClick={() => loadHeroData()}>Încearcă din nou</button>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className="hero hero-variant-1">
-      <div 
-        className="main-frame" 
-        style={{ 
-          backgroundImage: `url(${coverImage})`,
-          filter: `blur(${blurAmount}px)`,
-        }}
-      >
+      <div className="main-frame">
+        {/* Background layer with blur effect */}
+        <div 
+          className="background-layer"
+          style={{ 
+            backgroundImage: `url(${coverImage})`,
+            filter: `blur(${blurAmount}px)`,
+          }}
+        />
+        
+        {/* Tint overlay */}
         <div 
           className="tint-overlay"
-          style={{ backgroundColor: tintColor }}
+          style={{ 
+            backgroundColor: tintColor === 'rgba(0,0,0,0)' || tintColor === '#000000' ? 'rgba(54, 4, 51, 0.3)' : tintColor 
+          }}
         />
+        
+        {/* Edit button */}
         <button className="edit-button" onClick={handleEdit}>
           <FaEdit />
         </button>
@@ -196,16 +231,20 @@ const HeroVariant1 = () => {
           </div>
         )}
         
+        {/* Logo container */}
         <div className="logo-container">
           <img src={logoImage} alt="Company Logo" className="logo" />
         </div>
       </div>
+      
+      {/* Content container - moved outside main-frame */}
       <div className="content-container">
         <div className="content">
-          <h1>{title}</h1>
-          <p>{subtitle}</p>
+          <h1 className="title">{title}</h1>
+          <p className="subtitle">{subtitle}</p>
         </div>
       </div>
+      
       {isEditing && <EditPanel onClose={handleClose} />}
     </section>
   );

@@ -1,7 +1,6 @@
-
 export const homeDataGym = {
     tenantId: 1,
-    businessType: "hotel",
+    businessType: "gym",
     currentLocation: 1,
     availablePages: ["packages", "classes"],
     locations: [
@@ -22,11 +21,13 @@ export const homeDataGym = {
         hero: {
             coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             logoImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            blurAmount: 10,
-            tintColor: "#000000",
+            blurAmount: 1,
+            tintColor: "rgba(54, 4, 51, 0.3)",
             bussinesName: "Gym Dynamics",
             bussinesSlug: "Unirii",
         },
+        description: "Clinic Dynamics is a clinic that provides services to the community.",
+        coordinates: [46.7712, 23.6236],
         facilities: [
             {
                 "id": 1,

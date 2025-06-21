@@ -34,13 +34,16 @@ const AttractionsVariant1 = () => {
     },
   ];
 
+  // Calculate if loop should be enabled based on number of slides
+  const shouldEnableLoop = attractions.length > 3; // Enable loop only if we have more than 3 slides
+
   return (
     <div className="attractions-container">
       <h2 className="attractions-title">Atracții Locale</h2>
       <Swiper
-        slidesPerView={4}
+        slidesPerView={3}
         spaceBetween={20}
-        loop={true}
+        loop={shouldEnableLoop}
         pagination={{
           clickable: true,
         }}
@@ -55,19 +58,23 @@ const AttractionsVariant1 = () => {
         breakpoints={{
           320: {
             slidesPerView: 1,
-            spaceBetween: 10
+            spaceBetween: 10,
+            loop: attractions.length > 1
           },
           480: {
             slidesPerView: 2,
-            spaceBetween: 15
+            spaceBetween: 15,
+            loop: attractions.length > 2
           },
           768: {
             slidesPerView: 3,
-            spaceBetween: 20
+            spaceBetween: 20,
+            loop: attractions.length > 3
           },
           1024: {
-            slidesPerView: 4,
-            spaceBetween: 20
+            slidesPerView: 3,
+            spaceBetween: 20,
+            loop: attractions.length > 3
           }
         }}
       >

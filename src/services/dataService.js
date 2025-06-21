@@ -40,7 +40,24 @@ class EnvironmentConfig {
             return BUSINESS_TYPES.HOTEL; // Default fallback
         }
 
-        const businessType = envBusinessType.toLowerCase();
+        // Convert to lowercase and handle common mappings
+        let businessType = envBusinessType.toLowerCase();
+        
+        // Handle common business type mappings
+        const businessTypeMappings = {
+            'dental': BUSINESS_TYPES.CLINIC,
+            'medical': BUSINESS_TYPES.CLINIC,
+            'hospital': BUSINESS_TYPES.CLINIC,
+            'fitness': BUSINESS_TYPES.GYM,
+            'sport': BUSINESS_TYPES.GYM,
+            'accommodation': BUSINESS_TYPES.HOTEL,
+            'lodging': BUSINESS_TYPES.HOTEL
+        };
+        
+        // Check if we have a mapping for this business type
+        if (businessTypeMappings[businessType]) {
+            businessType = businessTypeMappings[businessType];
+        }
         
         if (!Object.values(BUSINESS_TYPES).includes(businessType)) {
             console.warn(`Invalid business type: ${envBusinessType}. Using default: ${BUSINESS_TYPES.HOTEL}`);

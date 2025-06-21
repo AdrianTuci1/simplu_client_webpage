@@ -58,7 +58,7 @@ const StoreRegistryExample = () => {
                 
                 // Initialize component-specific stores
                 locationStore.initializeLocations();
-                heroStore.fetchHeroData();
+                heroStore.loadHeroData();
                 
                 setLoading(false);
             } catch (error) {
@@ -230,8 +230,8 @@ const StoreRegistryExample = () => {
                     <button onClick={() => locationStore.refreshLocations()}>
                         Refresh Locations
                     </button>
-                    <button onClick={() => heroStore.fetchHeroData()}>
-                        Fetch Hero Data
+                    <button onClick={() => heroStore.loadHeroData()}>
+                        Load Hero Data
                     </button>
                     <button onClick={() => descriptionStore.setLocation([44.435971971072, 26.102325776537])}>
                         Set Location to Bucharest
