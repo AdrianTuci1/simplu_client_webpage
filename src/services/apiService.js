@@ -1,87 +1,89 @@
-// API Service that uses external OAuth tokens
-// This service handles API calls using the tokens received from external OAuth provider
+// Legacy API Service - Redirects to new modular API service
+// This file maintains backward compatibility while using the new architecture
 
-import authService from './authService';
+import apiService from './api';
 
-class ApiService {
-  constructor() {
-    this.baseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
-  }
+// Re-export the main API service for backward compatibility
+export default apiService;
 
-  // Make authenticated API calls using external OAuth tokens
+// Re-export individual modules for direct access
+export { 
+  HomeApi, 
+  UserApi, 
+  BookingApi, 
+  SettingsApi, 
+  BusinessApi 
+} from './api';
+
+// Re-export fallback data
+export { fallbackData } from './api';
+
+// Legacy method aliases for backward compatibility
+const legacyApiService = {
+  // Main service methods
+  ...apiService,
+
+  // Legacy method aliases
   async makeAuthenticatedRequest(endpoint, options = {}) {
-    const url = `${this.baseUrl}${endpoint}`;
-    return await authService.makeAuthenticatedRequest(url, options);
-  }
+    return await apiService.makeAuthenticatedRequest(endpoint, options);
+  },
 
-  // Example: Get user profile using external OAuth token
   async getUserProfile() {
-    const response = await this.makeAuthenticatedRequest('/user/profile');
-    if (!response.ok) {
-      throw new Error('Failed to fetch user profile');
-    }
-    return await response.json();
-  }
+    return await apiService.getUserProfile();
+  },
 
-  // Example: Update user settings using external OAuth token
   async updateUserSettings(settings) {
-    const response = await this.makeAuthenticatedRequest('/user/settings', {
-      method: 'PUT',
-      body: JSON.stringify(settings),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to update user settings');
-    }
-    return await response.json();
-  }
+    return await apiService.updateUserSettings(settings);
+  },
 
-  // Example: Create booking using external OAuth token
-  async createBooking(bookingData) {
-    const response = await this.makeAuthenticatedRequest('/bookings', {
-      method: 'POST',
-      body: JSON.stringify(bookingData),
-    });
-    if (!response.ok) {
-      throw new Error('Failed to create booking');
-    }
-    return await response.json();
-  }
-
-  // Example: Get available rooms using external OAuth token
-  async getAvailableRooms(params) {
-    const queryString = new URLSearchParams(params).toString();
-    const response = await this.makeAuthenticatedRequest(`/rooms/available?${queryString}`);
-    if (!response.ok) {
-      throw new Error('Failed to fetch available rooms');
-    }
-    return await response.json();
-  }
-
-  // Example: Get user's bookings using external OAuth token
   async getUserBookings() {
-    const response = await this.makeAuthenticatedRequest('/user/bookings');
-    if (!response.ok) {
-      throw new Error('Failed to fetch user bookings');
-    }
-    return await response.json();
-  }
+    return await apiService.getUserBookings();
+  },
 
-  // Check if user is authenticated before making requests
-  isAuthenticated() {
-    return authService.isAuthenticated();
-  }
+  // Additional legacy methods that might be used
+  async getHomeData(businessType, locationId) {
+    return await apiService.home.getHomeData(businessType, locationId);
+  },
 
-  // Get current user info from external OAuth provider
-  getUserInfo() {
-    return authService.getUserInfo();
-  }
+  async getBusinessSettings(businessType) {
+    return await apiService.settings.getBusinessSettings(businessType);
+  },
 
-  // Logout user (clears all OAuth tokens)
-  logout() {
-    authService.logout();
-  }
-}
+  async createBooking(bookingData) {
+    return await apiService.booking.createRoomBooking(bookingData);
+  },
 
-// Create singleton instance
-const apiService = new ApiService();
-export default apiService; 
+  async bookAppointment(appointmentData) {
+    return await apiService.booking.bookAppointment(appointmentData);
+  },
+
+  async getAvailableRooms(locationId, dateFrom, dateTo) {
+    return await apiService.booking.getAvailableRooms(locationId, dateFrom, dateTo);
+  },
+
+  async getMedics(locationId) {
+    return await apiService.booking.getMedics(locationId);
+  },
+
+  async getPackages() {
+    return await apiService.booking.getAvailablePackages();
+  },
+
+  async acquirePackage(packageId) {
+    return await apiService.booking.acquirePackage(packageId);
+  },
+
+  async bookClass(classId) {
+    return await apiService.booking.bookClass(classId);
+  }
+};
+
+// Export the legacy service with backward compatibility
+export { legacyApiService };
+
+// Console warning for developers
+console.warn(
+  '⚠️  The old apiService.js is deprecated. ' +
+  'Please migrate to the new modular API service at src/services/api/. ' +
+  'See src/services/api/README.md for migration guide.'
+); 
