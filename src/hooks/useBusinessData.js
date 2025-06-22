@@ -93,6 +93,8 @@ class DataCommand {
                 return getDataByType(this.params.businessType || 'hotel', 'facilities');
             case 'getServices':
                 return getDataByType(this.params.businessType || 'clinic', 'services');
+            case 'getRooms':
+                return getDataByType(this.params.businessType || 'hotel', 'rooms');
             default:
                 throw new Error(`Unknown operation: ${this.operation}`);
         }
@@ -760,6 +762,49 @@ export const useServices = (businessType = null) => {
 
         try {
             const command = new DataCommand('getServices', { businessType: targetBusinessType });
+            const result = CommandInvoker.execute(command);
+            setData(result);
+            dataObserver.notify(observerId, result);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [targetBusinessType, observerId]);
+
+    // Subscribe to changes
+    useEffect(() => {
+        const unsubscribe = dataObserver.subscribe(observerId, (newData) => {
+            setData(newData);
+        });
+
+        return unsubscribe;
+    }, [observerId]);
+
+    return { data, loading, error };
+};
+
+/**
+ * Hook for getting rooms data
+ * @param {string} businessType - The type of business (optional, uses environment if not provided)
+ * @returns {Object} Rooms data hook state
+ */
+export const useRooms = (businessType = null) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const targetBusinessType = businessType || getCurrentBusinessType();
+    const observerId = useMemo(() => `rooms_${targetBusinessType}`, [targetBusinessType]);
+
+    useEffect(() => {
+        if (!targetBusinessType) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const command = new DataCommand('getRooms', { businessType: targetBusinessType });
             const result = CommandInvoker.execute(command);
             setData(result);
             dataObserver.notify(observerId, result);

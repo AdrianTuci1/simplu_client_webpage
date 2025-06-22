@@ -13,6 +13,44 @@ const MedicCard = ({ medic }) => {
     availabilityDays 
   } = medic;
 
+  // Function to convert day names to 3-letter format
+  const formatDayToThreeLetters = (day) => {
+    const dayMap = {
+      'monday': 'MON',
+      'tuesday': 'TUE', 
+      'wednesday': 'WED',
+      'thursday': 'THU',
+      'friday': 'FRI',
+      'saturday': 'SAT',
+      'sunday': 'SUN',
+      'luni': 'LUN',
+      'marti': 'MAR',
+      'miercuri': 'MIE',
+      'joi': 'JOI',
+      'vineri': 'VIN',
+      'sambata': 'SAM',
+      'duminica': 'DUM'
+    };
+    
+    const normalizedDay = day.toLowerCase().trim();
+    return dayMap[normalizedDay] || day.substring(0, 3).toUpperCase();
+  };
+
+  // Parse availability days string and convert to array
+  const parseAvailabilityDays = (daysString) => {
+    if (!daysString) return [];
+    
+    // Split by common separators and clean up
+    const days = daysString
+      .split(/[,;|]/)
+      .map(day => day.trim())
+      .filter(day => day.length > 0);
+    
+    return days;
+  };
+
+  const availableDays = parseAvailabilityDays(availabilityDays);
+
   return (
     <div className={styles.card}>
       <div className={styles.cardContent}>
@@ -40,10 +78,22 @@ const MedicCard = ({ medic }) => {
             <IoTimeOutline className={styles.icon} />
             <span className={styles.availabilityText}>{availabilityHours}</span>
           </div>
-          <div className={styles.availabilityItem}>
-            <IoCalendarOutline className={styles.icon} />
-            <span className={styles.availabilityText}>{availabilityDays}</span>
-          </div>
+          
+          {availableDays.length > 0 && (
+            <div className={styles.availabilityItem}>
+              <div className={styles.daysContainer}>
+                {availableDays.map((day, index) => (
+                  <div 
+                    key={index} 
+                    className={styles.dayCircle}
+                    title={day}
+                  >
+                    {formatDayToThreeLetters(day)}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
         
         <div className={styles.actionButton}>

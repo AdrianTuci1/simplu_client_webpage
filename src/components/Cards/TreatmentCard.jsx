@@ -26,36 +26,64 @@ const TreatmentCard = ({ treatment, onSelect }) => {
     return hours === 1 ? '1 hour' : `${hours} hours`;
   };
 
+  // Function to extract initials from treatment name
+  const getInitials = (name) => {
+    if (!name) return 'TR';
+    
+    const words = name.trim().split(' ');
+    if (words.length === 1) {
+      return words[0].substring(0, 2).toUpperCase();
+    }
+    
+    return words
+      .slice(0, 2)
+      .map(word => word.charAt(0))
+      .join('')
+      .toUpperCase();
+  };
+
+  const treatmentInitials = getInitials(name);
+
+  const handleCardClick = () => {
+    if (onSelect) {
+      onSelect(id, treatment);
+    }
+  };
+
   return (
-    <div className={styles.card} onClick={() => onSelect && onSelect(treatment)}>
+    <div className={styles.card} onClick={handleCardClick}>
       <div className={styles.cardContent}>
-        <div className={styles.cardHeader}>
-          <div 
-            className={styles.categoryBadge}
-            style={{ backgroundColor: color || '#2196F3' }}
-          >
-            {category}
+        <div className={styles.mainContent}>
+          <div className={styles.leftSection}>
+            <div className={styles.headerRow}>
+              <div 
+                className={styles.treatmentIcon}
+                style={{ backgroundColor: color || '#2196F3' }}
+              >
+                <span className={styles.initials}>{treatmentInitials}</span>
+              </div>
+              <div className={styles.treatmentInfo}>
+                <h3 className={styles.treatmentName}>{name}</h3>
+                <div 
+                  className={styles.categoryBadge}
+                  style={{ backgroundColor: color || '#2196F3' }}
+                >
+                  {category}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className={styles.treatmentName}>
-            <h3>{name}</h3>
+          
+          <div className={styles.rightSection}>
+            <div className={styles.detailItem}>
+              <IoTimeOutline className={styles.icon} />
+              <span className={styles.detailText}>{formatDuration(duration)}</span>
+            </div>
+            <div className={styles.detailItem}>
+              <IoPricetagOutline className={styles.icon} />
+              <span className={styles.detailText}>{formatPrice(price)}</span>
+            </div>
           </div>
-        </div>
-        
-        <div className={styles.treatmentDetails}>
-          <div className={styles.detailItem}>
-            <IoTimeOutline className={styles.icon} />
-            <span className={styles.detailText}>{formatDuration(duration)}</span>
-          </div>
-          <div className={styles.detailItem}>
-            <IoPricetagOutline className={styles.icon} />
-            <span className={styles.detailText}>{formatPrice(price)}</span>
-          </div>
-        </div>
-        
-        <div className={styles.actionButton}>
-          <button className={styles.bookButton}>
-            Book Treatment
-          </button>
         </div>
       </div>
     </div>

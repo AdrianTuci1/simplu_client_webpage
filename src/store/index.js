@@ -368,6 +368,9 @@ export { default as useFacilitiesStore } from './facilitiesStore';
 // Services Store
 export { default as useServicesStore } from './servicesStore';
 
+// Rooms Store
+export { default as useRoomsStore } from './roomsStore';
+
 // Legacy exports for backward compatibility
 export const useLocationStoreLegacy = useCentralizedStore;
 export const useDescriptionStoreLegacy = useCentralizedStore;
@@ -378,4 +381,5 @@ export const useHeroStoreLegacy = useCentralizedStore;
 export const usePackagesStoreLegacy = useCentralizedStore;
 export const useAttractionsStoreLegacy = useCentralizedStore;
 export const useFacilitiesStoreLegacy = useCentralizedStore;
-export const useServicesStoreLegacy = useCentralizedStore; 
+export const useServicesStoreLegacy = useCentralizedStore;
+export const useRoomsStoreLegacy = useCentralizedStore; 

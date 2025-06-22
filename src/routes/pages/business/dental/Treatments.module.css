@@ -2,35 +2,15 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
+  margin-top: 72px;
 }
 
-.treatmentsHeader {
-  text-align: center;
-  margin-bottom: 48px;
-}
 
-.treatmentsHeader h1 {
-  font-size: 36px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0 0 16px 0;
-  line-height: 1.2;
-}
-
-.treatmentsHeader p {
-  font-size: 18px;
-  color: #666666;
-  margin: 0;
-  line-height: 1.6;
-  max-width: 600px;
-  margin: 0 auto;
-}
 
 .treatmentsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 24px;
-  margin-top: 32px;
 }
 
 .noTreatments {

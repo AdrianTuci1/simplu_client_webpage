@@ -28,10 +28,7 @@ const Treatments = () => {
 
   return (
     <div className={styles.treatmentsPage}>
-      <div className={styles.treatmentsHeader}>
-        <h1>Our Treatments</h1>
-        <p>Explore our comprehensive range of dental treatments and services</p>
-      </div>
+
       
       <CategoryFilter
         categories={categories}

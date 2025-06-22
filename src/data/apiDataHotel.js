@@ -86,11 +86,7 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
                 "price": 450,
                 "currency": "RON",
-                "rating": 4.8,
-                "size": "35m²",
-                "capacity": 2,
                 "description": "O cameră spațioasă cu vedere panoramică la munte, perfectă pentru o escapadă romantică.",
-                "availability": true
             },
             {
                 "id": 2,
@@ -99,11 +95,7 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
                 "price": 320,
                 "currency": "RON",
-                "rating": 4.5,
-                "size": "25m²",
-                "capacity": 2,
                 "description": "O cameră confortabilă pentru o pereche, cu toate facilitățile necesare pentru o ședere plăcută.",
-                "availability": true
             },
             {
                 "id": 3,
@@ -112,11 +104,7 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1590490360182-c33d57733427?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
                 "price": 580,
                 "currency": "RON",
-                "rating": 4.7,
-                "size": "45m²",
-                "capacity": 4,
                 "description": "Perfectă pentru familii cu copii, această cameră spațioasă oferă confort și funcționalitate.",
-                "availability": true
             },
             {
                 "id": 4,
@@ -125,11 +113,7 @@ export const homeDataHotel = {
                 "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
                 "price": 520,
                 "currency": "RON",
-                "rating": 4.9,
-                "size": "40m²",
-                "capacity": 2,
                 "description": "Pentru călătoriile de afaceri, această cameră executive oferă toate facilitățile necesare pentru productivitate și confort.",
-                "availability": true
             },
         ],
         roomsCalendar: {      

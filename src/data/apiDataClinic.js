@@ -224,7 +224,7 @@ export const treatments = {
             "name": "Treatment 1",
             "duration": "1",
             "price": 100,
-            "color": "#000000",
+            "color": "#2196F3",
             "category": "Category 1",
         },
         {
@@ -232,7 +232,7 @@ export const treatments = {
             "name": "Treatment 2",
             "duration": "1",
             "price": 100,
-            "color": "#000000",
+            "color": "#2196F3",
             "category": "Category 2",
         },
         {

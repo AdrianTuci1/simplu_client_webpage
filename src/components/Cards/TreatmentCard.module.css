@@ -1,12 +1,12 @@
 .card {
   width: 100%;
   background: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
-  transition: all 0.3s ease;
-  border: 1px solid #f0f0f0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid #f1f5f9;
   cursor: pointer;
 }
 
@@ -16,136 +16,200 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #4FC3F7, #2196F3);
-  transition: all 0.3s ease;
+  height: 2px;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+  border-color: #e2e8f0;
 }
 
 .card:hover::before {
-  background: linear-gradient(90deg, #2196F3, #4FC3F7, #2196F3);
-  background-size: 200% 100%;
-  animation: gradientMove 2s ease infinite;
-}
-
-@keyframes gradientMove {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+  transform: scaleX(1);
 }
 
 .cardContent {
   padding: 24px;
   display: flex;
   flex-direction: column;
+}
+
+.mainContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 20px;
 }
 
-.cardHeader {
+.leftSection {
+  flex: 1;
+  min-width: 0;
+}
+
+.headerRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.treatmentIcon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.treatmentIcon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.card:hover .treatmentIcon {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.card:hover .treatmentIcon::before {
+  opacity: 1;
+}
+
+.initials {
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.5px;
+  z-index: 1;
+  position: relative;
+}
+
+.treatmentInfo {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
+}
+
+.treatmentName {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: #1e293b;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  text-align: left;
 }
 
 .categoryBadge {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 20px;
+  padding: 4px 10px;
+  border-radius: 12px;
   color: white;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   align-self: flex-start;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
 }
 
-.treatmentName h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin: 0;
-  color: #1a1a1a;
-  line-height: 1.3;
-}
-
-.treatmentDetails {
+.rightSection {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px;
-  background: #f8f9fa;
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
+  align-items: flex-end;
+  flex-shrink: 0;
 }
 
 .detailItem {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  transition: all 0.3s ease;
+  min-width: 80px;
+  justify-content: center;
+}
+
+.detailItem:hover {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.08) 0%, rgba(118, 75, 162, 0.08) 100%);
+  border-color: rgba(102, 126, 234, 0.2);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
 }
 
 .icon {
-  font-size: 18px;
-  color: #2196F3;
+  font-size: 16px;
+  color: #667eea;
   flex-shrink: 0;
 }
 
 .detailText {
-  font-size: 14px;
-  color: #495057;
-  font-weight: 500;
-}
-
-.actionButton {
-  display: flex;
-  justify-content: center;
-}
-
-.bookButton {
-  background: linear-gradient(135deg, #2196F3, #4FC3F7);
-  color: white;
-  border: none;
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 16px;
+  font-size: 13px;
+  color: #475569;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 100%;
-}
-
-.bookButton:hover {
-  background: linear-gradient(135deg, #1976D2, #2196F3);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-}
-
-.bookButton:active {
-  transform: translateY(0);
+  white-space: nowrap;
 }
 
 @media (max-width: 768px) {
   .cardContent {
     padding: 20px;
+  }
+  
+  .mainContent {
     gap: 16px;
   }
   
-  .treatmentName h3 {
-    font-size: 18px;
+  .treatmentIcon {
+    width: 48px;
+    height: 48px;
   }
   
-  .treatmentDetails {
-    padding: 12px;
+  .initials {
+    font-size: 20px;
+  }
+  
+  .treatmentName {
+    font-size: 16px;
+  }
+  
+  .categoryBadge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  
+  .detailItem {
+    padding: 6px 10px;
+    min-width: 70px;
+  }
+  
+  .icon {
+    font-size: 14px;
+  }
+  
+  .detailText {
+    font-size: 12px;
   }
 }
 
@@ -154,12 +218,46 @@
     padding: 16px;
   }
   
-  .treatmentName h3 {
-    font-size: 16px;
+  .mainContent {
+    gap: 12px;
   }
   
-  .bookButton {
-    padding: 10px 20px;
-    font-size: 14px;
+  .headerRow {
+    gap: 12px;
+  }
+  
+  .treatmentIcon {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .initials {
+    font-size: 18px;
+  }
+  
+  .treatmentName {
+    font-size: 15px;
+  }
+  
+  .categoryBadge {
+    font-size: 9px;
+    padding: 3px 7px;
+  }
+  
+  .rightSection {
+    gap: 8px;
+  }
+  
+  .detailItem {
+    padding: 5px 8px;
+    min-width: 60px;
+  }
+  
+  .icon {
+    font-size: 13px;
+  }
+  
+  .detailText {
+    font-size: 11px;
   }
 } 
