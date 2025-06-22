@@ -1,33 +1,30 @@
 /* Modern Rooms Section */
-.rooms-section {
+.roomsSection {
   min-height: 100vh;
   display: flex;
   align-items: center;
-  margin-inline: calc(-1 * var(--home-padding, 10px));
-  width: calc(100% + (2 * var(--home-padding, 10px)));
+  width: calc(100% + 20px); /* Mobile: counteract 10px padding */
+  margin-inline: -10px; /* Mobile: counteract 10px padding */
+  overflow: hidden;
 }
 
-.rooms-container {
-  margin-inline: calc(-1 * var(--home-padding, 10px));
-  width: calc(100% + (2 * var(--home-padding, 10px)));
+.roomsContainer {
   background: #f8fafc;
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 2rem; /* Use direct values instead of CSS variables */
 }
 
-.rooms-header {
+.roomsTitle {
   text-align: left;
   margin-bottom: 4rem;
-  margin-left: var(--home-padding, 10px);
+  font-size: var(--font-size-2xl);
+  color: var(--text);
+  padding: 2rem 3rem;
+  margin: 0 0 4rem 0; /* Match attractions title margins exactly */
 }
 
-.rooms-title {
-  font-size: 3.5rem;
-  font-weight: 300;
-  color: #1e293b;
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
-}
-
-.rooms-subtitle {
+.roomsSubtitle {
   font-size: 1.2rem;
   color: #64748b;
   font-weight: 400;
@@ -36,17 +33,18 @@
 }
 
 /* Swiper Container */
-.rooms-swiper {
+.roomsSwiper {
   width: 100%;
   padding-bottom: 3rem;
+  overflow: visible;
 }
 
-.room-slide {
-  width: 60% !important;
+.roomSlide {
+  width: 85% !important; /* Mobile: make slides larger */
 }
 
 /* Room Card */
-.room-card {
+.roomCard {
   overflow: hidden;
   height: auto;
   display: flex;
@@ -54,9 +52,8 @@
   transition: transform 0.3s ease;
 }
 
-
 /* Room Image */
-.room-image {
+.roomImage {
   position: relative;
   width: 100%;
   aspect-ratio: 16/9;
@@ -64,18 +61,18 @@
   border-radius: 14px;
 }
 
-.room-image img {
+.roomImage img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
 
-.room-card:hover .room-image img {
+.roomCard:hover .roomImage img {
   transform: scale(1.05);
 }
 
-.room-overlay {
+.roomOverlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -88,7 +85,7 @@
   padding: 1rem;
 }
 
-.room-price {
+.roomPrice {
   background: rgba(255, 255, 255, 0.95);
   color: #1e293b;
   padding: 0.4rem 0.8rem;
@@ -100,7 +97,7 @@
 }
 
 /* Room Content */
-.room-content {
+.roomContent {
   padding: 1.5rem;
   flex: 1;
   display: flex;
@@ -109,7 +106,7 @@
   text-align: left;
 }
 
-.room-name {
+.roomName {
   font-size: 1.3rem;
   font-weight: 600;
   color: #1e293b;
@@ -117,7 +114,7 @@
   letter-spacing: -0.01em;
 }
 
-.room-description {
+.roomDescription {
   font-size: 0.9rem;
   color: #64748b;
   line-height: 1.5;
@@ -126,7 +123,7 @@
 }
 
 /* Book Button */
-.book-button {
+.bookButton {
   background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
   color: white;
   border: none;
@@ -139,16 +136,16 @@
   transition: background 0.3s ease;
 }
 
-.book-button:hover {
+.bookButton:hover {
   background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
 }
 
 /* Swiper Pagination */
-.swiper-pagination {
+.swiperPagination {
   bottom: 0 !important;
 }
 
-.swiper-pagination-bullet {
+.swiperPaginationBullet {
   background: #cbd5e1 !important;
   opacity: 0.5;
   width: 10px !important;
@@ -157,7 +154,7 @@
   transition: all 0.3s ease;
 }
 
-.swiper-pagination-bullet-active {
+.swiperPaginationBulletActive {
   background: #3b82f6 !important;
   opacity: 1;
   transform: scale(1.2);
@@ -165,111 +162,40 @@
 
 /* Responsive Design */
 @media (min-width: 768px) {
-  .rooms-container {
-    margin-inline: calc(-1 * var(--home-padding, 50px));
-    width: calc(100% + (2 * var(--home-padding, 50px)));
+  .roomsSection {
+    width: calc(100% + 100px); /* Tablet: counteract 50px padding */
+    margin-inline: -50px; /* Tablet: counteract 50px padding */
   }
   
-  .rooms-header {
-    margin-left: var(--home-padding, 50px);
+  .roomsContainer {
+    padding: 3rem 24px; /* Use direct values */
   }
   
-  .rooms-title {
-    font-size: 3rem;
-  }
-  
-  .room-card {
+  .roomCard {
     height: auto;
   }
   
-  .room-image {
+  .roomImage {
     aspect-ratio: 16/10;
   }
 }
 
 @media (min-width: 1024px) {
-  .rooms-container {
-    margin-inline: calc(-1 * var(--home-padding, 100px));
-    width: calc(100% + (2 * var(--home-padding, 100px)));
+  .roomsSection {
+    width: calc(100% + 200px); /* Desktop: counteract 100px padding */
+    margin-inline: -100px; /* Desktop: counteract 100px padding */
   }
   
-  .rooms-header {
-    margin-left: var(--home-padding, 100px);
+  .roomsContainer {
+    padding: 4rem 3rem;
   }
   
-  .rooms-title {
-    font-size: 3.5rem;
-  }
-  
-  .room-card {
+  .roomCard {
     height: auto;
   }
   
-  .room-image {
+  .roomImage {
     aspect-ratio: 16/9;
   }
 }
-
-@media (max-width: 767px) {
-  .rooms-container {
-    margin-inline: calc(-1 * var(--home-padding, 10px));
-    width: calc(100% + (2 * var(--home-padding, 10px)));
-  }
-  
-  .rooms-header {
-    margin-left: var(--home-padding, 10px);
-    margin-bottom: 3rem;
-  }
-  
-  .rooms-title {
-    font-size: 2.5rem;
-  }
-  
-  .rooms-subtitle {
-    font-size: 1rem;
-  }
-  
-  .room-card {
-    height: auto;
-  }
-  
-  .room-image {
-    aspect-ratio: 16/10;
-  }
-  
-  .room-content {
-    padding: 1rem;
-  }
-  
-  .room-name {
-    font-size: 1.1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .rooms-container {
-    margin-inline: calc(-1 * var(--home-padding, 10px));
-    width: calc(100% + (2 * var(--home-padding, 10px)));
-  }
-  
-  .rooms-header {
-    margin-left: var(--home-padding, 10px);
-  }
-  
-  .rooms-title {
-    font-size: 2rem;
-  }
-  
-  .room-card {
-    height: auto;
-  }
-  
-  .room-image {
-    aspect-ratio: 16/10;
-  }
-  
-  .room-content {
-    padding: 0.8rem;
-  }
-} 
 

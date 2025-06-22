@@ -1,8 +1,8 @@
 .footer-variant-1 {
   position: relative;
-  width: calc(100% + 200px);
+  width: calc(100% + 20px); /* Extend beyond page padding */
   margin-top: 4rem;
-  margin-inline: -100px;
+  margin-inline: -10px; /* Negative margin to match page padding */
 }
 
 .footer-variant-1 .main-frame {
@@ -15,7 +15,7 @@
 .footer-variant-1 .content-container {
   position: relative;
   z-index: 2;
-  padding: 3rem 2rem;
+  padding: 3rem 10px; /* Add padding to match page padding */
 }
 
 .footer-variant-1 .content {
@@ -77,28 +77,42 @@
   font-weight: 600;
 }
 
-@media (max-width: 768px) {
+/* Tablet padding - matches Home.css */
+@media (min-width: 768px) {
   .footer-variant-1 {
-    width: calc(100% + 20px);
-    margin-inline: -10px;
+    width: calc(100% + 100px); /* Extend beyond page padding */
+    margin-inline: -50px; /* Negative margin to match page padding */
   }
+  
+  .footer-variant-1 .content-container {
+    padding: 3rem 50px; /* Add padding to match page padding */
+  }
+}
 
+/* Desktop padding - matches Home.css */
+@media (min-width: 1024px) {
+  .footer-variant-1 {
+    width: calc(100% + 200px); /* Extend beyond page padding */
+    margin-inline: -100px; /* Negative margin to match page padding */
+  }
+  
+  .footer-variant-1 .content-container {
+    padding: 3rem 100px; /* Add padding to match page padding */
+  }
+}
+
+@media (max-width: 768px) {
   .footer-variant-1 .content {
     grid-template-columns: 1fr;
   }
   
   .footer-variant-1 .content-container {
-    padding: 2rem 1rem;
+    padding: 2rem 10px;
   }
 }
 
 @media (max-width: 480px) {
-  .footer-variant-1 {
-    width: 100%;
-    margin-inline: 0;
-  }
-
   .footer-variant-1 .content-container {
-    padding: 1.5rem 0.75rem;
+    padding: 1.5rem 10px;
   }
 } 

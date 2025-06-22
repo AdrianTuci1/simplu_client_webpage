@@ -12,25 +12,21 @@ const AttractionsVariant1 = () => {
       id: 1,
       name: "Trasee Montane",
       image: "https://www.romaniatourism.com/images/brasov/brasov-romania.jpg",
-      description: "Descoperă trasee spectaculoase în inima munților",
     },
     {
       id: 2,
       name: "Lacul de Munte",
       image: "https://holaromania.com/wp-content/uploads/2020/08/brasov-transilvania-rumania-oton%CC%83o-adrian-dascal.jpg",
-      description: "Un lac cristalin perfect pentru relaxare",
     },
     {
       id: 3,
       name: "Pădurea Seculară",
       image: "https://xplorer.ro/wp-content/uploads/2023/02/Locuri-de-vizitat-langa-Brasov-1-1024x682.webp",
-      description: "Plimbări prin pădurea seculară cu copaci seculari",
     },
     {
       id: 4,
       name: "Cascada",
       image: "https://www.clubulcopiilor.ro/wp-content/uploads/2023/05/Prapastiile-Zarnestiului-681x1024.webp",
-      description: "descriere",
     },
   ];
 
@@ -39,21 +35,13 @@ const AttractionsVariant1 = () => {
 
   return (
     <div className="attractions-container">
-      <h2 className="attractions-title">Atracții Locale</h2>
+      <h2 className="attractions-title">ATRACTII LOCALE</h2>
       <Swiper
         slidesPerView={3}
         spaceBetween={20}
         loop={shouldEnableLoop}
-        pagination={{
-          clickable: true,
-        }}
         navigation={true}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-          pauseOnMouseEnter: true,
-        }}
-        modules={[Pagination, Navigation, Autoplay]}
+        modules={[Navigation, Autoplay]}
         className="attractions-swiper"
         breakpoints={{
           320: {
@@ -86,7 +74,6 @@ const AttractionsVariant1 = () => {
               </div>
               <div className="attraction-info">
                 <h3>{attraction.name}</h3>
-                <p>{attraction.description}</p>
               </div>
             </div>
           </SwiperSlide>

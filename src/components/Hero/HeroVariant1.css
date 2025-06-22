@@ -1,15 +1,15 @@
 .hero-variant-1 {
-  width: calc(100% + 200px);
+  width: calc(100% + 20px);
   margin-bottom: 60px;
   position: relative;
-  margin-inline: -100px;
+  margin-inline: -10px;
   display: flex;
   flex-direction: column;
 }
 
 .hero-variant-1 .main-frame {
   position: relative;
-  height: 400px;
+  height: 500px;
   background-size: cover;
   background-position: center;
   overflow: visible;
@@ -262,7 +262,7 @@
   }
 
   .hero-variant-1 .main-frame {
-    height: 400px; /* Reduced height for mobile */
+    height: 500px; /* Reduced height for mobile */
   }
 
   .hero-variant-1 .logo-container {
@@ -282,7 +282,7 @@
 
   .hero-variant-1 .content {
     text-align: left;
-    max-width: 100%;
+    max-width: 100%; 
   }
 
   .hero-variant-1 h1 {
@@ -639,4 +639,20 @@
 
 .error button:hover {
   background: #b91c1c;
+}
+
+/* Tablet padding counteraction */
+@media (min-width: 768px) {
+  .hero-variant-1 {
+    width: calc(100% + 100px); /* Tablet: counteract 50px padding */
+    margin-inline: -50px; /* Tablet: counteract 50px padding */
+  }
+}
+
+/* Desktop padding counteraction */
+@media (min-width: 1024px) {
+  .hero-variant-1 {
+    width: calc(100% + 200px); /* Desktop: counteract 100px padding */
+    margin-inline: -100px; /* Desktop: counteract 100px padding */
+  }
 } 

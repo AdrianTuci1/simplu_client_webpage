@@ -110,6 +110,7 @@ const Navbar = () => {
           ))}
         </div>
 
+
         {/* Right group: Dashboard and Settings */}
         <div className="nav-group nav-group-right">
           {/* Dashboard link */}

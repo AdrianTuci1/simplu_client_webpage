@@ -96,13 +96,8 @@ const FeaturesVariant1 = () => {
 
         <div className={styles.carouselContainer}>
           <Swiper
-            modules={[Pagination]}
             spaceBetween={20}
             slidesPerView={1}
-            pagination={{
-              clickable: true,
-              dynamicBullets: true,
-            }}
             breakpoints={{
               640: {
                 slidesPerView: 2,

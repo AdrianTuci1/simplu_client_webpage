@@ -1,0 +1,106 @@
+.treatmentsPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.treatmentsHeader {
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.treatmentsHeader h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 16px 0;
+  line-height: 1.2;
+}
+
+.treatmentsHeader p {
+  font-size: 18px;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.treatmentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 32px;
+}
+
+.noTreatments {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+  border-radius: 16px;
+  border: 1px solid #e9ecef;
+  margin-top: 32px;
+}
+
+.noTreatments p {
+  font-size: 18px;
+  color: #666666;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .treatmentsPage {
+    padding: 32px 16px;
+  }
+  
+  .treatmentsHeader {
+    margin-bottom: 40px;
+  }
+  
+  .treatmentsHeader h1 {
+    font-size: 28px;
+  }
+  
+  .treatmentsHeader p {
+    font-size: 16px;
+  }
+  
+  .treatmentsGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .noTreatments {
+    padding: 40px 16px;
+  }
+  
+  .noTreatments p {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .treatmentsPage {
+    padding: 24px 12px;
+  }
+  
+  .treatmentsHeader h1 {
+    font-size: 24px;
+  }
+  
+  .treatmentsHeader p {
+    font-size: 14px;
+  }
+  
+  .treatmentsGrid {
+    gap: 16px;
+  }
+  
+  .noTreatments {
+    padding: 32px 12px;
+  }
+  
+  .noTreatments p {
+    font-size: 14px;
+  }
+} 

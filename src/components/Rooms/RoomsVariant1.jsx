@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
-import './RoomsVariant1.css';
+import styles from './RoomsVariant1.module.css';
 
 const RoomsVariant1 = () => {
   const rooms = [
@@ -45,12 +45,9 @@ const RoomsVariant1 = () => {
   ];
 
   return (
-    <section className="rooms-section">
-      <div className="rooms-container">
-        <div className="rooms-header">
-          <p className="rooms-subtitle">Descoperă confortul și eleganța în fiecare detaliu</p>
-          <h2 className="rooms-title">Camerele Noastre</h2>
-        </div>
+    <section className={styles.roomsSection}>
+      <div className={styles.roomsContainer}>
+        <h2 className={styles.roomsTitle}>CAMERELE NOASTRE</h2>
         
         <Swiper
           slidesPerView={'auto'}
@@ -60,22 +57,22 @@ const RoomsVariant1 = () => {
             clickable: true,
           }}
           modules={[Pagination]}
-          className="rooms-swiper"
+          className={styles.roomsSwiper}
         >
           {rooms.map((room) => (
-            <SwiperSlide key={room.id} className="room-slide">
-              <div className="room-card">
-                <div className="room-image">
+            <SwiperSlide key={room.id} className={styles.roomSlide}>
+              <div className={styles.roomCard}>
+                <div className={styles.roomImage}>
                   <img src={room.image} alt={room.name} loading="lazy" />
-                  <div className="room-overlay">
-                    <div className="room-price">{room.price}</div>
+                  <div className={styles.roomOverlay}>
+                    <div className={styles.roomPrice}>{room.price}</div>
                   </div>
                 </div>
-                <div className="room-content">
-                  <h3 className="room-name">{room.name}</h3>
-                  <p className="room-description">{room.description}</p>
+                <div className={styles.roomContent}>
+                  <h3 className={styles.roomName}>{room.name}</h3>
+                  <p className={styles.roomDescription}>{room.description}</p>
                   <button 
-                    className="book-button"
+                    className={styles.bookButton}
                     onClick={() => window.location.href = '/rezervare'}
                   >
                     Rezervă Acum
