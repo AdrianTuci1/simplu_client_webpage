@@ -24,13 +24,27 @@ const EditPanel = ({ onClose }) => {
     isLoading
   } = useHeroStore();
 
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
   const handleSave = async () => {
     await saveHeroData();
     onClose();
   };
 
+  const handleOverlayClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="modal-overlay">
+    <div className="modal-overlay" onClick={handleOverlayClick}>
       <div className="edit-panel">
         <button className="close-button" onClick={onClose}>
           <i className="fas fa-times"></i>

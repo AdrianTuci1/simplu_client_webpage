@@ -134,6 +134,186 @@
   .location-dropdown {
     min-width: 200px;
     right: auto;
+    max-width: calc(100vw - 20px);
+    left: 0;
+  }
+
+  .location-option {
+    padding: 10px 12px;
+  }
+
+  .location-option-name {
+    font-size: 14px;
+  }
+
+  .location-option-address {
+    font-size: 11px;
+  }
+}
+
+/* Tablet-specific styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .location-selector-button {
+    padding: 8px 14px;
+    font-size: 14px;
+    min-width: 130px;
+  }
+  
+  .location-name {
+    max-width: 90px;
+  }
+  
+  .location-dropdown {
+    min-width: 280px;
+    max-width: 320px;
+    left: 0;
+  }
+
+  .location-option {
+    padding: 12px 16px;
+  }
+
+  .location-option-name {
+    font-size: 15px;
+  }
+
+  .location-option-address {
+    font-size: 12px;
+  }
+
+  .location-icon {
+    font-size: 16px;
+  }
+
+  .chevron {
+    font-size: 12px;
+  }
+}
+
+/* Large tablet styles */
+@media (min-width: 1025px) and (max-width: 1200px) {
+  .location-selector-button {
+    padding: 9px 16px;
+    font-size: 15px;
+    min-width: 140px;
+  }
+  
+  .location-name {
+    max-width: 100px;
+  }
+  
+  .location-dropdown {
+    min-width: 300px;
+    max-width: 350px;
+  }
+
+  .location-option {
+    padding: 14px 18px;
+  }
+
+  .location-option-name {
+    font-size: 16px;
+  }
+
+  .location-option-address {
+    font-size: 13px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .location-selector-button {
+    padding: 5px 8px;
+    font-size: 12px;
+    min-width: 80px;
+  }
+  
+  .location-name {
+    max-width: 50px;
+  }
+  
+  .location-dropdown {
+    min-width: 180px;
+    max-width: calc(100vw - 10px);
+    left: 0;
+  }
+
+  .location-option {
+    padding: 8px 10px;
+  }
+
+  .location-option-name {
+    font-size: 13px;
+  }
+
+  .location-option-address {
+    font-size: 10px;
+  }
+
+  .location-icon {
+    font-size: 14px;
+  }
+
+  .chevron {
+    font-size: 10px;
+  }
+}
+
+/* Handle dropdown positioning when it would overflow */
+@media (max-width: 768px) {
+  .location-selector {
+    position: relative;
+  }
+  
+  .location-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: auto;
+    transform: none;
+  }
+  
+  /* If dropdown would overflow to the right, position it to the left */
+  .location-selector.right-overflow .location-dropdown {
+    left: auto;
+    right: 0;
+  }
+  
+  /* If dropdown would overflow to the bottom, position it above */
+  .location-selector.bottom-overflow .location-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+}
+
+/* Tablet overflow handling */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .location-selector {
+    position: relative;
+  }
+  
+  .location-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: auto;
+    transform: none;
+  }
+  
+  /* If dropdown would overflow to the right on tablet, position it to the left */
+  .location-selector.right-overflow .location-dropdown {
+    left: auto;
+    right: 0;
+  }
+  
+  /* If dropdown would overflow to the bottom on tablet, position it above */
+  .location-selector.bottom-overflow .location-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
   }
 }
 

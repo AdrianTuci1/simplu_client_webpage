@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useLocationStore from '../../store/locationStore';
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './LocationSelector.css';
@@ -6,6 +6,9 @@ import './LocationSelector.css';
 const LocationSelector = ({ onLocationChange }) => {
   const { currentLocation, allLocations, switchLocation, getLocationInfo, initializeLocations } = useLocationStore();
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({});
+  const selectorRef = useRef(null);
+  const dropdownRef = useRef(null);
   
   // Initialize locations on component mount
   useEffect(() => {
@@ -13,6 +16,25 @@ const LocationSelector = ({ onLocationChange }) => {
       initializeLocations();
     }
   }, [allLocations.length, initializeLocations]);
+  
+  // Handle click outside to close dropdown
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (selectorRef.current && !selectorRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('touchstart', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('touchstart', handleClickOutside);
+    };
+  }, [isOpen]);
   
   const locationInfo = getLocationInfo();
   
@@ -32,11 +54,46 @@ const LocationSelector = ({ onLocationChange }) => {
   };
 
   const toggleDropdown = () => {
-    setIsOpen(!isOpen);
+    const newIsOpen = !isOpen;
+    setIsOpen(newIsOpen);
+    
+    // Calculate dropdown position on mobile to prevent overflow
+    if (newIsOpen && window.innerWidth <= 768) {
+      setTimeout(() => {
+        calculateDropdownPosition();
+      }, 0);
+    }
+  };
+
+  const calculateDropdownPosition = () => {
+    if (!selectorRef.current || !dropdownRef.current) return;
+
+    const selectorRect = selectorRef.current.getBoundingClientRect();
+    const dropdownRect = dropdownRef.current.getBoundingClientRect();
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+
+    const position = {};
+
+    // Check horizontal overflow
+    if (selectorRect.left + dropdownRect.width > viewportWidth) {
+      position.right = '0';
+      position.left = 'auto';
+    }
+
+    // Check vertical overflow
+    if (selectorRect.bottom + dropdownRect.height > viewportHeight) {
+      position.bottom = '100%';
+      position.top = 'auto';
+      position.marginTop = '0';
+      position.marginBottom = '4px';
+    }
+
+    setDropdownPosition(position);
   };
 
   return (
-    <div className="location-selector">
+    <div className="location-selector" ref={selectorRef}>
       <button 
         className="location-selector-button" 
         onClick={toggleDropdown}
@@ -48,7 +105,11 @@ const LocationSelector = ({ onLocationChange }) => {
       </button>
       
       {isOpen && (
-        <div className="location-dropdown">
+        <div 
+          className="location-dropdown" 
+          ref={dropdownRef}
+          style={dropdownPosition}
+        >
           {allLocations.map((location) => (
             <button
               key={location.id}

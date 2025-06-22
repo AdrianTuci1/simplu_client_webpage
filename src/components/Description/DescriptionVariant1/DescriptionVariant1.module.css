@@ -3,7 +3,7 @@
   width: 100%;
   border-radius: var(--border-radius-lg);
   gap: var(--spacing-lg);
-  background-color: var(--secondary);
+  background-color: var(--primary-900);
 }
 
 .description {
@@ -16,7 +16,7 @@
 .hotelInfo {
   padding-inline: var(--spacing-md);
   height: fit-content;
-  color: var(--text);
+  color: var(--secondary-50);
   line-height: var(--line-height-tight);
 }
 
@@ -38,7 +38,7 @@
 .businessDescription {
   position: relative;
   height: 100%;
-  color: var(--text);
+  color: var(--secondary-50);
   padding-inline: 10px;
   font-size: var(--font-size-md);
   line-height: var(--line-height-normal);

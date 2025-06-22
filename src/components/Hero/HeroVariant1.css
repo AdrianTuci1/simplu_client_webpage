@@ -76,7 +76,7 @@
 .hero-variant-1 .content {
   max-width: 300px;
   text-align: left;
-  color: #e5e5e5; /* Changed to dark color since it's outside the cover */
+  color: var(--text); /* Changed to dark color since it's outside the cover */
   text-shadow: none; /* Remove text shadow since it's not over the image */
   z-index: 1;
   position: relative;
@@ -97,7 +97,7 @@
 
 .hero-variant-1 .edit-button {
   position: absolute;
-  top: 20px;
+  top: 84px; /* 64px navbar height + 20px spacing */
   right: 20px;
   background-color: rgba(255, 255, 255, 0.9);
   border: none;
@@ -257,12 +257,20 @@
   .hero-variant-1 {
     margin-bottom: 100px; /* Slightly reduced spacing on mobile but still generous */
     flex-direction: column;
+    width: calc(100% + 20px);
+    margin-inline: -10px;
+  }
+
+  .hero-variant-1 .main-frame {
+    height: 400px; /* Reduced height for mobile */
   }
 
   .hero-variant-1 .logo-container {
     left: 50%;
     transform: translateX(-50%);
     bottom: -100px; /* Keep logo outside main-frame on mobile */
+    width: 180px; /* Smaller logo on mobile */
+    height: 180px;
   }
 
   .hero-variant-1 .content-container {
@@ -273,20 +281,311 @@
   }
 
   .hero-variant-1 .content {
-    text-align: center;
+    text-align: left;
     max-width: 100%;
   }
 
-  .edit-panel {
-    width: 95%;
-    margin: 20px;
-    padding: 20px;
+  .hero-variant-1 h1 {
+    font-size: 1.8rem;
   }
 
-  /* Location selector responsive */
+  .hero-variant-1 p {
+    font-size: 1.2rem;
+  }
+
+  .hero-variant-1 .edit-button {
+    top: 79px; /* 64px navbar height + 15px spacing for mobile */
+    right: 15px;
+    width: 35px;
+    height: 35px;
+  }
+
+  /* Improved modal overlay for mobile */
+  .modal-overlay {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 20px;
+  }
+
+  .edit-panel {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 20px;
+    max-height: calc(100vh - 40px);
+    border-radius: 8px;
+  }
+
+  .close-button {
+    top: 10px;
+    right: 10px;
+    font-size: 1.1rem;
+  }
+
+  /* Location selector responsive improvements */
   .location-selector-container {
+    position: absolute;
     bottom: 10px;
     right: 10px;
+    z-index: 10;
+  }
+}
+
+/* Tablet-specific styles */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .hero-variant-1 {
+    width: calc(100% + 100px);
+    margin-inline: -50px;
+    margin-bottom: 80px;
+  }
+
+  .hero-variant-1 .main-frame {
+    height: 450px;
+  }
+
+  .hero-variant-1 .logo-container {
+    left: 8%;
+    width: 180px;
+    height: 180px;
+    bottom: -90px;
+  }
+
+  .hero-variant-1 .content-container {
+    margin-left: calc(8% + 200px);
+    margin-top: 15px;
+    padding: 0 30px;
+  }
+
+  .hero-variant-1 .content {
+    max-width: 350px;
+  }
+
+  .hero-variant-1 h1 {
+    font-size: 2rem;
+  }
+
+  .hero-variant-1 p {
+    font-size: 1.3rem;
+  }
+
+  .hero-variant-1 .edit-button {
+    top: 84px;
+    right: 25px;
+    width: 38px;
+    height: 38px;
+  }
+
+  /* Tablet-optimized edit panel */
+  .modal-overlay {
+    padding: 20px;
+    align-items: center;
+  }
+
+  .edit-panel {
+    width: 90%;
+    max-width: 500px;
+    padding: 30px;
+    max-height: 85vh;
+    border-radius: 12px;
+  }
+
+  .edit-section {
+    margin-bottom: 28px;
+  }
+
+  .edit-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+  }
+
+  .edit-section input[type="text"] {
+    padding: 12px 15px;
+    font-size: 1rem;
+  }
+
+  .edit-section input[type="file"] {
+    padding: 10px;
+  }
+
+  .edit-section input[type="range"] {
+    height: 8px;
+    margin: 12px 0;
+  }
+
+  .edit-section input[type="range"]::-webkit-slider-thumb {
+    width: 22px;
+    height: 22px;
+  }
+
+  .edit-section input[type="color"] {
+    width: 50px;
+    height: 40px;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+  }
+
+  .save-button {
+    padding: 14px 24px;
+    font-size: 1.1rem;
+    min-height: 48px;
+  }
+
+  /* Tablet-optimized location selector */
+  .location-selector-container {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    z-index: 10;
+  }
+}
+
+/* Large tablet and small desktop */
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
+  .hero-variant-1 {
+    width: calc(100% + 150px);
+    margin-inline: -75px;
+  }
+
+  .hero-variant-1 .main-frame {
+    height: 480px;
+  }
+
+  .hero-variant-1 .logo-container {
+    left: 9%;
+    width: 190px;
+    height: 190px;
+    bottom: -95px;
+  }
+
+  .hero-variant-1 .content-container {
+    margin-left: calc(9% + 210px);
+    margin-top: 12px;
+  }
+
+  .hero-variant-1 .content {
+    max-width: 380px;
+  }
+
+  .hero-variant-1 h1 {
+    font-size: 2.1rem;
+  }
+
+  .hero-variant-1 p {
+    font-size: 1.4rem;
+  }
+
+  /* Large tablet edit panel */
+  .edit-panel {
+    max-width: 550px;
+    padding: 35px;
+  }
+
+  .edit-section {
+    margin-bottom: 30px;
+  }
+
+  .edit-section h3 {
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+
+  .edit-section input[type="text"] {
+    padding: 14px 18px;
+    font-size: 1.05rem;
+  }
+
+  .edit-section input[type="file"] {
+    padding: 12px;
+  }
+
+  .edit-section input[type="range"] {
+    height: 10px;
+    margin: 15px 0;
+  }
+
+  .edit-section input[type="range"]::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  .edit-section input[type="color"] {
+    width: 55px;
+    height: 45px;
+    border-radius: 8px;
+    border: 3px solid #ddd;
+  }
+
+  .save-button {
+    padding: 16px 28px;
+    font-size: 1.15rem;
+    min-height: 52px;
+  }
+
+  .location-selector-container {
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 480px) {
+  .hero-variant-1 .main-frame {
+    height: 250px;
+  }
+
+  .hero-variant-1 .logo-container {
+    width: 120px;
+    height: 120px;
+    bottom: -80px;
+  }
+
+  .hero-variant-1 .content-container {
+    margin-top: 100px;
+    padding: 0 15px;
+  }
+
+  .hero-variant-1 h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-variant-1 p {
+    font-size: 1rem;
+  }
+
+  .hero-variant-1 .edit-button {
+    top: 74px; /* 64px navbar height + 10px spacing for extra small devices */
+    right: 10px;
+    width: 30px;
+    height: 30px;
+  }
+
+  .edit-panel {
+    padding: 15px;
+    max-height: calc(100vh - 30px);
+  }
+
+  .edit-section {
+    margin-bottom: 20px;
+  }
+
+  .edit-section h3 {
+    font-size: 1rem;
+  }
+
+  .edit-section .text-input {
+    font-size: 0.9rem;
+    padding: 6px 10px;
+  }
+
+  .save-button {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  /* Location selector for very small screens */
+  .location-selector-container {
+    bottom: 5px;
+    right: 5px;
   }
 }
 

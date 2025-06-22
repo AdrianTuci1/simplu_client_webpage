@@ -23,6 +23,22 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.nav-group {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.nav-group-left {
+  flex: 1;
+}
+
+.nav-group-right {
+  flex-shrink: 0;
 }
 
 .nav-link {
@@ -78,7 +94,20 @@
 @media (max-width: 768px) {
   .navbar {
     padding: 0.5rem;
-    max-width: 95%;
+    max-width: 100%;
+    width: 100%;
+    left: 0;
+    transform: none;
+    border-radius: 0;
+    top: 0;
+  }
+
+  .navbar-menu {
+    gap: 0.25rem;
+  }
+
+  .nav-group {
+    gap: 0.25rem;
   }
 
   .nav-link {
@@ -95,6 +124,35 @@
 
   .nav-separator {
     height: 20px;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0.4rem;
+  }
+
+  .navbar-menu {
+    gap: 0.2rem;
+  }
+
+  .nav-group {
+    gap: 0.2rem;
+  }
+
+  .nav-link {
+    padding: 0.6rem;
+    min-width: 44px; /* Ensure touch targets are at least 44px */
+    justify-content: center;
+  }
+
+  .nav-icon {
+    font-size: 1.3rem;
+  }
+
+  .nav-separator {
+    height: 18px;
   }
 }
 

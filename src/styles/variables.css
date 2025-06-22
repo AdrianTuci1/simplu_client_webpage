@@ -1,8 +1,43 @@
 :root {
-  /* Colors */
-  --primary: #1c1c1f;
-  --secondary: #26262d;
-  --text: #f3f3f3;
+  /* Theme Colors - Primary Palette */
+  --primary-50: #f8f9fa;
+  --primary-100: #e9ecef;
+  --primary-200: #dee2e6;
+  --primary-300: #ced4da;
+  --primary-400: #adb5bd;
+  --primary-500: #6c757d;
+  --primary-600: #495057;
+  --primary-700: #343a40;
+  --primary-800: #212529;
+  --primary-900: #1c1c1f;
+  
+  /* Theme Colors - Secondary Palette */
+  --secondary-50: #fdf8ff;
+  --secondary-100: #f8f0ff;
+  --secondary-200: #f0e6ff;
+  --secondary-300: #e6dfeb;
+  --secondary-400: #d4c7e0;
+  --secondary-500: #b8a9d1;
+  --secondary-600: #9c8bc2;
+  --secondary-700: #806db3;
+  --secondary-800: #644fa4;
+  --secondary-900: #483195;
+  
+  /* Semantic Colors */
+  --primary: var(--primary-900);
+  --secondary: var(--secondary-300);
+  --text: var(--primary-900);
+  --text-muted: var(--primary-600);
+  --background: #ffffff;
+  --background-alt: var(--primary-50);
+  --border: var(--primary-200);
+  --accent: var(--secondary-600);
+  
+  /* Status Colors */
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: #3b82f6;
   
   /* Spacing */
   --spacing-xs: 4px;
@@ -38,4 +73,16 @@
   --line-height-tight: 1.0;
   --line-height-normal: 1.1;
   --line-height-loose: 1.2;
+}
+
+/* Dark Theme (optional) */
+[data-theme="dark"] {
+  --primary: var(--primary-100);
+  --secondary: var(--secondary-700);
+  --text: var(--primary-100);
+  --text-muted: var(--primary-400);
+  --background: var(--primary-900);
+  --background-alt: var(--primary-800);
+  --border: var(--primary-700);
+  --accent: var(--secondary-400);
 } 

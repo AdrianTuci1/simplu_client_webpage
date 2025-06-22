@@ -66,55 +66,58 @@ const Navbar = () => {
   return (
     <nav className="navbar">      
       <div className="navbar-menu">
-        {/* Home link is always active */}
-        <Link 
-          to={hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/"} 
-          className={`nav-link ${isPathActive(hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/") ? 'active' : ''}`}
-          title="Home"
-        >
-          <FaHome className="nav-icon" />
-          <span className="nav-text">Home</span>
-        </Link>
+        {/* Left group: Home and Business pages */}
+        <div className="nav-group nav-group-left">
+          {/* Home link is always active */}
+          <Link 
+            to={hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/"} 
+            className={`nav-link ${isPathActive(hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/") ? 'active' : ''}`}
+            title="Home"
+          >
+            <FaHome className="nav-icon" />
+            <span className="nav-text">Home</span>
+          </Link>
 
-        {/* Business specific pages */}
-        {businessConfig.activePages.map((page) => (
-          isPageActive(page) && (
-            <Link
-              key={page}
-              to={getPagePath(page)}
-              className={`nav-link ${isPathActive(getPagePath(page)) ? 'active' : ''}`}
-              title={getPageTitle(page)}
-            >
-              {getPageIcon(page)}
-              <span className="nav-text">{getPageTitle(page)}</span>
-            </Link>
-          )
-        ))}
+          {/* Business specific pages */}
+          {businessConfig.activePages.map((page) => (
+            isPageActive(page) && (
+              <Link
+                key={page}
+                to={getPagePath(page)}
+                className={`nav-link ${isPathActive(getPagePath(page)) ? 'active' : ''}`}
+                title={getPageTitle(page)}
+              >
+                {getPageIcon(page)}
+                <span className="nav-text">{getPageTitle(page)}</span>
+              </Link>
+            )
+          ))}
+        </div>
 
-        {/* Separator */}
-        <div className="nav-separator" />
+        {/* Right group: Dashboard and Settings */}
+        <div className="nav-group nav-group-right">
+          {/* Dashboard link */}
+          <a 
+            href="https://dashboard.simplu.ro" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="nav-link"
+            title="Dashboard"
+          >
+            <FaChartLine className="nav-icon" />
+            <span className="nav-text">Dashboard</span>
+          </a>
 
-        {/* Dashboard link */}
-        <a 
-          href="https://dashboard.simplu.ro" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          className="nav-link"
-          title="Dashboard"
-        >
-          <FaChartLine className="nav-icon" />
-          <span className="nav-text">Dashboard</span>
-        </a>
-
-        {/* Settings link is always available */}
-        <Link 
-          to="/settings" 
-          className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}
-          title="Settings"
-        >
-          <FaCog className="nav-icon" />
-          <span className="nav-text">Settings</span>
-        </Link>
+          {/* Settings link is always available */}
+          <Link 
+            to="/settings" 
+            className={`nav-link ${location.pathname === '/settings' ? 'active' : ''}`}
+            title="Settings"
+          >
+            <FaCog className="nav-icon" />
+            <span className="nav-text">Settings</span>
+          </Link>
+        </div>
       </div>
     </nav>
   );

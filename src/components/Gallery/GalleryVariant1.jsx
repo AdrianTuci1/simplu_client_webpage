@@ -15,9 +15,7 @@ const GalleryVariant1 = () => {
     images,
     settings,
     ui,
-    fetchGalleryData,
-    setSelectedImage,
-    setIsFullscreen
+    fetchGalleryData
   } = useGalleryStore();
 
   // Fetch gallery data on component mount
@@ -25,18 +23,11 @@ const GalleryVariant1 = () => {
     fetchGalleryData();
   }, [fetchGalleryData]);
 
-  // Handle image click for fullscreen view
-  const handleImageClick = (image) => {
-    setSelectedImage(image);
-    setIsFullscreen(true);
-  };
-
   // Show loading state
   if (ui.isLoading) {
     return (
       <section className="gallery-section">
         <div className="container">
-          <h2 className="section-title">Galerie</h2>
           <div className="gallery-container">
             <div className="loading-state">
               <div className="loading-spinner"></div>
@@ -53,7 +44,6 @@ const GalleryVariant1 = () => {
     return (
       <section className="gallery-section">
         <div className="container">
-          <h2 className="section-title">Galerie</h2>
           <div className="gallery-container">
             <div className="error-state">
               <p>Eroare la încărcarea galeriei: {ui.error}</p>
@@ -70,14 +60,22 @@ const GalleryVariant1 = () => {
   return (
     <section className="gallery-section">
       <div className="container">
-        <h2 className="section-title">Galerie</h2>
         <div className="gallery-container">
+          <div className="gallery-header">
+            <div className="gallery-navigation">
+              <div className="swiper-button-prev-custom"></div>
+              <div className="swiper-button-next-custom"></div>
+            </div>
+          </div>
           <Swiper
             grabCursor={settings.grabCursor}
             slidesPerView={settings.slidesPerView}
             spaceBetween={settings.spaceBetween}
             loop={settings.loop}
-            navigation={settings.navigation}
+            navigation={{
+              nextEl: '.swiper-button-next-custom',
+              prevEl: '.swiper-button-prev-custom',
+            }}
             autoplay={settings.autoplay ? {
               delay: settings.autoplayDelay,
               disableOnInteraction: false,
@@ -87,49 +85,14 @@ const GalleryVariant1 = () => {
           >
             {images.map((image) => (
               <SwiperSlide key={image.id} className="gallery-slide">
-                <div className="image-container" onClick={() => handleImageClick(image)}>
+                <div className="image-container">
                   <img src={image.src} alt={image.alt} className="gallery-image" />
-                  {image.title && (
-                    <div className="image-overlay">
-                      <h3 className="image-title">{image.title}</h3>
-                      {image.description && (
-                        <p className="image-description">{image.description}</p>
-                      )}
-                    </div>
-                  )}
                 </div>
               </SwiperSlide>
             ))}
           </Swiper>
         </div>
       </div>
-
-      {/* Fullscreen Modal */}
-      {ui.isFullscreen && ui.selectedImage && (
-        <div className="fullscreen-modal" onClick={() => setIsFullscreen(false)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button 
-              className="close-button" 
-              onClick={() => setIsFullscreen(false)}
-            >
-              ×
-            </button>
-            <img 
-              src={ui.selectedImage.src} 
-              alt={ui.selectedImage.alt} 
-              className="fullscreen-image" 
-            />
-            {ui.selectedImage.title && (
-              <div className="fullscreen-info">
-                <h3>{ui.selectedImage.title}</h3>
-                {ui.selectedImage.description && (
-                  <p>{ui.selectedImage.description}</p>
-                )}
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </section>
   );
 };
