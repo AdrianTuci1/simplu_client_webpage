@@ -87,6 +87,12 @@ class DataCommand {
                 return getCurrentDataByType(this.params.dataType);
             case 'getCurrentBusinessConfig':
                 return getCurrentBusinessConfig();
+            case 'getAttractions':
+                return getDataByType(this.params.businessType || 'hotel', 'attractions');
+            case 'getFacilities':
+                return getDataByType(this.params.businessType || 'hotel', 'facilities');
+            case 'getServices':
+                return getDataByType(this.params.businessType || 'clinic', 'services');
             default:
                 throw new Error(`Unknown operation: ${this.operation}`);
         }
@@ -645,6 +651,135 @@ export const useEnvironmentConfig = () => {
     }, []);
 
     return config;
+};
+
+/**
+ * Hook for getting attractions data
+ * @param {string} businessType - The type of business (optional, uses environment if not provided)
+ * @returns {Object} Attractions data hook state
+ */
+export const useAttractions = (businessType = null) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const targetBusinessType = businessType || getCurrentBusinessType();
+    const observerId = useMemo(() => `attractions_${targetBusinessType}`, [targetBusinessType]);
+
+    useEffect(() => {
+        if (!targetBusinessType) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const command = new DataCommand('getAttractions', { businessType: targetBusinessType });
+            const result = CommandInvoker.execute(command);
+            setData(result);
+            dataObserver.notify(observerId, result);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [targetBusinessType, observerId]);
+
+    // Subscribe to changes
+    useEffect(() => {
+        const unsubscribe = dataObserver.subscribe(observerId, (newData) => {
+            setData(newData);
+        });
+
+        return unsubscribe;
+    }, [observerId]);
+
+    return { data, loading, error };
+};
+
+/**
+ * Hook for getting facilities data
+ * @param {string} businessType - The type of business (optional, uses environment if not provided)
+ * @returns {Object} Facilities data hook state
+ */
+export const useFacilities = (businessType = null) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const targetBusinessType = businessType || getCurrentBusinessType();
+    const observerId = useMemo(() => `facilities_${targetBusinessType}`, [targetBusinessType]);
+
+    useEffect(() => {
+        if (!targetBusinessType) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const command = new DataCommand('getFacilities', { businessType: targetBusinessType });
+            const result = CommandInvoker.execute(command);
+            setData(result);
+            dataObserver.notify(observerId, result);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [targetBusinessType, observerId]);
+
+    // Subscribe to changes
+    useEffect(() => {
+        const unsubscribe = dataObserver.subscribe(observerId, (newData) => {
+            setData(newData);
+        });
+
+        return unsubscribe;
+    }, [observerId]);
+
+    return { data, loading, error };
+};
+
+/**
+ * Hook for getting services data
+ * @param {string} businessType - The type of business (optional, uses environment if not provided)
+ * @returns {Object} Services data hook state
+ */
+export const useServices = (businessType = null) => {
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const targetBusinessType = businessType || getCurrentBusinessType();
+    const observerId = useMemo(() => `services_${targetBusinessType}`, [targetBusinessType]);
+
+    useEffect(() => {
+        if (!targetBusinessType) return;
+
+        setLoading(true);
+        setError(null);
+
+        try {
+            const command = new DataCommand('getServices', { businessType: targetBusinessType });
+            const result = CommandInvoker.execute(command);
+            setData(result);
+            dataObserver.notify(observerId, result);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }, [targetBusinessType, observerId]);
+
+    // Subscribe to changes
+    useEffect(() => {
+        const unsubscribe = dataObserver.subscribe(observerId, (newData) => {
+            setData(newData);
+        });
+
+        return unsubscribe;
+    }, [observerId]);
+
+    return { data, loading, error };
 };
 
 // Export business types for convenience

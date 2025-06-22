@@ -6,6 +6,7 @@
   width: calc(100% + 20px); /* Mobile: counteract 10px padding */
   margin-inline: -10px; /* Mobile: counteract 10px padding */
   overflow: hidden;
+  background-color: var(--primary-900);
 }
 
 .roomsContainer {
@@ -13,13 +14,14 @@
   width: 100%;
   max-width: 100%;
   padding: 32px 2rem; /* Use direct values instead of CSS variables */
+  background-color: var(--primary-900);
 }
 
 .roomsTitle {
   text-align: left;
   margin-bottom: 4rem;
   font-size: var(--font-size-2xl);
-  color: var(--text);
+  color: whitesmoke;
   padding: 2rem 3rem;
   margin: 0 0 4rem 0; /* Match attractions title margins exactly */
 }
@@ -109,14 +111,14 @@
 .roomName {
   font-size: 1.3rem;
   font-weight: 600;
-  color: #1e293b;
+  color: #eeeeee;
   margin-bottom: 0.5rem;
   letter-spacing: -0.01em;
 }
 
 .roomDescription {
   font-size: 0.9rem;
-  color: #64748b;
+  color: #aeb0b4;
   line-height: 1.5;
   margin-bottom: 1rem;
   flex: 1;

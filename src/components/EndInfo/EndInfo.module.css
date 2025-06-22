@@ -4,9 +4,7 @@
   padding: var(--spacing-xl) var(--spacing-lg);
   margin: 0 auto;
   color: var(--text);
-  background: var(--background);
   border-radius: var(--border-radius-lg);
-  box-shadow: var(--shadow-md);
 }
 
 .leftInfo {
@@ -31,6 +29,36 @@
   margin: 0;
 }
 
+.availabilityLegend {
+  display: flex;
+  gap: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--text-muted);
+}
+
+.legendColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--success);
+  border: 1px solid var(--border);
+}
+
+.unavailableLegend {
+  background: var(--error);
+}
+
+.pastLegend {
+  background: #333333; /* Negru/gri închis pentru zilele trecute */
+}
+
 .desktopDateRangeContainer {
   display: flex;
   flex-direction: column;
@@ -47,16 +75,16 @@
 
 .calendar {
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   background: transparent;
   border: none;
-  padding: 0;
+  padding: var(--spacing-md);
   box-shadow: none;
 }
 
 .mobileCalendarFooter {
   width: 100%;
-  max-width: 400px;
+  max-width: 320px;
   display: none;
   flex-direction: column;
   gap: var(--spacing-md);
@@ -118,20 +146,23 @@
 
 /* React Calendar modern styling */
 .calendar :global(.react-calendar) {
-  width: 100%;
+  width: 100% !important;
   background: transparent;
   border: none;
   font-family: inherit;
   color: var(--text);
+  max-width: none;
 }
 
-/* Modern navigation */
+/* Modern navigation - only 2 arrows on the right */
 .calendar :global(.react-calendar__navigation) {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: var(--spacing-lg);
+  justify-content: flex-end;
+  margin-bottom: var(--spacing-md);
   padding: 0;
+  position: relative;
+  min-height: 44px;
 }
 
 .calendar :global(.react-calendar__navigation__label) {
@@ -141,91 +172,113 @@
   color: var(--text);
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-lg);
-  cursor: pointer;
+  cursor: default;
   transition: all 0.2s ease;
   border-radius: var(--border-radius-sm);
-}
-
-.calendar :global(.react-calendar__navigation__label:hover) {
-  background: var(--background-alt);
-  color: var(--accent);
+  order: 1;
+  flex: 1;
+  text-align: left;
+  display: block;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .calendar :global(.react-calendar__navigation__arrow) {
-  background: transparent;
-  border: none;
-  padding: var(--spacing-sm);
-  margin: 0;
-  color: var(--text-muted);
+  background: var(--background-alt);
+  border: 1px solid var(--border);
+  padding: var(--spacing-md);
+  margin: 0 var(--spacing-xs);
+  color: var(--text);
   font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all 0.2s ease;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: var(--font-size-xl);
 }
 
 .calendar :global(.react-calendar__navigation__arrow:hover) {
   background: var(--accent);
   color: white;
-  transform: scale(1.1);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-sm);
 }
 
 .calendar :global(.react-calendar__navigation__arrow:disabled) {
-  background: transparent;
-  color: var(--primary-300);
+  background: var(--background-alt);
+  color: var(--text-muted);
   cursor: not-allowed;
+  opacity: 0.5;
   transform: none;
+  box-shadow: none;
+}
+
+.calendar :global(.react-calendar__navigation__prev-button) {
+  order: 2;
+}
+
+.calendar :global(.react-calendar__navigation__next-button) {
+  order: 3;
 }
 
 /* Weekdays styling */
 .calendar :global(.react-calendar__month-view__weekdays) {
-  text-align: center;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: var(--spacing-xs);
+  margin-bottom: var(--spacing-sm);
   text-transform: uppercase;
   font-weight: var(--font-weight-bold);
   font-size: var(--font-size-sm);
   color: var(--text-muted);
-  margin-bottom: var(--spacing-md);
-  letter-spacing: 0.5px;
+  width: 100%;
 }
 
 .calendar :global(.react-calendar__month-view__weekdays__weekday) {
+  text-align: center;
   padding: var(--spacing-sm);
-  color: var(--text-muted);
+  min-width: 0;
 }
 
 .calendar :global(.react-calendar__month-view__weekdays__weekday abbr) {
   text-decoration: none;
   border-bottom: none;
+  cursor: default;
 }
 
 /* Days styling - each date has its own square */
 .calendar :global(.react-calendar__month-view__days) {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
+  display: grid !important;
+  grid-template-columns: repeat(7, 1fr) !important;
+  gap: var(--spacing-xs);
+  width: 100%;
+  grid-auto-flow: row;
+  grid-auto-rows: 1fr;
 }
 
 .calendar :global(.react-calendar__month-view__days__day) {
-  aspect-ratio: 1;
-  padding: 0;
-  text-align: center;
-  cursor: pointer;
-  border-radius: var(--border-radius-sm);
-  transition: all 0.2s ease;
+  background: transparent;
+  border: none;
+  padding: var(--spacing-sm);
+  margin: 0;
   color: var(--text);
-  background: var(--background-alt);
-  border: 1px solid var(--border);
   font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-radius: var(--border-radius-sm);
+  position: relative;
+  aspect-ratio: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  min-height: 44px;
   font-size: var(--font-size-sm);
+  min-height: 40px;
 }
 
 .calendar :global(.react-calendar__month-view__days__day:hover:not(:disabled)) {
@@ -236,14 +289,49 @@
 }
 
 .calendar :global(.react-calendar__month-view__days__day--neighboringMonth) {
-  color: var(--primary-300);
-  opacity: 0.6;
-  background: var(--primary-50);
-  border-color: var(--primary-100);
+  display: none !important;
 }
 
 .calendar :global(.react-calendar__month-view__days__day--weekend) {
   color: var(--text);
+}
+
+/* Zile indisponibile - stil personalizat */
+.unavailableDate {
+  background: var(--error) !important;
+  color: white !important;
+  position: relative;
+}
+
+.unavailableDate::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background: white;
+  border-radius: 50%;
+  opacity: 0.8;
+}
+
+.unavailableDate:hover {
+  background: var(--error) !important;
+  color: white !important;
+  transform: scale(1.05);
+}
+
+.pastDate {
+  background: #333333 !important; /* Negru/gri închis pentru zilele trecute */
+  color: #666666 !important;
+  cursor: not-allowed;
+}
+
+.pastDate:hover {
+  background: #333333 !important;
+  color: #666666 !important;
+  transform: none;
 }
 
 /* Disabled past dates */
@@ -306,12 +394,13 @@
   border-color: var(--secondary-200) !important;
 }
 
-/* Today styling */
+/* Today styling - outline albastru */
 .calendar :global(.react-calendar__tile--now) {
   background: var(--background-alt);
   color: var(--accent);
   font-weight: var(--font-weight-bold);
-  border: 2px solid var(--accent);
+  border: 2px solid var(--info);
+  position: relative;
 }
 
 .calendar :global(.react-calendar__tile--now:hover:not(:disabled)) {
@@ -332,6 +421,10 @@
     font-size: var(--font-size-xl);
   }
   
+  .availabilityLegend {
+    justify-content: center;
+  }
+  
   .desktopDateRangeContainer {
     display: none;
   }
@@ -345,13 +438,13 @@
   }
   
   .calendar :global(.react-calendar__month-view__days__day) {
-    min-height: 40px;
-    font-size: var(--font-size-sm);
+    min-height: 32px;
+    font-size: 0.8rem;
   }
   
   .calendar :global(.react-calendar__navigation__arrow) {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -370,11 +463,17 @@
   }
   
   .calendar :global(.react-calendar__month-view__days__day) {
-    min-height: 36px;
-    font-size: var(--font-size-sm);
+    min-height: 28px;
+    font-size: 0.75rem;
   }
   
   .calendar :global(.react-calendar__navigation__label) {
-    font-size: var(--font-size-md);
+    font-size: var(--font-size-sm);
+  }
+  
+  .availabilityLegend {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: center;
   }
 }

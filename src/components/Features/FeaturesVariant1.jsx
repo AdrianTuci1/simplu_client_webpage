@@ -2,58 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useFacilitiesStore } from '../../store';
+import { useFacilities, getCurrentBusinessType } from '../../hooks/useBusinessData';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './FeaturesVariant1.module.css';
 
-const facilities = [
-  {
-    id: 'fitness',
-    name: 'Sala Fitness',
-    location: 'Etaj 1',
-    images: [
-      'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Z3ltfGVufDB8fDB8fHww',
-      'https://www.hussle.com/blog/wp-content/uploads/2020/12/Gym-structure-1080x675.png',
-      'https://www.wellnessgym.ro/wp-content/uploads/2024/05/fitness-wellness-gym-bucuresti.jpg',
-      '/images/fitness-4.jpg',
-    ]
-  },
-  {
-    id: 'aerobic',
-    name: 'Aerobic',
-    location: 'Etaj 2',
-    images: [
-      '/images/aerobic-1.jpg',
-      '/images/aerobic-2.jpg',
-      '/images/aerobic-3.jpg',
-    ]
-  },
-  {
-    id: 'piscina',
-    name: 'Piscină',
-    location: 'Etaj 0',
-    images: [
-      '/images/piscina-1.jpg',
-      '/images/piscina-2.jpg',
-      '/images/piscina-3.jpg',
-      '/images/piscina-4.jpg',
-    ]
-  },
-  {
-    id: 'sauna',
-    name: 'Saună',
-    location: 'Etaj 0',
-    images: [
-      '/images/sauna-1.jpg',
-      '/images/sauna-2.jpg',
-      '/images/sauna-3.jpg',
-    ]
-  }
-];
-
 const FeaturesVariant1 = () => {
-  const [selectedFacility, setSelectedFacility] = useState(facilities[0]);
   const [swiperInstance, setSwiperInstance] = useState(null);
+  
+  const { 
+    facilities, 
+    loading, 
+    error, 
+    loadFacilities
+  } = useFacilitiesStore();
+
+  const { data: facilitiesData, loading: dataLoading, error: dataError } = useFacilities();
+
+  // Get current business type to determine which data to use
+  const currentBusinessType = getCurrentBusinessType();
+
+  useEffect(() => {
+    loadFacilities(currentBusinessType);
+  }, [loadFacilities, currentBusinessType]);
+
+  // Use store data if available, otherwise fall back to API data
+  const displayFacilities = facilities.length > 0 ? facilities : (facilitiesData || []);
+
+  // Set initial selected facility
+  const [selectedFacility, setSelectedFacility] = useState(
+    displayFacilities.length > 0 ? displayFacilities[0] : null
+  );
+
+  // Update selected facility when facilities data changes
+  useEffect(() => {
+    if (displayFacilities.length > 0 && !selectedFacility) {
+      setSelectedFacility(displayFacilities[0]);
+    }
+  }, [displayFacilities, selectedFacility]);
 
   const handleFacilityChange = (facility) => {
     setSelectedFacility(facility);
@@ -62,12 +49,49 @@ const FeaturesVariant1 = () => {
     }
   };
 
+  if (loading || dataLoading) {
+    return (
+      <section className={`features ${styles.featuresVariant1}`}>
+        <div className={styles.container}>
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingSpinner}></div>
+            <p>Se încarcă facilitățile...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error || dataError) {
+    return (
+      <section className={`features ${styles.featuresVariant1}`}>
+        <div className={styles.container}>
+          <div className={styles.errorContainer}>
+            <p>Eroare la încărcarea facilităților</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (!selectedFacility || displayFacilities.length === 0) {
+    return (
+      <section className={`features ${styles.featuresVariant1}`}>
+        <div className={styles.container}>
+          <div className={styles.noDataContainer}>
+            <p>Nu sunt facilități disponibile</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={`features ${styles.featuresVariant1}`}>
       <div className={styles.container}>
         <div className={styles.headerSection}>
           <div className={styles.facilitiesList}>
-            {facilities.map((facility) => (
+            {displayFacilities.map((facility) => (
               <button
                 key={facility.id}
                 className={`${styles.facilityBtn} ${selectedFacility.id === facility.id ? styles.active : ''}`}
@@ -111,7 +135,7 @@ const FeaturesVariant1 = () => {
             onSwiper={setSwiperInstance}
             className={styles.swiper}
           >
-            {selectedFacility.images.map((image, index) => (
+            {selectedFacility.images && selectedFacility.images.map((image, index) => (
               <SwiperSlide key={index} className={styles.swiperSlide}>
                 <div className={styles.carouselItem}>
                   <div className={styles.imageContainer}>
@@ -119,7 +143,6 @@ const FeaturesVariant1 = () => {
                   </div>
                   <div className={styles.imageInfo}>
                     <h3>{selectedFacility.name}</h3>
-                    <p>{selectedFacility.location}</p>
                   </div>
                 </div>
               </SwiperSlide>

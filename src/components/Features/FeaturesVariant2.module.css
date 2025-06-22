@@ -67,10 +67,54 @@
   cursor: not-allowed;
 }
 
+/* Loading and Error States */
+.loadingContainer,
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContainer p,
+.errorContainer p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.errorContainer p {
+  color: #e74c3c;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
   .featuresGrid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .loadingContainer,
+  .errorContainer {
+    min-height: 200px;
+    padding: 1.5rem;
   }
 }
 
@@ -83,5 +127,11 @@
     width: 100%;
     height: 250px;
     aspect-ratio: none;
+  }
+
+  .loadingContainer,
+  .errorContainer {
+    min-height: 150px;
+    padding: 1rem;
   }
 } 

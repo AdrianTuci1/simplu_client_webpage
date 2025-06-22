@@ -181,6 +181,50 @@
   transform: scale(1.2);
 }
 
+/* Loading, Error, and No Data States */
+.loadingContainer,
+.errorContainer,
+.noDataContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+  padding: 2rem;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #e0e0e0;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loadingContainer p,
+.errorContainer p,
+.noDataContainer p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.errorContainer p {
+  color: #e74c3c;
+}
+
+.noDataContainer p {
+  color: #999;
+}
+
 /* Tablet */
 @media (max-width: 1024px) {
   .headerSection {
@@ -195,6 +239,13 @@
   
   .carouselContainer {
     padding: 0 0.5rem;
+  }
+
+  .loadingContainer,
+  .errorContainer,
+  .noDataContainer {
+    min-height: 200px;
+    padding: 1.5rem;
   }
 }
 

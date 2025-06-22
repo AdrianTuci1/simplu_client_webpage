@@ -359,6 +359,15 @@ export { default as usePackagesStore } from './packages/packagesStore';
 // Gallery Store
 export { default as useGalleryStore } from './galleryStore';
 
+// Attractions Store
+export { default as useAttractionsStore } from './attractionsStore';
+
+// Facilities Store
+export { default as useFacilitiesStore } from './facilitiesStore';
+
+// Services Store
+export { default as useServicesStore } from './servicesStore';
+
 // Legacy exports for backward compatibility
 export const useLocationStoreLegacy = useCentralizedStore;
 export const useDescriptionStoreLegacy = useCentralizedStore;
@@ -366,4 +375,7 @@ export const useClinicAvailabilityStoreLegacy = useCentralizedStore;
 export const useFooterStoreLegacy = useCentralizedStore;
 export const useClassesStoreLegacy = useCentralizedStore;
 export const useHeroStoreLegacy = useCentralizedStore;
-export const usePackagesStoreLegacy = useCentralizedStore; 
+export const usePackagesStoreLegacy = useCentralizedStore;
+export const useAttractionsStoreLegacy = useCentralizedStore;
+export const useFacilitiesStoreLegacy = useCentralizedStore;
+export const useServicesStoreLegacy = useCentralizedStore; 
