@@ -34,7 +34,7 @@ const FeaturesVariant2 = () => {
     <section className={`features ${styles.featuresVariant2}`}>
       <div className={styles.container}>
         <div className={styles.featuresGrid}>
-          {features.map((feature, index) => (
+          {features.map((feature, _) => (
             <div 
               key={feature.id} 
               className={styles.featureCard}

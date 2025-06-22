@@ -3,12 +3,10 @@ import { persist } from 'zustand/middleware';
 import { 
   getCurrentBusinessType, 
   getCurrentTenantId,
-  getCurrentHomeData,
-  getCurrentSettings,
   getCurrentDataByType,
   BUSINESS_TYPES
 } from '../services/dataService';
-import { DESCRIPTION_CHAR_LIMIT } from '../constants';
+
 
 /**
  * Centralized Store Registry using Zustand
@@ -25,9 +23,11 @@ const businessDataStrategies = {
       bookings: [],
       facilities: [],
       attractions: [],
-      hero: {}
+      hero: {},
+      description: '',
+      location: [44.435971971072, 26.102325776537] // Default București coordinates
     }),
-    getDataTypes: () => ['rooms', 'facilities', 'attractions', 'roomscalendar', 'hero'],
+    getDataTypes: () => ['rooms', 'facilities', 'attractions', 'roomscalendar', 'hero', 'description'],
     transformData: (data, type) => {
       switch (type) {
         case 'rooms':
@@ -40,6 +40,12 @@ const businessDataStrategies = {
           return data?.roomsCalendar || [];
         case 'hero':
           return data?.hero || {};
+        case 'description':
+          return {
+            description: data?.description || '',
+            location: data?.location || [44.435971971072, 26.102325776537],
+            markdownPath: data?.markdownPath || ''
+          };
         default:
           return data;
       }
@@ -51,9 +57,11 @@ const businessDataStrategies = {
       medics: [],
       appointments: [],
       availability: {},
-      hero: {}
+      hero: {},
+      description: '',
+      location: [44.435971971072, 26.102325776537] // Default București coordinates
     }),
-    getDataTypes: () => ['services', 'gallery', 'availabilitycalendar', 'hero'],
+    getDataTypes: () => ['services', 'gallery', 'availabilitycalendar', 'hero', 'description'],
     transformData: (data, type) => {
       switch (type) {
         case 'services':
@@ -64,6 +72,11 @@ const businessDataStrategies = {
           return data?.availabilityCalendar || {};
         case 'hero':
           return data?.hero || {};
+        case 'description':
+          return {
+            description: data?.description || '',
+            location: data?.location || [44.435971971072, 26.102325776537]
+          };
         default:
           return data;
       }
@@ -74,9 +87,11 @@ const businessDataStrategies = {
       classes: [],
       packages: [],
       facilities: [],
-      hero: {}
+      hero: {},
+      description: '',
+      location: [44.435971971072, 26.102325776537] // Default București coordinates
     }),
-    getDataTypes: () => ['facilities', 'packages', 'classes', 'hero'],
+    getDataTypes: () => ['facilities', 'packages', 'classes', 'hero', 'description'],
     transformData: (data, type) => {
       switch (type) {
         case 'facilities':
@@ -87,6 +102,11 @@ const businessDataStrategies = {
           return data?.classes || [];
         case 'hero':
           return data?.hero || {};
+        case 'description':
+          return {
+            description: data?.description || '',
+            location: data?.location || [44.435971971072, 26.102325776537]
+          };
         default:
           return data;
       }
@@ -240,7 +260,9 @@ export const useHotelStore = () => {
     facilities: store.businessData.facilities || [],
     attractions: store.businessData.attractions || [],
     roomsCalendar: store.businessData.roomscalendar || [],
-    hero: store.businessData.hero || {}
+    hero: store.businessData.hero || {},
+    description: store.businessData.description?.description || '',
+    location: store.businessData.description?.location || [44.435971971072, 26.102325776537]
   };
 };
 
@@ -251,7 +273,9 @@ export const useClinicStore = () => {
     services: store.businessData.services || [],
     gallery: store.businessData.gallery || [],
     availabilityCalendar: store.businessData.availabilitycalendar || {},
-    hero: store.businessData.hero || {}
+    hero: store.businessData.hero || {},
+    description: store.businessData.description?.description || '',
+    location: store.businessData.description?.location || [44.435971971072, 26.102325776537]
   };
 };
 
@@ -262,7 +286,9 @@ export const useGymStore = () => {
     classes: store.businessData.classes || [],
     packages: store.businessData.packages || [],
     facilities: store.businessData.facilities || [],
-    hero: store.businessData.hero || {}
+    hero: store.businessData.hero || {},
+    description: store.businessData.description?.description || '',
+    location: store.businessData.description?.location || [44.435971971072, 26.102325776537]
   };
 };
 
@@ -286,6 +312,23 @@ export const useHeroStoreFromCentralized = () => {
     // Hero-specific actions
     loadHeroData: () => store.loadBusinessData('hero'),
     updateHeroData: (heroData) => store.updateBusinessData('hero', heroData)
+  };
+};
+
+// Description-specific convenience hook
+export const useDescriptionStoreFromCentralized = () => {
+  const store = useCentralizedStore();
+  const descriptionData = store.businessData.description || {};
+  
+  return {
+    ...store,
+    // Description-specific data
+    description: descriptionData.description || '',
+    location: descriptionData.location || [44.435971971072, 26.102325776537],
+    
+    // Description-specific actions
+    loadDescriptionData: () => store.loadBusinessData('description'),
+    updateDescriptionData: (descriptionData) => store.updateBusinessData('description', descriptionData)
   };
 };
 

@@ -18,81 +18,53 @@ export const BUSINESS_TYPES = {
 };
 
 /**
- * Environment Configuration Manager
- * Parses VITE_BUSINESS_TYPE and VITE_TENANT_ID from .env
+ * Environment Configuration using Singleton Pattern
+ * Parses and validates environment variables
  */
 class EnvironmentConfig {
     constructor() {
-        this.businessType = this.parseBusinessType();
-        this.tenantId = this.parseTenantId();
-        this.isValid = this.validateConfig();
+        this.config = this.parseConfig();
+        this.validateConfig();
     }
-
-    /**
-     * Parse business type from VITE_BUSINESS_TYPE
-     * @returns {string} Business type
-     */
+    
+    parseConfig() {
+        // Set default values if environment variables don't exist
+        const defaultBusinessType = 'clinic'; // Default to clinic
+        const defaultTenantId = 1; // Default tenant ID
+        
+        return {
+            businessType: this.parseBusinessType() || defaultBusinessType,
+            tenantId: this.parseTenantId() || defaultTenantId
+        };
+    }
+    
     parseBusinessType() {
+        // Try to get from environment variable
         const envBusinessType = import.meta.env.VITE_BUSINESS_TYPE;
         
-        if (!envBusinessType) {
-            console.warn('VITE_BUSINESS_TYPE not found in environment variables');
-            return BUSINESS_TYPES.HOTEL; // Default fallback
-        }
-
-        // Convert to lowercase and handle common mappings
-        let businessType = envBusinessType.toLowerCase();
-        
-        // Handle common business type mappings
-        const businessTypeMappings = {
-            'dental': BUSINESS_TYPES.CLINIC,
-            'medical': BUSINESS_TYPES.CLINIC,
-            'hospital': BUSINESS_TYPES.CLINIC,
-            'fitness': BUSINESS_TYPES.GYM,
-            'sport': BUSINESS_TYPES.GYM,
-            'accommodation': BUSINESS_TYPES.HOTEL,
-            'lodging': BUSINESS_TYPES.HOTEL
-        };
-        
-        // Check if we have a mapping for this business type
-        if (businessTypeMappings[businessType]) {
-            businessType = businessTypeMappings[businessType];
+        if (envBusinessType) {
+            return envBusinessType.toLowerCase();
         }
         
-        if (!Object.values(BUSINESS_TYPES).includes(businessType)) {
-            console.warn(`Invalid business type: ${envBusinessType}. Using default: ${BUSINESS_TYPES.HOTEL}`);
-            return BUSINESS_TYPES.HOTEL;
-        }
-
-        return businessType;
+        // If no environment variable, try to detect from URL or other sources
+        console.warn('VITE_BUSINESS_TYPE not found in environment, using default: clinic');
+        return null; // Will use default from parseConfig
     }
-
-    /**
-     * Parse tenant ID from VITE_TENANT_ID (format: TN25-100000)
-     * @returns {number} Tenant ID
-     */
+    
     parseTenantId() {
+        // Try to get from environment variable
         const envTenantId = import.meta.env.VITE_TENANT_ID;
         
-        if (!envTenantId) {
-            console.warn('VITE_TENANT_ID not found in environment variables');
-            return 1; // Default fallback
+        if (envTenantId) {
+            const parsed = parseInt(envTenantId, 10);
+            if (!isNaN(parsed)) {
+                return parsed;
+            }
         }
-
-        // Parse format TN25-100000 -> 100000
-        const match = envTenantId.match(/TN\d+-(\d+)/);
-        if (!match) {
-            console.warn(`Invalid tenant ID format: ${envTenantId}. Expected format: TN25-100000`);
-            return 1;
-        }
-
-        const tenantId = parseInt(match[1], 10);
-        if (isNaN(tenantId)) {
-            console.warn(`Invalid tenant ID number: ${match[1]}`);
-            return 1;
-        }
-
-        return tenantId;
+        
+        // If no environment variable, use default
+        console.warn('VITE_TENANT_ID not found in environment, using default: 1');
+        return null; // Will use default from parseConfig
     }
 
     /**
@@ -100,15 +72,15 @@ class EnvironmentConfig {
      * @returns {boolean} True if valid
      */
     validateConfig() {
-        const isValidBusinessType = Object.values(BUSINESS_TYPES).includes(this.businessType);
-        const isValidTenantId = this.tenantId > 0;
+        const isValidBusinessType = Object.values(BUSINESS_TYPES).includes(this.config.businessType);
+        const isValidTenantId = this.config.tenantId > 0;
 
         if (!isValidBusinessType) {
-            console.error(`Invalid business type: ${this.businessType}`);
+            console.error(`Invalid business type: ${this.config.businessType}`);
         }
 
         if (!isValidTenantId) {
-            console.error(`Invalid tenant ID: ${this.tenantId}`);
+            console.error(`Invalid tenant ID: ${this.config.tenantId}`);
         }
 
         return isValidBusinessType && isValidTenantId;
@@ -119,7 +91,7 @@ class EnvironmentConfig {
      * @returns {string} Business type
      */
     getBusinessType() {
-        return this.businessType;
+        return this.config.businessType;
     }
 
     /**
@@ -127,7 +99,7 @@ class EnvironmentConfig {
      * @returns {number} Tenant ID
      */
     getTenantId() {
-        return this.tenantId;
+        return this.config.tenantId;
     }
 
     /**
@@ -136,9 +108,9 @@ class EnvironmentConfig {
      */
     getConfig() {
         return {
-            businessType: this.businessType,
-            tenantId: this.tenantId,
-            isValid: this.isValid
+            businessType: this.config.businessType,
+            tenantId: this.config.tenantId,
+            isValid: this.validateConfig()
         };
     }
 
@@ -148,7 +120,7 @@ class EnvironmentConfig {
      * @returns {boolean} True if matches
      */
     isBusinessType(businessType) {
-        return this.businessType === businessType.toLowerCase();
+        return this.config.businessType === businessType.toLowerCase();
     }
 }
 
@@ -229,6 +201,12 @@ class HotelDataProvider extends DataProviderStrategy {
                 return homeData.locationData.rooms;
             case 'roomscalendar':
                 return homeData.locationData.roomsCalendar;
+            case 'description':
+                return {
+                    description: homeData.locationData.description,
+                    location: homeData.locationData.coordinates,
+                    markdownPath: homeData.locationData.description // Treat as path to markdown file
+                };
             default:
                 throw new Error(`Unsupported data type for hotel: ${dataType}`);
         }
@@ -275,6 +253,12 @@ class ClinicDataProvider extends DataProviderStrategy {
                 return homeData.locationData.gallery;
             case 'availabilitycalendar':
                 return homeData.locationData.availabilityCalendar;
+            case 'description':
+                return {
+                    description: homeData.locationData.description,
+                    location: homeData.locationData.coordinates,
+                    markdownPath: homeData.locationData.description // Treat as path to markdown file
+                };
             default:
                 throw new Error(`Unsupported data type for clinic: ${dataType}`);
         }
@@ -326,6 +310,12 @@ class GymDataProvider extends DataProviderStrategy {
                 return homeData.locationData.packages;
             case 'classes':
                 return homeData.locationData.classes;
+            case 'description':
+                return {
+                    description: homeData.locationData.description,
+                    location: homeData.locationData.coordinates,
+                    markdownPath: homeData.locationData.description // Treat as path to markdown file
+                };
             default:
                 throw new Error(`Unsupported data type for gym: ${dataType}`);
         }

@@ -21,12 +21,12 @@ export const homeDataClinic = {
         hero: {
             coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
             logoImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            blurAmount: 1,
+            blurAmount: 0.2,
             tintColor: "rgba(14, 4, 54, 0.3)",
             bussinesName: "Clinic Dynamics",
             bussinesSlug: "Cluj-Napoca",
         },
-        description: "Clinic Dynamics is a clinic that provides services to the community.",
+        description: './description.md',
         coordinates: [46.7712, 23.6236],
         services: [
             {

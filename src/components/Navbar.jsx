@@ -57,10 +57,26 @@ const Navbar = () => {
 
   // Helper function to check if a path is active
   const isPathActive = (path) => {
-    if (hasMultipleLocations && currentLocation) {
-      return location.pathname === path || location.pathname.startsWith(`/${currentLocation.slug}/`);
+    // For exact path matching
+    if (location.pathname === path) {
+      return true;
     }
-    return location.pathname === path;
+    
+    // For location-based paths, check if we're on the exact page
+    if (hasMultipleLocations && currentLocation) {
+      const expectedPath = `/${currentLocation.slug}/${path.split('/').pop()}`;
+      return location.pathname === expectedPath;
+    }
+    
+    return false;
+  };
+
+  // Helper function to check if home is active
+  const isHomeActive = () => {
+    if (hasMultipleLocations && currentLocation) {
+      return location.pathname === `/${currentLocation.slug}` || location.pathname === `/${currentLocation.slug}/`;
+    }
+    return location.pathname === "/" || location.pathname === "";
   };
 
   return (
@@ -71,7 +87,7 @@ const Navbar = () => {
           {/* Home link is always active */}
           <Link 
             to={hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/"} 
-            className={`nav-link ${isPathActive(hasMultipleLocations && currentLocation ? `/${currentLocation.slug}` : "/") ? 'active' : ''}`}
+            className={`nav-link ${isHomeActive() ? 'active' : ''}`}
             title="Home"
           >
             <FaHome className="nav-icon" />
