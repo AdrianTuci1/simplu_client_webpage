@@ -1,29 +1,36 @@
 .container {
   position: relative;
-  padding: 0;
+  margin-block: 50px;
+  margin-inline: -10px;
+  width: calc(100% + 20px);
 }
 
 @media (min-width: 640px) {
   .container {
-    padding: 4rem 1.5rem;
+    padding: 0;
+    margin-inline: -50px;
+    width: calc(100% + 100px);
   }
 }
 
 @media (min-width: 1024px) {
   .container {
-    padding: 4rem 2rem;
+    padding: 0;
+    margin-inline: -100px;
+    width: calc(100% + 200px);
   }
 }
 
 .wrapper {
   max-width: 100%;
   margin: 0;
-  padding: 1rem 0;
+  padding: 0;
 }
 
 .header {
   text-align: center;
   margin-bottom: 2rem;
+  padding: 0;
 }
 
 .title {
@@ -45,104 +52,81 @@
 
 .carouselContainer {
   position: relative;
-  padding: 0 20px;
+  padding: 0;
   overflow: hidden;
 }
 
-.navButton {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  background-color: white;
-  border: none;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+/* Swiper Styles */
+.swiper {
+  width: 100%;
+  padding-block: 100px;
+
+}
+
+.swiperSlide {
+  width: 370px !important;
+  height: auto;
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  cursor: pointer;
+  align-items: center;
+  margin-left: 20px;
+}
+
+.swiperSlide:first-child {
+  margin-left: 10px;
+}
+
+.swiperSlide:last-child {
+  margin-right: 10px;
+}
+
+/* Tablet */
+@media (min-width: 768px) {
+  .swiperSlide {
+    width: 380px !important;
+  }
+
+  .swiperSlide:first-child {
+    margin-left: 50px;
+  }
+
+  .swiperSlide:last-child {
+    margin-right: 50px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .swiperSlide {
+    width: 400px !important;
+  }
+
+  .swiperSlide:first-child {
+    margin-left: 100px;
+  }
+
+  .swiperSlide:last-child {
+    margin-right: 100px;
+  }
+}
+
+/* Custom Swiper Pagination */
+.swiper .swiper-pagination {
+  position: relative;
+  margin-top: 2rem;
+}
+
+.swiper .swiper-pagination-bullet {
+  width: 12px;
+  height: 12px;
+  background-color: #d1d5db;
+  opacity: 1;
   transition: all 0.3s ease;
 }
 
-.navButton:hover {
-  background-color: #1a1a1a;
-  color: white;
-}
-
-.navButtonLeft {
-  left: 0;
-}
-
-.navButtonRight {
-  right: 0;
-}
-
-.navIcon {
-  width: 24px;
-  height: 24px;
-}
-
-.carousel {
-  overflow: hidden;
-  width: 100%;
-}
-
-.slidesContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem 0;
-}
-
-.slide {
-  flex: 0 0 280px;
-  transition: all 0.5s ease;
-  opacity: 0.4;
-  transform: scale(0.85);
-  position: relative;
-}
-
-.slide:first-child {
-  mask-image: linear-gradient(to right, 
-    transparent 0%,
-    black 40%,
-    black 100%
-  );
-  -webkit-mask-image: linear-gradient(to right, 
-    transparent 0%,
-    black 40%,
-    black 100%
-  );
-}
-
-.slide:last-child {
-  mask-image: linear-gradient(to right, 
-    black 0%,
-    black 60%,
-    transparent 100%
-  );
-  -webkit-mask-image: linear-gradient(to right, 
-    black 0%,
-    black 60%,
-    transparent 100%
-  );
-}
-
-.activeSlide {
-  flex: 0 0 600px;
-  opacity: 1;
-  transform: scale(1);
-  z-index: 2;
-  mask-image: none;
-  -webkit-mask-image: none;
-}
-
-.activeSlide::before {
-  display: none;
+.swiper .swiper-pagination-bullet-active {
+  background-color: #2563eb;
+  transform: scale(1.2);
 }
 
 .card {
@@ -150,11 +134,14 @@
   border-radius: 12px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  height: 400px;
   position: relative;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  transition: all 0.3s ease;
+  height: 500px;
 }
+
 
 /* Tier Colors */
 .gold .colorBar {

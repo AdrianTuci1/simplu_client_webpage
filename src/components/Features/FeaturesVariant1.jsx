@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaArrowRight, FaCheck, FaTimes } from 'react-icons/fa';
 import { useFacilitiesStore } from '../../store';
-import { useFacilities, getCurrentBusinessType } from '../../hooks/useBusinessData';
+import { useFacilities, getCurrentBusinessType } from '../../hooks/index.js';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './FeaturesVariant1.module.css';

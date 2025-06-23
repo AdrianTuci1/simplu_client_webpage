@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { 
   getAllLocations, 
-  getCurrentLocation, 
   getInitialLocation,
   hasMultipleLocations 
 } from '../config/businessConfig';

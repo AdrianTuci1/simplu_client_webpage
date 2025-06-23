@@ -340,7 +340,7 @@
   }
 
   .hero-variant-1 .main-frame {
-    height: 450px;
+    height: 500px;
   }
 
   .hero-variant-1 .logo-container {
@@ -447,7 +447,7 @@
   }
 
   .hero-variant-1 .main-frame {
-    height: 480px;
+    height: 500px;
   }
 
   .hero-variant-1 .logo-container {
@@ -530,12 +530,12 @@
 /* Extra small devices */
 @media screen and (max-width: 480px) {
   .hero-variant-1 .main-frame {
-    height: 250px;
+    height: 500px;
   }
 
   .hero-variant-1 .logo-container {
-    width: 120px;
-    height: 120px;
+    width: 170px;
+    height: 170px;
     bottom: -80px;
   }
 

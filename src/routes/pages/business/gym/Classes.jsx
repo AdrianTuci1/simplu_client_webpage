@@ -1,4 +1,4 @@
-const Packages = () => {
+const Classes = () => {
     return (
       <div className="packages-page">
         <h1>Classes</h1>
@@ -9,4 +9,4 @@ const Packages = () => {
     );
   };
   
-  export default Packages; 
+  export default Classes; 

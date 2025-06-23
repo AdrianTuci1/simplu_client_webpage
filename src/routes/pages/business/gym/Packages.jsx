@@ -1,9 +1,17 @@
+import React from 'react';
+import usePackagesStore from '../../../../store/packages/packagesStore';
+import styles from './Packages.module.css';
+import PackageCard from '../../../../components/Packages/PackageCard';
+
 const Packages = () => {
+  const packages = usePackagesStore(state => state.getAllPackages());
+
   return (
-    <div className="packages-page">
-      <h1>Membership Packages</h1>
-      <div className="packages-grid">
-        {/* Add your packages content here */}
+    <div className={styles.packagesPage}>
+      <div className={styles.packagesGrid}>
+        {packages.map((pkg) => (
+          <PackageCard key={pkg.id} pkg={pkg} />
+        ))}
       </div>
     </div>
   );

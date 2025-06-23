@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaCheck, FaTimes } from 'react-icons/fa';
 import { useServicesStore } from '../../store';
-import { useServices, getCurrentBusinessType } from '../../hooks/useBusinessData';
+import { useServices, getCurrentBusinessType } from '../../hooks/index.js';
 import styles from './FeaturesVariant2.module.css';
 
 const FeaturesVariant2 = () => {

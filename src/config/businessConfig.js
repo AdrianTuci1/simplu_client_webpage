@@ -1,6 +1,6 @@
 // Import component codes
 import { COMPONENT_CODES } from './componentCodes';
-import dataService, { BUSINESS_TYPES } from '../services/dataService.js';
+import { dataService, BUSINESS_TYPES } from '../services/dataService.js';
 
 /**
  * Business Configuration using Design Patterns

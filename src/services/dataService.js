@@ -546,11 +546,8 @@ class DataService {
     }
 }
 
-// Create singleton instance
 const dataService = new DataService();
-
-// Export the singleton instance and utility functions
-export default dataService;
+export { dataService };
 
 // Export convenience functions that use the singleton
 export const getHomeData = (businessType) => dataService.getHomeData(businessType);

@@ -1,52 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import usePackagesStore from '../../store/packages/packagesStore';
 import styles from './PackagesVariant1.module.css';
-import { BiChevronLeft, BiChevronRight } from 'react-icons/bi';
-import { FaDumbbell, FaRunning, FaHeartbeat, FaUsers, FaGraduationCap } from 'react-icons/fa';
-import { IoCheckmarkCircle } from 'react-icons/io5';
+import PackageCard from './PackageCard';
 
-const getPackageIcon = (name) => {
-  const lowerName = name.toLowerCase();
-  if (lowerName.includes('basic') || lowerName.includes('starter')) return <FaRunning />;
-  if (lowerName.includes('premium')) return <FaDumbbell />;
-  if (lowerName.includes('elite')) return <FaHeartbeat />;
-  if (lowerName.includes('family')) return <FaUsers />;
-  if (lowerName.includes('student')) return <FaGraduationCap />;
-  return <FaDumbbell />;
-};
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 
-const getTierColor = (tier) => {
-  switch (tier) {
-    case 'gold':
-      return styles.gold;
-    case 'silver':
-      return styles.silver;
-    case 'black':
-      return styles.black;
-    case 'service':
-      return styles.service;
-    default:
-      return styles.none;
-  }
-};
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+
 
 const PackagesVariant1 = () => {
   const packages = usePackagesStore(state => state.getAllPackages());
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % packages.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + packages.length) % packages.length);
-  };
-
-  const getVisibleIndices = () => {
-    const prev = (currentIndex - 1 + packages.length) % packages.length;
-    const next = (currentIndex + 1) % packages.length;
-    return [prev, currentIndex, next];
-  };
 
   return (
     <div className={styles.container}>
@@ -61,85 +27,17 @@ const PackagesVariant1 = () => {
         </div>
 
         <div className={styles.carouselContainer}>
-          <button
-            onClick={prevSlide}
-            className={`${styles.navButton} ${styles.navButtonLeft}`}
+          <Swiper
+            slidesPerView={'auto'}
+            spaceBetween={10}
+            className={`${styles.swiper} mySwiper`}
           >
-            <BiChevronLeft className={styles.navIcon} />
-          </button>
-          
-          <button
-            onClick={nextSlide}
-            className={`${styles.navButton} ${styles.navButtonRight}`}
-          >
-            <BiChevronRight className={styles.navIcon} />
-          </button>
-
-          <div className={styles.carousel}>
-            <div className={styles.slidesContainer}>
-              {getVisibleIndices().map((index, position) => {
-                const pkg = packages[index];
-                const isActive = position === 1;
-                
-                return (
-                  <div
-                    key={`${pkg.id}-${position}`}
-                    className={`${styles.slide} ${isActive ? styles.activeSlide : ''}`}
-                  >
-                    <div className={`${styles.card} ${getTierColor(pkg.tier)}`}>
-                      <div className={styles.colorBar} />
-                      <div className={styles.cardContent}>
-                        {isActive ? (
-                          <>
-                            <div className={styles.activeHeader}>
-                              <div className={styles.iconWrapper}>
-                                {getPackageIcon(pkg.name)}
-                              </div>
-                              <h3 className={styles.cardTitle}>{pkg.name}</h3>
-                            </div>
-                            <div className={styles.infoRow}>
-                              <div className={styles.priceContainer}>
-                                <span className={styles.price}>{pkg.price}€</span>
-                                <span className={styles.period}>/lună</span>
-                              </div>
-                              {pkg.entry_limit && (
-                                <div className={styles.entryInfo}>
-                                  <span>{pkg.entry_limit} intrări/lună</span>
-                                </div>
-                              )}
-                            </div>
-                            <ul className={styles.featuresList}>
-                              {pkg.features.map((feature) => (
-                                <li key={feature} className={styles.featureItem}>
-                                  <IoCheckmarkCircle className={styles.featureIcon} />
-                                  <span className={styles.featureText}>{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-                            <button className={styles.ctaButton}>
-                              Selectează
-                            </button>
-                          </>
-                        ) : (
-                          <div className={styles.inactiveContent}>
-                            <div className={styles.iconWrapper}>
-                              {getPackageIcon(pkg.name)}
-                            </div>
-                            <h3 className={styles.cardTitle}>{pkg.name}</h3>
-                            {pkg.entry_limit && (
-                              <div className={styles.entryInfo}>
-                                <span>{pkg.entry_limit} intrări</span>
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+            {packages.map((pkg) => (
+              <SwiperSlide key={pkg.id} className={styles.swiperSlide}>
+                <PackageCard pkg={pkg} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </div>

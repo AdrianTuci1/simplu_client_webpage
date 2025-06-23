@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LocationMap from '../LocationMap/LocationMap';
 import { useDescriptionStoreFromCentralized } from '../../../store';
-import { useCurrentBusinessData } from '../../../hooks/useBusinessData';
+import { useCurrentBusinessData } from '../../../hooks/index.js';
 import { DESCRIPTION_CHAR_LIMIT } from '../../../constants';
 import styles from './DescriptionVariant1.module.css';
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaGlobe } from 'react-icons/fa';
 
 const DescriptionVariant1 = () => {
   // Use the description-specific store hook
@@ -55,10 +56,9 @@ const DescriptionVariant1 = () => {
 
   // Load business data when component mounts
   useEffect(() => {
-    if (data && !loading) {
-      loadDescriptionData();
-    }
-  }, [data, loading, loadDescriptionData]);
+    loadDescriptionData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Handle loading state
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FaBed, FaUsers, FaArrowRight, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
-import { useCurrentDataByType } from '../../../../hooks/useBusinessData';
+import { useCurrentDataByType } from '../../../../hooks/index.js';
 import { useHotelStore } from '../../../../store';
 import styles from './Rooms.module.css';
 

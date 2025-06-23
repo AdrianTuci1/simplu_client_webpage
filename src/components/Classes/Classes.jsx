@@ -8,8 +8,7 @@ export const ClassesVariant1 = () => {
   return (
     <section className="classes-section">
       <div className="container">
-        <h2 className="section-title">Clasele Noastre</h2>
-        
+
         <div className="classes-grid">
           {classes.map((classItem) => (
             <div key={classItem.id} className="class-card">
