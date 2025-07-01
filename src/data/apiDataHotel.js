@@ -21,8 +21,8 @@ export const homeDataHotel = {
     ],
     locationData: {
         hero: {
-            "coverImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            "logoImage": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+            "coverImage": "https://s1.at.atcdn.net/wp-content/uploads/2024/10/HERO-Ace-Hotel-Sydney-Lobby-Bar.jpg",
+            "logoImage": "https://img.freepik.com/premium-vector/modern-hotel-logo-design_725568-16.jpg",
             "blurAmount": 0.2,
             "tintColor": "rgba(54, 4, 51, 0.2)",
             "bussinesName": "Hotel Transylvania",

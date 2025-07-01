@@ -5,6 +5,21 @@ import { useCurrentDataByType } from '../../../../hooks/index.js';
 import { useHotelStore } from '../../../../store';
 import styles from './Rooms.module.css';
 
+/* @Params: {
+  "id": "1",
+  "name": "Camera 1",
+  "description": "Camera 1 descriere",
+  "price": 100,
+  "currency": "RON",
+  "capacity": 2,
+  "size": 20,
+  "image": "https://via.placeholder.com/150",
+  "type": "Single",
+  "availability": true,
+  "createdAt": "2021-01-01",
+  "updatedAt": "2021-01-01"
+*/
+
 const Rooms = () => {
   const navigate = useNavigate();
   const [filterType, setFilterType] = useState('all'); // 'all' or 'available'
