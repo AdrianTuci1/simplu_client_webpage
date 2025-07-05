@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import authService from '../../services/authService';
+import { authenticate } from '../../api';
 import './AuthCallback.css';
 
 const AuthCallback = () => {
@@ -14,7 +14,8 @@ const AuthCallback = () => {
         setStatus('processing');
         
         // Handle the OAuth callback
-        const tokenData = await authService.handleExternalOAuthCallback();
+        // TODO: Handle OAuth callback
+      const tokenData = { success: true };
         
         console.log('OAuth authentication successful:', tokenData);
         

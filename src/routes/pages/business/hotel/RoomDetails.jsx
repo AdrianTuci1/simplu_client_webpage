@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaBed, FaUsers, FaStar, FaCheck, FaMapMarkerAlt, FaPhone, FaEnvelope, FaHeart, FaShare, FaCalendarAlt } from 'react-icons/fa';
-import { useCurrentDataByType } from '../../../../hooks/index.js';
-import { useHotelStore } from '../../../../store';
+import { useRooms } from '../../../../hooks';
+// Demo hotel store
+const useHotelStore = () => ({
+  ui: {
+    isLoading: false,
+    error: null
+  }
+});
 import Calendar from '../../../../components/Calendar/Calendar';
 import styles from './RoomDetails.module.css';
 
@@ -15,7 +21,7 @@ const RoomDetails = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   // Use the new data flow architecture
-  const { data: roomsData, loading, error } = useCurrentDataByType('rooms');
+  const { data: roomsData, loading, error, isDemoMode } = useRooms({ locationId: 1 });
   const { ui } = useHotelStore();
 
   // Find room data from the fetched rooms

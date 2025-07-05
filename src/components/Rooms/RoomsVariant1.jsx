@@ -4,7 +4,7 @@ import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './RoomsVariant1.module.css';
-import { useRoomsStore } from '../../store';
+import useRoomsStore from './roomsStore';
 
 const RoomsVariant1 = () => {
   const { 

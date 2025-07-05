@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaCheck, FaTimes } from 'react-icons/fa';
-import { useServicesStore } from '../../store';
-import { useServices, getCurrentBusinessType } from '../../hooks/index.js';
+import useServicesStore from '../Cards/servicesStore';
+import { useServices } from '../../hooks';
 import styles from './FeaturesVariant2.module.css';
 
 const FeaturesVariant2 = () => {
@@ -12,14 +12,11 @@ const FeaturesVariant2 = () => {
     loadServices
   } = useServicesStore();
 
-  const { data: servicesData, loading: dataLoading, error: dataError } = useServices();
-
-  // Get current business type to determine which data to use
-  const currentBusinessType = getCurrentBusinessType();
+  const { data: servicesData, loading: dataLoading, error: dataError, isDemoMode } = useServices({ locationId: 1 });
 
   useEffect(() => {
-    loadServices(currentBusinessType);
-  }, [loadServices, currentBusinessType]);
+    loadServices('hotel');
+  }, [loadServices]);
 
   // Use store data if available, otherwise fall back to API data
   const displayServices = services.length > 0 ? services : (servicesData || []);

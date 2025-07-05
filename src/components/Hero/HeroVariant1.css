@@ -75,6 +75,7 @@
 
 .hero-variant-1 .content {
   max-width: 300px;
+  height: 70px;
   text-align: left;
   color: var(--text); /* Changed to dark color since it's outside the cover */
   text-shadow: none; /* Remove text shadow since it's not over the image */
@@ -93,6 +94,18 @@
   margin: 0;
   font-size: 1.5rem;
   line-height: 1;
+}
+
+.hero-variant-1 .location-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 10;
 }
 
 .hero-variant-1 .edit-button {
@@ -322,13 +335,7 @@
     font-size: 1.1rem;
   }
 
-  /* Location selector responsive improvements */
-  .location-selector-container {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    z-index: 10;
-  }
+
 }
 
 /* Tablet-specific styles */
@@ -430,13 +437,7 @@
     min-height: 48px;
   }
 
-  /* Tablet-optimized location selector */
-  .location-selector-container {
-    position: absolute;
-    bottom: 25px;
-    right: 25px;
-    z-index: 10;
-  }
+
 }
 
 /* Large tablet and small desktop */
@@ -521,10 +522,7 @@
     min-height: 52px;
   }
 
-  .location-selector-container {
-    bottom: 30px;
-    right: 30px;
-  }
+
 }
 
 /* Extra small devices */
@@ -550,6 +548,10 @@
 
   .hero-variant-1 p {
     font-size: 1rem;
+  }
+
+  .hero-variant-1 .location-content {
+    margin: 0;
   }
 
   .hero-variant-1 .edit-button {
@@ -582,20 +584,10 @@
     font-size: 0.9rem;
   }
 
-  /* Location selector for very small screens */
-  .location-selector-container {
-    bottom: 5px;
-    right: 5px;
-  }
+
 }
 
-/* Location Selector Container */
-.location-selector-container {
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  z-index: 10;
-}
+
 
 /* Loading and Error States */
 .loading {

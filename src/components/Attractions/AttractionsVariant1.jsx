@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
-import { useAttractionsStore } from '../../store';
-import { useAttractions } from '../../hooks/index.js';
+import useAttractionsStore from './attractionsStore';
+import { useAttractions } from '../../hooks';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -16,7 +16,7 @@ const AttractionsVariant1 = () => {
     loadAttractions
   } = useAttractionsStore();
 
-  const { data: attractionsData, loading: dataLoading, error: dataError } = useAttractions('hotel');
+  const { data: attractionsData, loading: dataLoading, error: dataError, isDemoMode } = useAttractions({ locationId: 1 });
 
   useEffect(() => {
     loadAttractions();

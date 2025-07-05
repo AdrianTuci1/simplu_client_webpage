@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import { FaChevronLeft, FaChevronRight, FaArrowRight, FaCheck, FaTimes } from 'react-icons/fa';
-import { useFacilitiesStore } from '../../store';
-import { useFacilities, getCurrentBusinessType } from '../../hooks/index.js';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import useFacilitiesStore from './facilitiesStore';
+import { useFacilities } from '../../hooks';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './FeaturesVariant1.module.css';
@@ -18,14 +17,11 @@ const FeaturesVariant1 = () => {
     loadFacilities
   } = useFacilitiesStore();
 
-  const { data: facilitiesData, loading: dataLoading, error: dataError } = useFacilities();
-
-  // Get current business type to determine which data to use
-  const currentBusinessType = getCurrentBusinessType();
+  const { data: facilitiesData, loading: dataLoading, error: dataError, isDemoMode } = useFacilities({ locationId: 1 });
 
   useEffect(() => {
-    loadFacilities(currentBusinessType);
-  }, [loadFacilities, currentBusinessType]);
+    loadFacilities('hotel');
+  }, [loadFacilities]);
 
   // Use store data if available, otherwise fall back to API data
   const displayFacilities = facilities.length > 0 ? facilities : (facilitiesData || []);

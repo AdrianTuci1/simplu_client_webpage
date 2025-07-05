@@ -1,7 +1,7 @@
 import React from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { businessConfig, isPageActive, getAllLocations } from '../config/businessConfig';
-import useLocationStore from '../store/locationStore';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import simplifiedConfig from '../config/simplifiedConfig';
+import { useLocations } from '../hooks/useSimplifiedData';
 import PageError from '../components/PageError';
 
 // Import pages
@@ -21,7 +21,8 @@ import RoomBooking from './pages/business/hotel/RoomBooking';
 import Facilities from './pages/business/hotel/Facilities';
 import Attractions from './pages/business/hotel/Attractions';
 
-const pageComponents = {
+// Page component mapping
+const PAGE_COMPONENTS = {
   MEDICS: Medics,
   TREATMENTS: Treatments,
   PACKAGES: Packages,
@@ -33,27 +34,24 @@ const pageComponents = {
 
 // Protected Route component
 const ProtectedRoute = ({ page, Component }) => {
-  const location = useLocation();
-  
-  if (!isPageActive(page)) {
+  if (!simplifiedConfig.isPageActive(page)) {
     return (
       <PageError 
-        message={`This page is not available for the current business type (${businessConfig.type}) or is not active in the configuration.`}
+        message={`This page is not available for the current business type (${simplifiedConfig.getType()})`}
       />
     );
   }
-
   return <Component />;
 };
 
 // Location-aware route component
 const LocationRoute = ({ page, Component }) => {
-  const { currentLocation } = useLocationStore();
+  const { currentLocation } = useLocations();
   
-  if (!isPageActive(page)) {
+  if (!simplifiedConfig.isPageActive(page)) {
     return (
       <PageError 
-        message={`This page is not available for the current business type (${businessConfig.type}) or is not active in the configuration.`}
+        message={`This page is not available for the current business type (${simplifiedConfig.getType()})`}
       />
     );
   }
@@ -61,14 +59,9 @@ const LocationRoute = ({ page, Component }) => {
   return <Component location={currentLocation} />;
 };
 
-// Location selector component for route-based location switching
+// Location redirect component
 const LocationRedirect = () => {
-  const { currentLocation, allLocations, initializeLocations } = useLocationStore();
-  
-  // Initialize locations if needed
-  if (allLocations.length === 0) {
-    initializeLocations();
-  }
+  const { currentLocation, allLocations } = useLocations();
   
   // If no location is selected, redirect to the first available location
   if (!currentLocation && allLocations.length > 0) {
@@ -85,7 +78,7 @@ const LocationRedirect = () => {
 };
 
 const AppRoutes = () => {
-  const allLocations = getAllLocations();
+  const { allLocations } = useLocations();
   const hasMultipleLocations = allLocations.length > 1;
 
   return (
@@ -100,7 +93,6 @@ const AppRoutes = () => {
       {/* Settings route - available for all business types */}
       <Route path="/settings" element={<Settings />} />
       
-      {/* Location-specific routes */}
       {hasMultipleLocations ? (
         // Multiple locations - use location-based routing
         <>
@@ -115,7 +107,7 @@ const AppRoutes = () => {
           
           {/* Location-specific business pages */}
           {allLocations.map(location => 
-            Object.entries(pageComponents).map(([page, Component]) => (
+            Object.entries(PAGE_COMPONENTS).map(([page, Component]) => (
               <Route 
                 key={`${location.slug}-${page}`}
                 path={`/${location.slug}/${page.toLowerCase()}`}
@@ -142,7 +134,7 @@ const AppRoutes = () => {
         // Single location - use traditional routing
         <>
           {/* Dynamic routes based on active pages */}
-          {Object.entries(pageComponents).map(([page, Component]) => (
+          {Object.entries(PAGE_COMPONENTS).map(([page, Component]) => (
             <Route 
               key={page}
               path={`/${page.toLowerCase()}`}

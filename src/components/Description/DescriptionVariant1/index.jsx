@@ -1,79 +1,70 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LocationMap from '../LocationMap/LocationMap';
-import { useDescriptionStoreFromCentralized } from '../../../store';
-import { useCurrentBusinessData } from '../../../hooks/index.js';
-import { DESCRIPTION_CHAR_LIMIT } from '../../../constants';
+import { useDescription, useCoordinates } from '../../../hooks/useSimplifiedData';
+import { DESCRIPTION_CHAR_LIMIT } from '../constants';
 import styles from './DescriptionVariant1.module.css';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaGlobe } from 'react-icons/fa';
 
 const DescriptionVariant1 = () => {
-  // Use the description-specific store hook
-  const { 
-    description, 
-    location, 
-    ui, 
-    loadDescriptionData, 
-    setLoading, 
-    setError 
-  } = useDescriptionStoreFromCentralized();
-
-  // Use the hook for data fetching
-  const { data, loading, error } = useCurrentBusinessData();
+  // Use the simplified data hooks
+  const { data: descriptionPath, loading: descriptionLoading, error: descriptionError } = useDescription({ 
+    locationId: 1 
+  });
+  const { data: coordinates, loading: coordinatesLoading, error: coordinatesError } = useCoordinates({ 
+    locationId: 1 
+  });
   
   // State for markdown content
   const [markdownContent, setMarkdownContent] = useState('');
 
-  // Load markdown file when data changes
+  // Load markdown file when description path changes
   useEffect(() => {
-    if (data && data.homeData && data.homeData.locationData) {
-      const markdownPath = data.homeData.locationData.description;
+    if (descriptionPath) {
+      console.log('DescriptionVariant1: descriptionPath:', descriptionPath);
       
-      if (markdownPath && (markdownPath.startsWith('./') || markdownPath.startsWith('http://') || markdownPath.startsWith('https://'))) {
+      if (descriptionPath && (descriptionPath.startsWith('./') || descriptionPath.startsWith('http://') || descriptionPath.startsWith('https://'))) {
+        // Convert relative path to absolute path for public directory
+        let absolutePath = descriptionPath;
+        if (descriptionPath.startsWith('./')) {
+          // Remove the './' and make it absolute from the root
+          absolutePath = '/' + descriptionPath.substring(2);
+        }
+        
+        console.log('DescriptionVariant1: Loading markdown from:', absolutePath);
+        
         // Load markdown file from path or URL
-        fetch(markdownPath)
+        fetch(absolutePath)
           .then(response => {
+            console.log('DescriptionVariant1: Fetch response status:', response.status);
             if (!response.ok) {
               throw new Error(`Failed to load markdown file: ${response.status}`);
             }
             return response.text();
           })
-          .then(text => setMarkdownContent(text))
+          .then(text => {
+            console.log('DescriptionVariant1: Markdown loaded successfully:', text.substring(0, 100) + '...');
+            setMarkdownContent(text);
+          })
           .catch(error => {
-            console.error('Error loading markdown file:', error);
-            setMarkdownContent(description || '');
+            console.error('DescriptionVariant1: Error loading markdown file:', error);
+            setMarkdownContent('Descrierea nu a putut fi încărcată.');
           });
       } else {
         // Fallback to description text
-        setMarkdownContent(description || '');
+        console.log('DescriptionVariant1: Using description text directly');
+        setMarkdownContent(descriptionPath || '');
       }
     } else {
-      setMarkdownContent(description || '');
+      console.log('DescriptionVariant1: No description data available');
+      setMarkdownContent('Nu există descriere disponibilă.');
     }
-  }, [data, description]);
+  }, [descriptionPath]);
 
   const remainingChars = DESCRIPTION_CHAR_LIMIT - markdownContent.length;
 
-  // Load business data when component mounts
-  useEffect(() => {
-    loadDescriptionData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // Handle loading state
-  useEffect(() => {
-    setLoading(loading);
-  }, [loading, setLoading]);
-
-  // Handle error state
-  useEffect(() => {
-    if (error) {
-      setError(error.message);
-    }
-  }, [error, setError]);
-
   // Show loading state
-  if (ui.isLoading) {
+  if (descriptionLoading || coordinatesLoading) {
     return (
       <div className={styles.descriptionMap}>
         <div className={styles.description}>
@@ -86,27 +77,27 @@ const DescriptionVariant1 = () => {
           </div>
         </div>
         <div className={styles.map}>
-          <LocationMap position={location} />
+          <LocationMap position={coordinates} />
         </div>
       </div>
     );
   }
 
   // Show error state
-  if (ui.error) {
+  if (descriptionError || coordinatesError) {
     return (
       <div className={styles.descriptionMap}>
         <div className={styles.description}>
           <div className={styles.servicesDescription}>
             <div className={styles.membershipCardContainer}>
               <div className={styles.businessDescription}>
-                <p>Eroare la încărcarea descrierii: {ui.error}</p>
+                <p>Eroare la încărcarea descrierii: {descriptionError || coordinatesError}</p>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.map}>
-          <LocationMap position={location} />
+          <LocationMap position={coordinates} />
         </div>
       </div>
     );
@@ -127,7 +118,7 @@ const DescriptionVariant1 = () => {
         </div>
       </div>
       <div className={styles.map}>
-        <LocationMap position={location} />
+        <LocationMap position={coordinates} />
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import useLocationStore from '../../store/locationStore';
+import { useLocations } from '../../hooks';
+import useHeroStore from '../Hero/heroStore';
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './LocationSelector.css';
 
-const LocationSelector = ({ onLocationChange }) => {
-  const { currentLocation, allLocations, switchLocation, getLocationInfo, initializeLocations } = useLocationStore();
+const LocationSelector = ({ onLocationChange, title, subtitle }) => {
+  const { currentLocation, allLocations, switchLocation, getLocationInfo, initializeLocations } = useLocations();
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({});
   const selectorRef = useRef(null);
@@ -99,8 +100,13 @@ const LocationSelector = ({ onLocationChange }) => {
         onClick={toggleDropdown}
         aria-label="Select location"
       >
-        <FaMapMarkerAlt className="location-icon" />
-        <span className="location-name">{currentLocation?.name}</span>
+        <div className="location-selector-content">
+          <h1 className="location-selector-title">{title}</h1>
+                  <div className="location-selector-location">
+          <FaMapMarkerAlt className="location-icon" />
+          <span className="location-name">{subtitle || "Selectează locația"}</span>
+        </div>
+        </div>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>
       
@@ -110,6 +116,19 @@ const LocationSelector = ({ onLocationChange }) => {
           ref={dropdownRef}
           style={dropdownPosition}
         >
+          {currentLocation && (
+            <button
+              className="location-option location-current-option"
+              disabled
+            >
+              <div className="location-option-content">
+                <div className="location-option-title">{title}</div>
+                <div className="location-option-name">{currentLocation.name}</div>
+                <div className="location-option-address">{currentLocation.address}</div>
+              </div>
+              <div className="location-option-indicator">Locația activă</div>
+            </button>
+          )}
           {allLocations.map((location) => (
             <button
               key={location.id}
@@ -117,6 +136,7 @@ const LocationSelector = ({ onLocationChange }) => {
               onClick={() => handleLocationSelect(location)}
             >
               <div className="location-option-content">
+                <div className="location-option-title">{title}</div>
                 <div className="location-option-name">{location.name}</div>
                 <div className="location-option-address">{location.address}</div>
               </div>

@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaBed, FaUsers, FaArrowRight, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
-import { useCurrentDataByType } from '../../../../hooks/index.js';
-import { useHotelStore } from '../../../../store';
+import { useRooms } from '../../../../hooks';
+// Demo hotel store
+const useHotelStore = () => ({
+  ui: {
+    isLoading: false,
+    error: null
+  }
+});
 import styles from './Rooms.module.css';
 
-/* @Params: {
-  "id": "1",
-  "name": "Camera 1",
-  "description": "Camera 1 descriere",
-  "price": 100,
-  "currency": "RON",
-  "capacity": 2,
-  "size": 20,
-  "image": "https://via.placeholder.com/150",
-  "type": "Single",
-  "availability": true,
-  "createdAt": "2021-01-01",
-  "updatedAt": "2021-01-01"
-*/
+
 
 const Rooms = () => {
   const navigate = useNavigate();
@@ -26,8 +19,8 @@ const Rooms = () => {
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
 
-  // Use the new data flow architecture
-  const { data: roomsData, loading, error } = useCurrentDataByType('rooms');
+  // Use the simplified hooks
+  const { data: roomsData, loading, error, isDemoMode } = useRooms({ locationId: 1 });
   const { ui } = useHotelStore();
 
   // Hide navbar for this page

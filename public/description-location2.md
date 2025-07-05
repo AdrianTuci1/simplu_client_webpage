@@ -1,0 +1,3 @@
+## Hotelul Nostru - Locația 2
+
+Bine ați venit în a doua locație a hotelului nostru, unde confortul și eleganța se întâlnesc într-un cadru modern și sofisticat. Această locație vă oferă o experiență de cazare premium, combinând designul contemporan cu serviciile de înaltă calitate. Cu camere luxoase și spațioase, facilități de top, spa wellness exclusiv, restaurant gourmet și o locație privilegiată în centrul orașului, vă garantăm o ședere memorabilă în fiecare detaliu. Echipa noastră dedicată este mereu gata să vă oferă servicii personalizate pentru a vă face sejurul perfect. 

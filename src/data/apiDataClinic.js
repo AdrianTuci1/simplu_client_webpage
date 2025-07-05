@@ -9,90 +9,144 @@ export const homeDataClinic = {
             "name": "Location 1",
             "slug": "location-1",
             "coordinates": [46.7712, 23.6236],
+            "data": {
+                hero: {
+                    coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    logoImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    blurAmount: 0.2,
+                    tintColor: "rgba(14, 4, 54, 0.3)",
+                    bussinesName: "Clinic Dynamics",
+                    bussinesSlug: "Cluj-Napoca",
+                },
+                description: './clinic-description.md',
+                coordinates: [46.7712, 23.6236],
+                services: [
+                    {
+                        "id": 1,
+                        "name": "Service 1",
+                        "category": "Category 1",
+                    },
+                    {
+                        "id": 2,
+                        "name": "Service 2",
+                        "category": "Category 2",
+                    },
+                    {
+                        "id": 3,
+                        "name": "Service 3",
+                        "category": "Category 3",
+                    },
+                ],
+                availabilityCalendar: {},
+                gallery: [
+                    {
+                        "id": 1,
+                        "name": "Gallery 1",
+                        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    },
+                    {
+                        "id": 2,
+                        "name": "Gallery 2",
+                        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    },
+                    {
+                        "id": 3,
+                        "name": "Gallery 3",
+                        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    },
+                ],
+                footer: {
+                    logo: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    socialMedia: [
+                        {
+                            "id": 1,
+                            "name": "Facebook",
+                            "url": "https://www.facebook.com/clinicdynamics",
+                        },
+                        {
+                            "id": 2,
+                            "name": "Instagram",
+                            "url": "https://www.instagram.com/clinicdynamics",
+                        },
+                    ],
+                    links: [
+                        {
+                            "id": 1,
+                            "name": "Home",
+                            "url": "/",
+                        },
+                    ],
+                    phone: "+40722222222",
+                    email: "clinicdynamics@gmail.com",
+                    address: "Strada Cluj-Napoca, nr. 1, Cluj-Napoca",
+                    city: "Cluj-Napoca",
+                    country: "Romania",
+                    copyright: "Clinic Dynamics",
+                },
+            }
         },
         {
             "id": 2,
             "name": "Location 2",
             "slug": "location-2",
             "coordinates": [46.7712, 23.6236],
+            "data": {
+                hero: {
+                    coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    logoImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    blurAmount: 0.2,
+                    tintColor: "rgba(14, 4, 54, 0.3)",
+                    bussinesName: "Clinic Dynamics 2",
+                    bussinesSlug: "Bucuresti",
+                },
+                description: './clinic-description.md',
+                coordinates: [46.7712, 23.6236],
+                services: [
+                    {
+                        "id": 1,
+                        "name": "Service 1",
+                        "category": "Category 1",
+                    },
+                    {
+                        "id": 2,
+                        "name": "Service 2",
+                        "category": "Category 2",
+                    },
+                ],
+                availabilityCalendar: {},
+                gallery: [
+                    {
+                        "id": 1,
+                        "name": "Gallery 1",
+                        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    },
+                ],
+                footer: {
+                    logo: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+                    socialMedia: [
+                        {
+                            "id": 1,
+                            "name": "Facebook",
+                            "url": "https://www.facebook.com/clinicdynamics",
+                        },
+                    ],
+                    links: [
+                        {
+                            "id": 1,
+                            "name": "Home",
+                            "url": "/",
+                        },
+                    ],
+                    phone: "+40722222222",
+                    email: "clinicdynamics@gmail.com",
+                    address: "Strada Bucuresti, nr. 1, Bucuresti",
+                    city: "Bucuresti",
+                    country: "Romania",
+                    copyright: "Clinic Dynamics",
+                },
+            }
         },
     ],
-    locationData: {
-        hero: {
-            coverImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            logoImage: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            blurAmount: 0.2,
-            tintColor: "rgba(14, 4, 54, 0.3)",
-            bussinesName: "Clinic Dynamics",
-            bussinesSlug: "Cluj-Napoca",
-        },
-        description: './description.md',
-        coordinates: [46.7712, 23.6236],
-        services: [
-            {
-                "id": 1,
-                "name": "Service 1",
-                "category": "Category 1",
-            },
-            {
-                "id": 2,
-                "name": "Service 2",
-                "category": "Category 2",
-            },
-            {
-                "id": 3,
-                "name": "Service 3",
-                "category": "Category 3",
-            },
-        ],
-        availabilityCalendar: {
-        },
-        gallery: [
-            {
-                "id": 1,
-                "name": "Gallery 1",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            },
-            {
-                "id": 2,
-                "name": "Gallery 2",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            },
-            {
-                "id": 3,
-                "name": "Gallery 3",
-                "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            },
-        ],
-        footer: {
-            logo: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-            socialMedia: [
-                {
-                    "id": 1,
-                    "name": "Facebook",
-                    "url": "https://www.facebook.com/clinicdynamics",
-                },
-                {
-                    "id": 2,
-                    "name": "Instagram",
-                    "url": "https://www.instagram.com/clinicdynamics",
-                },
-            ],
-            links: [
-                {
-                    "id": 1,
-                    "name": "Home",
-                    "url": "/",
-                },
-            ],
-            phone: "+40722222222",
-            email: "clinicdynamics@gmail.com",
-            address: "Strada Cluj-Napoca, nr. 1, Cluj-Napoca",
-            city: "Cluj-Napoca",
-            country: "Romania",
-            copyright: "Clinic Dynamics",
-        },
-    },
 }  
 
 

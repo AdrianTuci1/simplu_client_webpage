@@ -1,5 +1,5 @@
 import React from 'react';
-import usePackagesStore from '../../../../store/packages/packagesStore';
+import usePackagesStore from '../../../../components/Packages/packagesStore';
 import styles from './Packages.module.css';
 import PackageCard from '../../../../components/Packages/PackageCard';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import './FooterVariant1.css';
-import useFooterStore from '../../store/footerStore';
+import useFooterStore from './footerStore';
 
 const FooterVariant1 = () => {
   const { contact, program, socialMedia } = useFooterStore();

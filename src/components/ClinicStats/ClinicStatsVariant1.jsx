@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ClinicStatsVariant1.css';
 import styles from './ClinicStatsVariant1.module.css';
-import useClinicAvailabilityStore from '../../store/clinicAvailabilityStore';
+import useClinicAvailabilityStore from '../Calendar/clinicAvailabilityStore';
 
 const ClinicStatsVariant1 = () => {
   const [date, setDate] = useState(new Date());

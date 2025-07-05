@@ -8,18 +8,16 @@ export const homeDataHotel = {
     locations: [
         {
             "id": 1,
-            "name": "Location 1",
+            "name": "Hotel Transylvania",
             "slug": "location-1",
             "coordinates": [46.7712, 23.6236],
-        },
-        {
-            "id": 2,
-            "name": "Location 2",
-            "slug": "location-2",
-            "coordinates": [46.7712, 23.6236],
-        },
-    ],
-    locationData: {
+            "address": "Strada Transylvania, nr. 1, Cluj-Napoca",
+            "phone": "+40722222222",
+            "email": "hoteltransylvania@gmail.com",
+            "city": "Cluj-Napoca",
+            "country": "Romania",
+            // Location-specific data
+            "data": {
         hero: {
             "coverImage": "https://s1.at.atcdn.net/wp-content/uploads/2024/10/HERO-Ace-Hotel-Sydney-Lobby-Bar.jpg",
             "logoImage": "https://img.freepik.com/premium-vector/modern-hotel-logo-design_725568-16.jpg",
@@ -150,11 +148,136 @@ export const homeDataHotel = {
         city: "Cluj-Napoca",
         country: "Romania",
         copyright: "Hotel Transylvania",
-    }
-    },
-
+    }},
+        },
+        {
+            "id": 2,
+            "name": "Hotel Transylvania 2",
+            "slug": "location-2",
+            "coordinates": [46.7712, 23.6236],
+            "address": "Strada Victoriei, nr. 45, Cluj-Napoca",
+            "phone": "+40722222223",
+            "email": "hoteltransylvania2@gmail.com",
+            "city": "Cluj-Napoca",
+            "country": "Romania",
+            "data": {
+                hero: {
+                    "coverImage": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    "logoImage": "https://img.freepik.com/premium-vector/modern-hotel-logo-design_725568-16.jpg",
+                    "blurAmount": 0.5,
+                    "tintColor": "rgba(0, 0, 0, 0.3)",
+                    "bussinesName": "Hotel Transylvania 2",
+                    "bussinesSlug": "location-2",
+                },
+                description: "./description-location2.md",
+                coordinates: [46.7712, 23.6236],
+                attractions: [
+                    {
+                        "id": 1,
+                        "name": "Premium Attraction 1",
+                        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    },
+                    {
+                        "id": 2,
+                        "name": "Premium Attraction 2",
+                        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    },
+                ],
+                facilities: [
+                    {
+                        "id": 1,
+                        "name": "Premium Hotel",
+                        "images": [
+                            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        ],
+                    },
+                    {
+                        "id": 2,
+                        "name": "Premium Spa",
+                        "images": [
+                            "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        ],
+                    },
+                ],
+                rooms: [
+                    {
+                        "id": 1,
+                        "name": "Premium Camera Deluxe",
+                        "type": "Premium Deluxe",
+                        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        "price": 650,
+                        "currency": "RON",
+                        "description": "O cameră premium cu toate facilitățile luxoase.",
+                    },
+                    {
+                        "id": 2,
+                        "name": "Premium Camera Standard",
+                        "type": "Premium Standard",
+                        "image": "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                        "price": 520,
+                        "currency": "RON",
+                        "description": "O cameră premium confortabilă.",
+                    },
+                ],
+                roomsCalendar: {},
+                footer: {
+                    logo: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80",
+                    socialMedia: [
+                        {
+                            "id": 1,
+                            "name": "Facebook",
+                            "url": "https://www.facebook.com/hoteltransylvania2",
+                        },
+                    ],
+                    links: [
+                        {
+                            "id": 1,
+                            "name": "Home",
+                            "url": "/",
+                        }
+                    ],
+                    phone: "+40722222223",
+                    email: "hoteltransylvania2@gmail.com",
+                    address: "Strada Victoriei, nr. 45, Cluj-Napoca",
+                    city: "Cluj-Napoca",
+                    country: "Romania",
+                    copyright: "Hotel Transylvania 2",
+                }
+            }
+        },
+    ],
 }
 
+// Helper function to get location data by location ID
+export const getLocationDataById = (locationId) => {
+    const location = homeDataHotel.locations.find(loc => loc.id === locationId);
+    return location ? location.data : null;
+};
+
+// Helper function to get current location data
+export const getCurrentLocationData = () => {
+    return getLocationDataById(homeDataHotel.currentLocation);
+};
+
+// Helper function to get location by ID
+export const getLocationById = (locationId) => {
+    return homeDataHotel.locations.find(loc => loc.id === locationId);
+};
+
+// Helper function to get location by slug
+export const getLocationBySlug = (slug) => {
+    return homeDataHotel.locations.find(loc => loc.slug === slug);
+};
+
+// Helper function to get all locations
+export const getAllLocations = () => {
+    return homeDataHotel.locations;
+};
+
+// Helper function to get current location
+export const getCurrentLocation = () => {
+    return getLocationById(homeDataHotel.currentLocation);
+};
 
 // Optained by GET /api/?=tenantId&=locationId&?dateFrom&?dateTo&? roomId, dateFrom-dateTo optional
 

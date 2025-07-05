@@ -1,28 +1,21 @@
 import React, { useEffect } from 'react';
-import { businessConfig, getInitialLocation } from '../config/businessConfig';
+import simplifiedConfig from '../config/simplifiedConfig';
 import { COMPONENT_CODES } from '../config/componentCodes';
-import useLocationStore from '../store/locationStore';
+import { useLocations } from '../hooks/useSimplifiedData';
 import '../styles/Home.css';
 
 const Home = ({ location }) => {
-  const { switchLocationBySlug, resetToInitialLocation, initializeLocations, allLocations } = useLocationStore();
-
-  // Initialize locations on component mount
-  useEffect(() => {
-    if (allLocations.length === 0) {
-      initializeLocations();
-    }
-  }, [allLocations.length, initializeLocations]);
+  const { 
+    switchLocation, 
+    allLocations,
+  } = useLocations();
 
   // Update current location when location prop changes
   useEffect(() => {
-    if (location && location.slug) {
-      switchLocationBySlug(location.slug);
-    } else {
-      // If no location prop, reset to initial location
-      resetToInitialLocation();
+    if (location && location.id) {
+      switchLocation(location.id);
     }
-  }, [location, switchLocationBySlug, resetToInitialLocation]);
+  }, [location, switchLocation]);
 
   const renderComponent = (code, index) => {
     if (code === 0) return null;
@@ -38,7 +31,7 @@ const Home = ({ location }) => {
 
   return (
     <div className="home-layout">
-      {businessConfig.homeLayout.map(renderComponent)}
+      {simplifiedConfig.getHomeLayout().map(renderComponent)}
     </div>
   );
 };

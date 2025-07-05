@@ -7,29 +7,112 @@
 .location-selector-button {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  border-radius: 6px;
-  color: #333;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  color: #000;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
-  backdrop-filter: blur(10px);
-  min-width: 120px;
+  min-width: 250px;
+}
+
+.location-selector-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  flex: 1;
+  width: 100%;
+}
+
+.location-selector-title {
+  margin: 0;
+  font-size: 1.5rem;
+  width: 100%;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.location-selector-location {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #666;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* When used in content area, make it more text-like */
+.content .location-selector-button {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 12px 16px;
+  min-width: 200px;
+  font-size: 1.5rem; /* Same as hero p */
+  line-height: 1;
+  color: #000;
+  backdrop-filter: none;
+  gap: 12px;
+}
+
+.content .location-selector-content {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+}
+
+.content .location-selector-title {
+  font-size: 2.2rem; /* Same as hero h1 */
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.content .location-selector-location {
+  font-size: 14px;
+  color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .location-selector-button:hover {
-  background: rgba(255, 255, 255, 0.95);
-  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.1);
   transform: translateY(-1px);
+}
+
+/* Hover effect for content area */
+.content .location-selector-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  box-shadow: none;
+  transform: none;
 }
 
 .location-icon {
   font-size: 16px;
-  color: #666;
+  color: #000;
+}
+
+/* Icon styling for content area */
+.content .location-icon {
+  font-size: 1.2rem;
+  color: var(--text);
 }
 
 .location-name {
@@ -41,8 +124,14 @@
 
 .chevron {
   font-size: 12px;
-  color: #666;
+  color: #000;
   transition: transform 0.2s ease;
+}
+
+/* Chevron styling for content area */
+.content .chevron {
+  font-size: 0.8rem;
+  color: var(--text);
 }
 
 .location-dropdown {
@@ -50,14 +139,18 @@
   top: 100%;
   left: 0;
   right: 0;
-  background: white;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   margin-top: 4px;
   overflow: hidden;
   animation: slideDown 0.2s ease;
 }
+
+
 
 @keyframes slideDown {
   from {
@@ -79,16 +172,27 @@
   border: none;
   background: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
   text-align: left;
 }
 
 .location-option:hover {
-  background-color: #f8f9fa;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .location-option.active {
-  background-color: #e3f2fd;
+  background-color: rgba(0, 0, 0, 0.08);
+}
+
+.location-current-option {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.06) 100%);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  cursor: default;
+  opacity: 1;
+}
+
+.location-current-option:hover {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.06) 100%);
 }
 
 .location-option-content {
@@ -96,9 +200,19 @@
   min-width: 0;
 }
 
+.location-option-title {
+  font-weight: 600;
+  color: #000;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
 .location-option-name {
   font-weight: 500;
-  color: #333;
+  color: #000;
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -107,14 +221,14 @@
 
 .location-option-address {
   font-size: 12px;
-  color: #666;
+  color: #333;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .location-option-indicator {
-  color: #2196f3;
+  color: #000;
   font-weight: bold;
   margin-left: 8px;
 }
@@ -122,9 +236,37 @@
 /* Responsive design */
 @media (max-width: 768px) {
   .location-selector-button {
-    padding: 6px 10px;
+    padding: 8px 12px;
     font-size: 13px;
-    min-width: 100px;
+    min-width: 160px;
+  }
+
+  .location-selector-title {
+    font-size: 1.2rem;
+  }
+
+  .location-selector-location {
+    font-size: 12px;
+  }
+
+  .content .location-selector-button {
+    font-size: 1.2rem; /* Same as hero p mobile */
+    padding: 8px 12px;
+    min-width: 160px;
+  }
+
+  .content .location-selector-title {
+    font-size: 1.8rem; /* Same as hero h1 mobile */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content .location-selector-location {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .location-name {
@@ -138,8 +280,19 @@
     left: 0;
   }
 
+
+
   .location-option {
     padding: 10px 12px;
+  }
+
+  .location-current-option {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.06) 100%);
+  }
+
+  .location-option-title {
+    font-size: 13px;
+    margin-bottom: 3px;
   }
 
   .location-option-name {
@@ -154,9 +307,36 @@
 /* Tablet-specific styles */
 @media (min-width: 769px) and (max-width: 1024px) {
   .location-selector-button {
-    padding: 8px 14px;
+    padding: 10px 14px;
     font-size: 14px;
-    min-width: 130px;
+    min-width: 180px;
+  }
+
+  .location-selector-title {
+    font-size: 1.3rem;
+  }
+
+  .location-selector-location {
+    font-size: 13px;
+  }
+
+  .content .location-selector-button {
+    padding: 10px 14px;
+    min-width: 180px;
+  }
+
+  .content .location-selector-title {
+    font-size: 2rem; /* Same as hero h1 tablet */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content .location-selector-location {
+    font-size: 1.3rem; /* Same as hero p tablet */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .location-name {
@@ -169,8 +349,15 @@
     left: 0;
   }
 
+
+
   .location-option {
     padding: 12px 16px;
+  }
+
+  .location-option-title {
+    font-size: 14px;
+    margin-bottom: 4px;
   }
 
   .location-option-name {
@@ -193,9 +380,36 @@
 /* Large tablet styles */
 @media (min-width: 1025px) and (max-width: 1200px) {
   .location-selector-button {
-    padding: 9px 16px;
+    padding: 11px 16px;
     font-size: 15px;
-    min-width: 140px;
+    min-width: 190px;
+  }
+
+  .location-selector-title {
+    font-size: 1.4rem;
+  }
+
+  .location-selector-location {
+    font-size: 14px;
+  }
+
+  .content .location-selector-button {
+    padding: 11px 16px;
+    min-width: 190px;
+  }
+
+  .content .location-selector-title {
+    font-size: 2.1rem; /* Same as hero h1 large tablet */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content .location-selector-location {
+    font-size: 1.4rem; /* Same as hero p large tablet */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .location-name {
@@ -207,8 +421,15 @@
     max-width: 350px;
   }
 
+
+
   .location-option {
     padding: 14px 18px;
+  }
+
+  .location-option-title {
+    font-size: 15px;
+    margin-bottom: 4px;
   }
 
   .location-option-name {
@@ -223,9 +444,36 @@
 /* Extra small devices */
 @media (max-width: 480px) {
   .location-selector-button {
-    padding: 5px 8px;
+    padding: 6px 10px;
     font-size: 12px;
-    min-width: 80px;
+    min-width: 140px;
+  }
+
+  .location-selector-title {
+    font-size: 1rem;
+  }
+
+  .location-selector-location {
+    font-size: 11px;
+  }
+
+  .content .location-selector-button {
+    padding: 6px 10px;
+    min-width: 140px;
+  }
+
+  .content .location-selector-title {
+    font-size: 1.5rem; /* Same as hero h1 extra small */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .content .location-selector-location {
+    font-size: 1rem; /* Same as hero p extra small */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .location-name {
@@ -238,8 +486,15 @@
     left: 0;
   }
 
+
+
   .location-option {
     padding: 8px 10px;
+  }
+
+  .location-option-title {
+    font-size: 12px;
+    margin-bottom: 2px;
   }
 
   .location-option-name {
@@ -331,23 +586,43 @@
   }
   
   .location-dropdown {
-    background: #1a1a1a;
-    border-color: #333;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
+
+
+
+
   
   .location-option:hover {
-    background-color: #2a2a2a;
+    background-color: rgba(0, 0, 0, 0.05);
   }
   
+  .location-current-option {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.06) 100%);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .location-current-option:hover {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 0%, rgba(0, 0, 0, 0.06) 100%);
+  }
+
   .location-option.active {
-    background-color: #1e3a5f;
+    background-color: rgba(0, 0, 0, 0.08);
   }
   
+  .location-option-title {
+    color: #000;
+  }
+
   .location-option-name {
-    color: white;
+    color: #000;
   }
   
   .location-option-address {
-    color: #ccc;
+    color: #333;
   }
 } 

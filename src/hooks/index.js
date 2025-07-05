@@ -1,66 +1,28 @@
-// Main business data hook
-export { useBusinessData } from './business/useBusinessData.js';
-
-// Current data hooks (use environment configuration)
+// Simplified hooks (automatically choose between API and local data based on isDemoMode)
 export {
-    useCurrentBusinessData,
-    useCurrentHomeData,
-    useCurrentSettings,
-    useCurrentBusinessConfig,
-    useCurrentDataByType
-} from './current/useCurrentData.js';
-
-// Specific data hooks
-export {
+    useSimplifiedData,
     useHomeData,
     useSettings,
-    useBusinessConfig,
-    useDataByType,
-    useLocationData
-} from './specific/useSpecificData.js';
-
-// Entity-specific hooks
-export {
-    useAttractions,
+    useUserSettings,
+    useUserProfile,
+    useUserBookings,
+    useHeroData,
     useFacilities,
+    useAttractions,
+    useRooms,
     useServices,
-    useRooms
-} from './entities/useEntityData.js';
+    usePackages,
+    useClasses,
+    useGallery,
+    useFooter,
+    useLocations,
+    useAvailablePages
+} from './useSimplifiedData.js';
 
-// Configuration hooks
-export { useEnvironmentConfig } from './config/useEnvironmentConfig.js';
-
-// Utility functions
+// Export API functions
 export {
-    useDataState,
-    createObserverId,
-    validateBusinessType,
-    getTargetBusinessType,
-    createDataCommand,
-    executeDataCommand
-} from './utils/hookUtils.js';
-
-// Pattern classes
-export {
-    DataStateObserver,
-    dataObserver
-} from './patterns/DataStateObserver.js';
-
-export {
-    DataCommand,
-    CommandInvoker
-} from './patterns/DataCommand.js';
-
-// Re-export from dataService for convenience
-export {
-    BUSINESS_TYPES,
-    dataService,
-    getCurrentBusinessData,
-    getCurrentHomeData,
-    getCurrentSettings,
-    getCurrentDataByType,
-    getCurrentBusinessConfig,
-    getCurrentTenantId,
-    getCurrentBusinessType,
-    getEnvironmentConfig
-} from '../services/dataService.js'; 
+    getHomePage,
+    getServices,
+    getPackages,
+    authenticate
+} from '../api/index.js'; 

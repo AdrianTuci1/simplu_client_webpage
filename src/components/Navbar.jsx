@@ -1,22 +1,13 @@
 import { Link, useLocation } from 'react-router-dom';
-import { businessConfig, isPageActive, getAllLocations } from '../config/businessConfig';
-import useLocationStore from '../store/locationStore';
+import simplifiedConfig from '../config/simplifiedConfig';
+import { useLocations } from '../hooks/useSimplifiedData';
 import { FaHome, FaUserMd, FaTooth, FaDumbbell, FaCalendarAlt, FaBed, FaSwimmingPool, FaMapMarkedAlt, FaCog, FaChartLine } from 'react-icons/fa';
 import './Navbar.css';
 import { useEffect } from 'react';
 
 const Navbar = () => {
   const location = useLocation();
-  const { currentLocation, getLocationInfo, initializeLocations, allLocations } = useLocationStore();
-  
-  // Initialize locations on component mount
-  useEffect(() => {
-    if (allLocations.length === 0) {
-      initializeLocations();
-    }
-  }, [allLocations.length, initializeLocations]);
-  
-  const locationInfo = getLocationInfo();
+  const { currentLocation, allLocations } = useLocations();
   const hasMultipleLocations = allLocations.length > 1;
   
   const getPageIcon = (page) => {
@@ -95,8 +86,8 @@ const Navbar = () => {
           </Link>
 
           {/* Business specific pages */}
-          {businessConfig.activePages.map((page) => (
-            isPageActive(page) && (
+          {simplifiedConfig.getAvailablePages().map((page) => (
+            simplifiedConfig.isPageActive(page) && (
               <Link
                 key={page}
                 to={getPagePath(page)}

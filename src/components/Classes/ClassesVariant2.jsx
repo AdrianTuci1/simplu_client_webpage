@@ -1,5 +1,5 @@
 import React from 'react';
-import useClassesStore from '../../store/useClassesStore';
+import useClassesStore from './classesStore';
 import './styles.css';
 
 export const ClassesVariant2 = () => {

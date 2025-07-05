@@ -1,28 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HeroVariant1.css';
-import useHeroStore from '../../store/heroStore';
-import useLocationStore from '../../store/locationStore';
+import { useHeroData, useLocations } from '../../hooks/useSimplifiedData';
 import LocationSelector from '../LocationSelector/LocationSelector';
 import { FaEdit } from 'react-icons/fa';
 
-const EditPanel = ({ onClose }) => {
-  const {
-    coverImage,
-    setCoverImage,
-    logoImage,
-    setLogoImage,
-    blurAmount,
-    setBlurAmount,
-    tintColor,
-    setTintColor,
-    title,
-    setTitle,
-    subtitle,
-    setSubtitle,
-    saveHeroData,
-    isLoading
-  } = useHeroStore();
+const EditPanel = ({ onClose, heroData }) => {
+  const [isLoading, setIsLoading] = useState(false);
+  
+  // Local state for editing
+  const [editData, setEditData] = useState({
+    coverImage: heroData?.coverImage || '',
+    logoImage: heroData?.logoImage || '',
+    blurAmount: heroData?.blurAmount || 0,
+    tintColor: heroData?.tintColor || 'rgba(0,0,0,0)',
+    title: heroData?.bussinesName || heroData?.title || '',
+    subtitle: heroData?.bussinesSlug || heroData?.subtitle || ''
+  });
 
   // Prevent body scroll when modal is open
   useEffect(() => {
@@ -33,8 +27,17 @@ const EditPanel = ({ onClose }) => {
   }, []);
 
   const handleSave = async () => {
-    await saveHeroData();
-    onClose();
+    try {
+      setIsLoading(true);
+      // For now, just close the panel since we're in demo mode
+      // In a real app, you would save the data here
+      console.log('Saving hero data:', editData);
+      onClose();
+    } catch (error) {
+      console.error('Error saving hero data:', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleOverlayClick = (e) => {
@@ -59,7 +62,7 @@ const EditPanel = ({ onClose }) => {
               if (file) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  setCoverImage(reader.result);
+                  setEditData(prev => ({ ...prev, coverImage: reader.result }));
                 };
                 reader.readAsDataURL(file);
               }
@@ -76,7 +79,7 @@ const EditPanel = ({ onClose }) => {
               if (file) {
                 const reader = new FileReader();
                 reader.onloadend = () => {
-                  setLogoImage(reader.result);
+                  setEditData(prev => ({ ...prev, logoImage: reader.result }));
                 };
                 reader.readAsDataURL(file);
               }
@@ -87,8 +90,8 @@ const EditPanel = ({ onClose }) => {
           <h3>Title</h3>
           <input 
             type="text" 
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={editData.title}
+            onChange={(e) => setEditData(prev => ({ ...prev, title: e.target.value }))}
             className="text-input"
           />
         </div>
@@ -96,8 +99,8 @@ const EditPanel = ({ onClose }) => {
           <h3>Subtitle</h3>
           <input 
             type="text" 
-            value={subtitle}
-            onChange={(e) => setSubtitle(e.target.value)}
+            value={editData.subtitle}
+            onChange={(e) => setEditData(prev => ({ ...prev, subtitle: e.target.value }))}
             className="text-input"
           />
         </div>
@@ -107,29 +110,32 @@ const EditPanel = ({ onClose }) => {
             type="range" 
             min="0" 
             max="20" 
-            value={blurAmount} 
-            onChange={(e) => setBlurAmount(Number(e.target.value))}
+            value={editData.blurAmount} 
+            onChange={(e) => setEditData(prev => ({ ...prev, blurAmount: Number(e.target.value) }))}
           />
-          <span>{blurAmount}px</span>
+          <span>{editData.blurAmount}px</span>
         </div>
         <div className="edit-section">
           <h3>Tint Color</h3>
           <input 
             type="color" 
-            value={tintColor} 
-            onChange={(e) => setTintColor(e.target.value)}
+            value={editData.tintColor} 
+            onChange={(e) => setEditData(prev => ({ ...prev, tintColor: e.target.value }))}
           />
           <input 
             type="range" 
             min="0" 
             max="1" 
             step="0.1" 
-            value={tintColor.match(/[\d.]+\)$/)?.[0]?.slice(0, -1) || 0} 
+            value={editData.tintColor.match(/[\d.]+\)$/)?.[0]?.slice(0, -1) || 0} 
             onChange={(e) => {
-              const color = tintColor.match(/rgba?\([\d\s,]+\)/)?.[0];
+              const color = editData.tintColor.match(/rgba?\([\d\s,]+\)/)?.[0];
               if (color) {
                 const newAlpha = e.target.value;
-                setTintColor(color.replace(/[\d.]+\)$/, `${newAlpha})`));
+                setEditData(prev => ({ 
+                  ...prev, 
+                  tintColor: color.replace(/[\d.]+\)$/, `${newAlpha})`)
+                }));
               }
             }}
           />
@@ -144,35 +150,28 @@ const EditPanel = ({ onClose }) => {
 
 const HeroVariant1 = () => {
   const navigate = useNavigate();
-  const {
-    coverImage,
-    logoImage,
-    blurAmount,
-    tintColor,
-    isEditing,
-    setIsEditing,
-    title,
-    subtitle,
-    loadHeroData,
-    isLoading,
-    error
-  } = useHeroStore();
-
-  const { switchLocation, getLocationInfo, initializeLocations, allLocations } = useLocationStore();
+  const [isEditing, setIsEditing] = useState(false);
+  
+  const { data: hero, loading: isLoading, error } = useHeroData({ 
+    locationId: 1 
+  });
+  
+  const { 
+    data: locations, 
+    currentLocation, 
+    switchLocation, 
+    getLocationInfo, 
+    initializeLocations 
+  } = useLocations();
   
   // Initialize locations on component mount
   useEffect(() => {
-    if (allLocations.length === 0) {
+    if (locations.length === 0) {
       initializeLocations();
     }
-  }, [allLocations.length, initializeLocations]);
+  }, [locations.length, initializeLocations]);
   
   const locationInfo = getLocationInfo();
-
-  // Load hero data on component mount
-  useEffect(() => {
-    loadHeroData();
-  }, [loadHeroData]);
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -193,7 +192,7 @@ const HeroVariant1 = () => {
   };
 
   // Show loading state
-  if (isLoading) {
+  if (isLoading || !hero) {
     return (
       <section className="hero hero-variant-1">
         <div className="loading">Se încarcă...</div>
@@ -207,7 +206,7 @@ const HeroVariant1 = () => {
       <section className="hero hero-variant-1">
         <div className="error">
           <p>Eroare la încărcarea datelor: {error}</p>
-          <button onClick={() => loadHeroData()}>Încearcă din nou</button>
+          <button onClick={() => loadBusinessData()}>Încearcă din nou</button>
         </div>
       </section>
     );
@@ -220,8 +219,8 @@ const HeroVariant1 = () => {
         <div 
           className="background-layer"
           style={{ 
-            backgroundImage: `url(${coverImage})`,
-            filter: `blur(${blurAmount}px)`,
+            backgroundImage: hero?.coverImage ? `url(${hero.coverImage})` : 'none',
+            filter: `blur(${hero?.blurAmount || 0}px)`,
           }}
         />
         
@@ -229,7 +228,7 @@ const HeroVariant1 = () => {
         <div 
           className="tint-overlay"
           style={{ 
-            backgroundColor: tintColor === 'rgba(0,0,0,0)' || tintColor === '#000000' ? 'rgba(54, 4, 51, 0.3)' : tintColor 
+            backgroundColor: hero?.tintColor === 'rgba(0,0,0,0)' || hero?.tintColor === '#000000' ? 'rgba(54, 4, 51, 0.3)' : hero?.tintColor || 'rgba(54, 4, 51, 0.3)'
           }}
         />
         
@@ -238,28 +237,28 @@ const HeroVariant1 = () => {
           <FaEdit />
         </button>
         
-        {/* Location Navigation */}
-        {locationInfo.isMultiLocation && (
-          <div className="location-selector-container">
-            <LocationSelector onLocationChange={handleLocationChange} />
-          </div>
-        )}
-        
         {/* Logo container */}
         <div className="logo-container">
-          <img src={logoImage} alt="Company Logo" className="logo" />
+          {hero?.logoImage && <img src={hero.logoImage} alt="Company Logo" className="logo" />}
         </div>
       </div>
       
       {/* Content container - moved outside main-frame */}
       <div className="content-container">
         <div className="content">
-          <h1 className="title">{title}</h1>
-          <p className="subtitle">{subtitle}</p>
+          {locationInfo.isMultiLocation && (
+            <div className="location-content">
+              <LocationSelector 
+                onLocationChange={handleLocationChange} 
+                title={hero?.bussinesName || hero?.title || ''} 
+                subtitle={hero?.bussinesSlug || hero?.subtitle || ''} 
+              />
+            </div>
+          )}
         </div>
       </div>
       
-      {isEditing && <EditPanel onClose={handleClose} />}
+      {isEditing && hero && <EditPanel onClose={handleClose} heroData={hero} />}
     </section>
   );
 };

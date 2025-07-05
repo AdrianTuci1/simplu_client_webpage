@@ -1,0 +1,3 @@
+## Clinica Noastră
+
+Bine ați venit în inima sănătății și îngrijirii medicale. Clinica noastră vă oferă o experiență medicală deosebită, combinând tehnologia modernă cu expertiza medicală de top. Cu cabinete spațioase și moderne, echipamente medicale de ultimă generație, personal medical certificat, servicii medicale diversificate și o locație accesibilă în centrul orașului, vă garantăm o îngrijire medicală de calitate în fiecare vizită. Echipa noastră dedicată este mereu gata să vă oferă servicii personalizate pentru a vă face sănătatea prioritatea noastră. 
