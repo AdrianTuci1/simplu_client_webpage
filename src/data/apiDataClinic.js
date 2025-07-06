@@ -1,4 +1,4 @@
-export const homeDataClinic = {
+export const homeData = {
     tenantId: 1,
     businessType: "clinic",
     currentLocation: 1,
@@ -208,27 +208,6 @@ export const cancelAppointment = {
 }
 
 
-// GET /api/settings/?tenantId?userId
-// POST /api/settings/?tenantId?userId
-
-export const settingsClinic = {
-    tenantId: 1,
-    userId: 1,
-    settings: {
-        "language": "en",
-        "currency": "USD",
-        "theme": "light",
-        "notifications": true,
-        "emailNotifications": true,
-    },
-    userInfo: {
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "phone": "+40722222222",
-        "address": "Strada Cluj-Napoca, nr. 1, Cluj-Napoca",
-        "city": "Cluj-Napoca",
-    },
-}   
 
 
 // We need to fetch medics from the database
@@ -271,7 +250,7 @@ export const medics = {
 
 // GET /api/treatments/?tenantId?locationId
 
-export const treatments = {
+export const services = {
     treatments: [
         {
             "id": 1,

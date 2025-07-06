@@ -27,8 +27,7 @@ export const authenticatedUser = {
             locationId: 1,
             locationName: "Main Location",
             userRole: "user", // Role at this specific location
-            userType: "gym", // Business type at this location
-            permissions: ["book_classes", "view_packages", "manage_profile"],
+            userType: "gym", // Business type at this location]
             isActive: true
         },
         {
@@ -36,7 +35,6 @@ export const authenticatedUser = {
             locationName: "Downtown Branch",
             userRole: "admin", // Different role at this location
             userType: "gym",
-            permissions: ["book_classes", "view_packages", "manage_profile", "manage_users", "view_analytics"],
             isActive: true
         }
     ],

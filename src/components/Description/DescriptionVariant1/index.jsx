@@ -1,25 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import LocationMap from '../LocationMap/LocationMap';
-import { useDescription, useCoordinates } from '../../../hooks/useSimplifiedData';
+import { useDescriptionData } from '../../../utils/componentHelpers';
 import { DESCRIPTION_CHAR_LIMIT } from '../constants';
 import styles from './DescriptionVariant1.module.css';
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaGlobe } from 'react-icons/fa';
+
 
 const DescriptionVariant1 = () => {
-  // Use the simplified data hooks
-  const { data: descriptionPath, loading: descriptionLoading, error: descriptionError } = useDescription({ 
-    locationId: 1 
-  });
-  const { data: coordinates, loading: coordinatesLoading, error: coordinatesError } = useCoordinates({ 
-    locationId: 1 
-  });
+  // Use the new homepage data system
+  const { data: descriptionData, loading, error } = useDescriptionData();
   
   // State for markdown content
   const [markdownContent, setMarkdownContent] = useState('');
 
   // Load markdown file when description path changes
   useEffect(() => {
+    const descriptionPath = descriptionData?.description;
+    
     if (descriptionPath) {
       console.log('DescriptionVariant1: descriptionPath:', descriptionPath);
       
@@ -59,12 +56,12 @@ const DescriptionVariant1 = () => {
       console.log('DescriptionVariant1: No description data available');
       setMarkdownContent('Nu există descriere disponibilă.');
     }
-  }, [descriptionPath]);
+  }, [descriptionData?.description]);
 
   const remainingChars = DESCRIPTION_CHAR_LIMIT - markdownContent.length;
 
   // Show loading state
-  if (descriptionLoading || coordinatesLoading) {
+  if (loading) {
     return (
       <div className={styles.descriptionMap}>
         <div className={styles.description}>
@@ -77,27 +74,27 @@ const DescriptionVariant1 = () => {
           </div>
         </div>
         <div className={styles.map}>
-          <LocationMap position={coordinates} />
+          <LocationMap position={descriptionData?.coordinates} />
         </div>
       </div>
     );
   }
 
   // Show error state
-  if (descriptionError || coordinatesError) {
+  if (error) {
     return (
       <div className={styles.descriptionMap}>
         <div className={styles.description}>
           <div className={styles.servicesDescription}>
             <div className={styles.membershipCardContainer}>
               <div className={styles.businessDescription}>
-                <p>Eroare la încărcarea descrierii: {descriptionError || coordinatesError}</p>
+                <p>Eroare la încărcarea descrierii: {error}</p>
               </div>
             </div>
           </div>
         </div>
         <div className={styles.map}>
-          <LocationMap position={coordinates} />
+          <LocationMap position={descriptionData?.coordinates} />
         </div>
       </div>
     );
@@ -118,7 +115,7 @@ const DescriptionVariant1 = () => {
         </div>
       </div>
       <div className={styles.map}>
-        <LocationMap position={coordinates} />
+        <LocationMap position={descriptionData?.coordinates} />
       </div>
     </div>
   );

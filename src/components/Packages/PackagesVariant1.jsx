@@ -1,5 +1,5 @@
 import React from 'react';
-import usePackagesStore from './packagesStore';
+import { usePackagesData } from '../../utils/componentHelpers';
 import styles from './PackagesVariant1.module.css';
 import PackageCard from './PackageCard';
 
@@ -10,9 +10,51 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-
 const PackagesVariant1 = () => {
-  const packages = usePackagesStore(state => state.getAllPackages());
+  // Use the new homepage data system
+  const { data: packages, loading, error } = usePackagesData();
+
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Membership Plans</h2>
+            <p className={styles.subtitle}>Choose your path to fitness excellence</p>
+          </div>
+          <div className={styles.loadingMessage}>Se încarcă pachetele...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Membership Plans</h2>
+            <p className={styles.subtitle}>Choose your path to fitness excellence</p>
+          </div>
+          <div className={styles.errorMessage}>Eroare la încărcarea pachetelor: {error}</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!packages || packages.length === 0) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Membership Plans</h2>
+            <p className={styles.subtitle}>Choose your path to fitness excellence</p>
+          </div>
+          <div className={styles.noPackagesMessage}>Nu sunt pachete disponibile momentan.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>

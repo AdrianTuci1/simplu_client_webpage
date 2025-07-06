@@ -1,7 +1,17 @@
 // API function to authenticate user
+const API_BASE_URL = import.meta.env.VITE_API || '';
+import { authenticateUser } from '../config/demoMode.js';
+
 export const authenticate = async (credentials) => {
   try {
-    const response = await fetch('/api/auth', {
+    // Check if we should use demo data
+    const demoData = authenticateUser(credentials);
+    if (demoData !== 'API_CALL') {
+      return demoData;
+    }
+    
+    // Make real API call
+    const response = await fetch(`${API_BASE_URL}/api/auth`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

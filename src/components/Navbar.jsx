@@ -1,13 +1,15 @@
 import { Link, useLocation } from 'react-router-dom';
 import simplifiedConfig from '../config/simplifiedConfig';
-import { useLocations } from '../hooks/useSimplifiedData';
+import { useHomepageData } from '../contexts/HomepageDataContext';
 import { FaHome, FaUserMd, FaTooth, FaDumbbell, FaCalendarAlt, FaBed, FaSwimmingPool, FaMapMarkedAlt, FaCog, FaChartLine } from 'react-icons/fa';
 import './Navbar.css';
 import { useEffect } from 'react';
 
 const Navbar = () => {
   const location = useLocation();
-  const { currentLocation, allLocations } = useLocations();
+  const { data } = useHomepageData();
+  const currentLocation = data?.currentLocation;
+  const allLocations = data?.locations || [];
   const hasMultipleLocations = allLocations.length > 1;
   
   const getPageIcon = (page) => {

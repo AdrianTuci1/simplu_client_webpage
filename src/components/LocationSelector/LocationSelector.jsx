@@ -1,22 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useLocations } from '../../hooks';
-import useHeroStore from '../Hero/heroStore';
+import { useHomepageData } from '../../contexts/HomepageDataContext';
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './LocationSelector.css';
 
 const LocationSelector = ({ onLocationChange, title, subtitle }) => {
-  const { currentLocation, allLocations, switchLocation, getLocationInfo, initializeLocations } = useLocations();
+  const { data } = useHomepageData();
+  const currentLocation = data?.currentLocation;
+  const allLocations = data?.locations || [];
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({});
   const selectorRef = useRef(null);
   const dropdownRef = useRef(null);
-  
-  // Initialize locations on component mount
-  useEffect(() => {
-    if (allLocations.length === 0) {
-      initializeLocations();
-    }
-  }, [allLocations.length, initializeLocations]);
   
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -37,18 +31,19 @@ const LocationSelector = ({ onLocationChange, title, subtitle }) => {
     };
   }, [isOpen]);
   
-  const locationInfo = getLocationInfo();
+  // Check if we have multiple locations
+  const isMultiLocation = allLocations.length > 1;
   
-  // Dacă nu sunt multiple locații, nu afișăm selectorul
-  if (!locationInfo.isMultiLocation) {
+  // If no multiple locations, don't show selector
+  if (!isMultiLocation) {
     return null;
   }
 
   const handleLocationSelect = (location) => {
-    switchLocation(location.id);
+    // For now, just call the callback if provided
+    // In a real implementation, you might want to update the homepage data context
     setIsOpen(false);
     
-    // Call the callback if provided
     if (onLocationChange) {
       onLocationChange(location);
     }

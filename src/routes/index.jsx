@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import simplifiedConfig from '../config/simplifiedConfig';
-import { useLocations } from '../hooks/useSimplifiedData';
+import { useHomepageData } from '../contexts/HomepageDataContext';
 import PageError from '../components/PageError';
 
 // Import pages
@@ -46,7 +46,8 @@ const ProtectedRoute = ({ page, Component }) => {
 
 // Location-aware route component
 const LocationRoute = ({ page, Component }) => {
-  const { currentLocation } = useLocations();
+  const { data } = useHomepageData();
+  const currentLocation = data?.currentLocation;
   
   if (!simplifiedConfig.isPageActive(page)) {
     return (
@@ -61,7 +62,9 @@ const LocationRoute = ({ page, Component }) => {
 
 // Location redirect component
 const LocationRedirect = () => {
-  const { currentLocation, allLocations } = useLocations();
+  const { data } = useHomepageData();
+  const currentLocation = data?.currentLocation;
+  const allLocations = data?.locations || [];
   
   // If no location is selected, redirect to the first available location
   if (!currentLocation && allLocations.length > 0) {
@@ -78,7 +81,8 @@ const LocationRedirect = () => {
 };
 
 const AppRoutes = () => {
-  const { allLocations } = useLocations();
+  const { data } = useHomepageData();
+  const allLocations = data?.locations || [];
   const hasMultipleLocations = allLocations.length > 1;
 
   return (

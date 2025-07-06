@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaBed, FaUsers, FaArrowRight, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
-import { useRooms } from '../../../../hooks';
 // Demo hotel store
 const useHotelStore = () => ({
   ui: {
@@ -10,7 +9,6 @@ const useHotelStore = () => ({
   }
 });
 import styles from './Rooms.module.css';
-
 
 
 const Rooms = () => {

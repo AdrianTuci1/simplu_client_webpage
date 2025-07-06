@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import TreatmentCard from '../../../../components/Cards/TreatmentCard';
 import CategoryFilter from '../../../../components/Cards/CategoryFilter';
-import { treatments } from '../../../../data/apiDataClinic';
 import styles from './Treatments.module.css';
 
 const Treatments = () => {

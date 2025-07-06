@@ -1,4 +1,4 @@
-export const homeDataGym = {
+export const homeData = {
     tenantId: 1,
     businessType: "gym",
     currentLocation: 1,
@@ -254,7 +254,7 @@ export const getCurrentLocation = () => {
     return getLocationById(homeDataGym.currentLocation);
 };
 
-export const availablePackages = {
+export const services = {
     packages: [
         {
             "id": 1,
@@ -323,25 +323,3 @@ export const bookClass = {
     },
 }
 
-
-// GET /api/settings/?tenantId?userId
-// POST /api/settings/?tenantId?userId
-
-export const settings = {
-    tenantId: 1,
-    userId: 1,
-    settings: {
-        "language": "en",
-        "currency": "USD",
-        "theme": "light",
-        "notifications": true,
-        "emailNotifications": true,
-    },
-    userInfo: {
-        "name": "John Doe",
-        "email": "john.doe@example.com",
-        "phone": "+40722222222",
-        "address": "Strada Unirii, nr. 1, Cluj-Napoca",
-        "city": "Cluj-Napoca",
-    },
-}  

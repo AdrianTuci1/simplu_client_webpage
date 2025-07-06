@@ -1,6 +1,6 @@
 // Optained by GET /api/homepage server takes requestUrl and gets tenantId (SELECT tenantId FROM tenants WHERE requestUrl = ?)
 
-export const homeDataHotel = {
+export const homeData = {
     tenantId: 1,
     businessType: "hotel",
     currentLocation: 1,
@@ -281,7 +281,7 @@ export const getCurrentLocation = () => {
 
 // Optained by GET /api/?=tenantId&=locationId&?dateFrom&?dateTo&? roomId, dateFrom-dateTo optional
 
-export const roomsData = {
+export const services = {
     tenantId: 1,
     locationId: 1,
     rooms: [
@@ -446,29 +446,6 @@ export const createBookingHotel =
     }
 }
 
-
-// GET /api/settings/?tenantId?userId
-// POST /api/settings/?tenantId?userId
-
-export const settingsHotel = {
-        tenantId: 1,
-        userId: 1,
-        settings: {
-            "language": "en",
-            "currency": "USD",
-            "theme": "light",
-            "notifications": true,
-            "emailNotifications": true,
-        },
-        userInfo: {
-            "name": "John Doe",
-            "email": "john.doe@example.com",
-            "phone": "+40722222222",
-            "address": "Strada Transylvania, nr. 1, Cluj-Napoca",
-            "city": "Cluj-Napoca",
-        }
-
-}
 
 
 

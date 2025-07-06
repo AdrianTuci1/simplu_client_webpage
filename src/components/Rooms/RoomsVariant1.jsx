@@ -1,26 +1,18 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import styles from './RoomsVariant1.module.css';
-import useRoomsStore from './roomsStore';
+import { useRoomsData } from '../../utils/componentHelpers';
 
 const RoomsVariant1 = () => {
-  const { 
-    rooms, 
-    loading, 
-    error, 
-    loadRooms 
-  } = useRoomsStore();
-
-  useEffect(() => {
-    loadRooms();
-  }, [loadRooms]);
+  // Use the new homepage data system
+  const { data: rooms, loading, error } = useRoomsData();
 
   // Debug: Log rooms data
-  useEffect(() => {
-    console.log('Rooms data from store:', rooms);
+  React.useEffect(() => {
+    console.log('Rooms data from homepage system:', rooms);
     console.log('Loading state:', loading);
     console.log('Error state:', error);
   }, [rooms, loading, error]);

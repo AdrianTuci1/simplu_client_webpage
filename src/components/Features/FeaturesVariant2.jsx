@@ -1,53 +1,59 @@
-import React, { useEffect, useState } from 'react';
-import { FaArrowRight, FaCheck, FaTimes } from 'react-icons/fa';
-import useServicesStore from '../Cards/servicesStore';
-import { useServices } from '../../hooks';
+import React, { useState, useEffect } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { useServicesData } from '../../utils/componentHelpers';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import styles from './FeaturesVariant2.module.css';
 
 const FeaturesVariant2 = () => {
-  const { 
-    services, 
-    loading, 
-    error, 
-    loadServices
-  } = useServicesStore();
-
-  const { data: servicesData, loading: dataLoading, error: dataError, isDemoMode } = useServices({ locationId: 1 });
-
-  useEffect(() => {
-    loadServices('hotel');
-  }, [loadServices]);
-
-  // Use store data if available, otherwise fall back to API data
-  const displayServices = services.length > 0 ? services : (servicesData || []);
+  const [swiperInstance, setSwiperInstance] = useState(null);
+  
+  // Use the new homepage data system
+  const { data: services, loading, error } = useServicesData();
 
   // Transform services data to match the expected format
   const transformServicesToFeatures = (servicesList) => {
     return servicesList.map((service, index) => ({
-      id: service.id,
-      type: 'SERVICIU',
+      id: service.id || index + 1,
       name: service.name,
-      color: getColorByIndex(index),
-      category: service.category
+      description: service.description || service.category,
+      images: service.images || [service.image] || [],
+      category: service.category,
+      color: getServiceColor(index)
     }));
   };
 
   // Generate colors for services
-  const getColorByIndex = (index) => {
+  const getServiceColor = (index) => {
     const colors = [
-      '#FFE4E1', // Light pink
-      '#E0FFFF', // Light cyan
-      '#F0FFF0', // Light green
-      '#FFF0F5', // Light pink
-      '#F5F5DC', // Beige
-      '#E6E6FA', // Lavender
-      '#F0F8FF', // Alice blue
-      '#FFFACD'  // Lemon chiffon
+      '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+      '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'
     ];
     return colors[index % colors.length];
   };
 
-  if (loading || dataLoading) {
+  // Set initial selected service
+  const [selectedService, setSelectedService] = useState(
+    services && services.length > 0 ? transformServicesToFeatures(services)[0] : null
+  );
+
+  // Update selected service when services data changes
+  useEffect(() => {
+    if (services && services.length > 0 && !selectedService) {
+      const features = transformServicesToFeatures(services);
+      setSelectedService(features[0]);
+    }
+  }, [services, selectedService]);
+
+  const handleServiceChange = (service) => {
+    setSelectedService(service);
+    if (swiperInstance) {
+      swiperInstance.slideTo(0);
+    }
+  };
+
+  if (loading) {
     return (
       <section className={`features ${styles.featuresVariant2}`}>
         <div className={styles.container}>
@@ -60,51 +66,99 @@ const FeaturesVariant2 = () => {
     );
   }
 
-  if (error || dataError) {
+  if (error) {
     return (
       <section className={`features ${styles.featuresVariant2}`}>
         <div className={styles.container}>
           <div className={styles.errorContainer}>
-            <p>Eroare la încărcarea serviciilor</p>
+            <p>Eroare la încărcarea serviciilor: {error}</p>
           </div>
         </div>
       </section>
     );
   }
 
-  const features = transformServicesToFeatures(displayServices);
+  if (!selectedService || !services || services.length === 0) {
+    return (
+      <section className={`features ${styles.featuresVariant2}`}>
+        <div className={styles.container}>
+          <div className={styles.noDataContainer}>
+            <p>Nu sunt servicii disponibile</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  const features = transformServicesToFeatures(services);
 
   return (
     <section className={`features ${styles.featuresVariant2}`}>
       <div className={styles.container}>
-        <div className={styles.featuresGrid}>
-          {features.map((feature) => (
-            <div 
-              key={feature.id} 
-              className={styles.featureCard}
-              style={{ backgroundColor: feature.color }}
+        <div className={styles.headerSection}>
+          <div className={styles.servicesList}>
+            {features.map((service) => (
+              <button
+                key={service.id}
+                className={`${styles.serviceBtn} ${selectedService.id === service.id ? styles.active : ''}`}
+                onClick={() => handleServiceChange(service)}
+                style={{ 
+                  backgroundColor: selectedService.id === service.id ? service.color : 'transparent',
+                  borderColor: service.color
+                }}
+              >
+                {service.name}
+              </button>
+            ))}
+          </div>
+          
+          <div className={styles.navigationControls}>
+            <button 
+              className={`${styles.navBtn} ${styles.prevBtn}`}
+              onClick={() => swiperInstance?.slidePrev()}
             >
-              <div className={styles.featureContent}>
-                <span className={styles.featureType}>{feature.type}</span>
-                <h3 className={styles.featureName}>{feature.name}</h3>
-                <button className={styles.featureButton}>
-                  <FaArrowRight />
-                </button>
-              </div>
-            </div>
-          ))}
-          {/* Placeholder cards for missing items to maintain grid layout */}
-          {Array.from({ length: Math.max(0, 4 - features.length) }).map((_, index) => (
-            <div key={`missing-${index}`} className={`${styles.featureCard} ${styles.missing}`}>
-              <div className={styles.featureContent}>
-                <span className={styles.featureType}>CARD LIPSA</span>
-                <h3 className={styles.featureName}>CARD LIPSA</h3>
-                <button className={styles.featureButton} disabled>
-                  <FaArrowRight />
-                </button>
-              </div>
-            </div>
-          ))}
+              <FaChevronLeft />
+            </button>
+            <button 
+              className={`${styles.navBtn} ${styles.nextBtn}`}
+              onClick={() => swiperInstance?.slideNext()}
+            >
+              <FaChevronRight />
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.carouselContainer}>
+          <Swiper
+            spaceBetween={20}
+            slidesPerView={1}
+            breakpoints={{
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+              },
+            }}
+            onSwiper={setSwiperInstance}
+            className={styles.swiper}
+          >
+            {selectedService.images && selectedService.images.map((image, index) => (
+              <SwiperSlide key={index} className={styles.swiperSlide}>
+                <div className={styles.carouselItem}>
+                  <div className={styles.imageContainer}>
+                    <img src={image} alt={`${selectedService.name} ${index + 1}`} />
+                  </div>
+                  <div className={styles.imageInfo}>
+                    <h3>{selectedService.name}</h3>
+                    <p>{selectedService.description}</p>
+                  </div>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>

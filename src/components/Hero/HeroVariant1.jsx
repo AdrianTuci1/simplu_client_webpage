@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HeroVariant1.css';
-import { useHeroData, useLocations } from '../../hooks/useSimplifiedData';
+import { useHeroData, useLocationSwitcher } from '../../utils/componentHelpers';
 import LocationSelector from '../LocationSelector/LocationSelector';
 import { FaEdit } from 'react-icons/fa';
 
@@ -152,27 +152,13 @@ const HeroVariant1 = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   
-  const { data: hero, loading: isLoading, error } = useHeroData({ 
-    locationId: 1 
-  });
-  
+  // Use the new homepage data system
+  const { data: hero, loading: isLoading, error } = useHeroData();
   const { 
-    data: locations, 
-    currentLocation, 
     switchLocation, 
-    getLocationInfo, 
-    initializeLocations 
-  } = useLocations();
+    allLocations,
+  } = useLocationSwitcher();
   
-  // Initialize locations on component mount
-  useEffect(() => {
-    if (locations.length === 0) {
-      initializeLocations();
-    }
-  }, [locations.length, initializeLocations]);
-  
-  const locationInfo = getLocationInfo();
-
   const handleEdit = () => {
     setIsEditing(true);
   };
@@ -191,6 +177,9 @@ const HeroVariant1 = () => {
     }
   };
 
+  // Check if we have multiple locations
+  const isMultiLocation = allLocations.length > 1;
+
   // Show loading state
   if (isLoading || !hero) {
     return (
@@ -206,7 +195,7 @@ const HeroVariant1 = () => {
       <section className="hero hero-variant-1">
         <div className="error">
           <p>Eroare la încărcarea datelor: {error}</p>
-          <button onClick={() => loadBusinessData()}>Încearcă din nou</button>
+          <button onClick={() => window.location.reload()}>Încearcă din nou</button>
         </div>
       </section>
     );
@@ -246,7 +235,7 @@ const HeroVariant1 = () => {
       {/* Content container - moved outside main-frame */}
       <div className="content-container">
         <div className="content">
-          {locationInfo.isMultiLocation && (
+          {isMultiLocation && (
             <div className="location-content">
               <LocationSelector 
                 onLocationChange={handleLocationChange} 
