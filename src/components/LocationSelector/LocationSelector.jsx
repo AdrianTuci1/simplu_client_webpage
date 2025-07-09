@@ -116,26 +116,24 @@ const LocationSelector = ({
             >
               <div className="location-option-content">
                 <div className="location-option-title">{title}</div>
-                <div className="location-option-name">{currentLocation.name}</div>
-                <div className="location-option-address">{currentLocation.address}</div>
+                <div className="location-option-address">{currentLocation.slug}</div>
               </div>
               <div className="location-option-indicator">Locația activă</div>
             </button>
           )}
-          {allLocations.map((location) => (
+          {allLocations
+            .filter(location => location.id !== currentLocation?.id)
+            .map((location) => (
             <button
               key={location.id}
-              className={`location-option ${location.id === currentLocation?.id ? 'active' : ''}`}
+              className="location-option"
               onClick={() => handleLocationSelect(location)}
             >
               <div className="location-option-content">
                 <div className="location-option-title">{title}</div>
-                <div className="location-option-name">{location.name}</div>
-                <div className="location-option-address">{location.address}</div>
+
+                <div className="location-option-address">{location.slug}</div>
               </div>
-              {location.id === currentLocation?.id && (
-                <div className="location-option-indicator">✓</div>
-              )}
             </button>
           ))}
         </div>

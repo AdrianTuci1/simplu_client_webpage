@@ -23,18 +23,18 @@ export const homeData = {
                 services: [
                     {
                         "id": 1,
-                        "name": "Service 1",
-                        "category": "Category 1",
+                        "name": "Dental Implants",
+                        "category": "SERVICE",
                     },
                     {
                         "id": 2,
-                        "name": "Service 2",
-                        "category": "Category 2",
+                        "name": "Dental Crowns",
+                        "category": "SERVICE",
                     },
                     {
                         "id": 3,
-                        "name": "Service 3",
-                        "category": "Category 3",
+                        "name": "Checkup",
+                        "category": "CATEGORY",
                     },
                 ],
                 availabilityCalendar: {},

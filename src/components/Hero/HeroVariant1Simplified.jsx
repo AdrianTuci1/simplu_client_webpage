@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './HeroVariant1.css';
-import { useHeroData, useLocations } from '../../hooks';
-import { useLocations } from '../../hooks';
+import { useHeroData } from '../../hooks';
+import useLocationStore from '../LocationSelector/locationStore';
 import LocationSelector from '../LocationSelector/LocationSelector';
 import { FaEdit } from 'react-icons/fa';
 
@@ -162,7 +162,16 @@ const HeroVariant1Simplified = () => {
   const [isEditing, setIsEditing] = useState(false);
   
   // Get current location from location store
-  const { currentLocation, switchLocation, getLocationInfo, initializeLocations, allLocations } = useLocations();
+  const { 
+    currentLocationId, 
+    allLocations, 
+    switchLocation, 
+    initializeLocations, 
+    getCurrentLocation,
+    hasMultipleLocations 
+  } = useLocationStore();
+  
+  const currentLocation = getCurrentLocation();
   
   // Use simplified hooks for data fetching
   const { 
@@ -175,15 +184,6 @@ const HeroVariant1Simplified = () => {
     businessType: 'hotel', 
     locationId: currentLocation?.id 
   });
-
-  const { 
-    data: locations, 
-    loading: locationsLoading, 
-    error: locationsError, 
-    isDemoMode: locationsDemoMode 
-  } = useLocations({ 
-    businessType: 'hotel' 
-  });
   
   // Initialize locations on component mount
   useEffect(() => {
@@ -191,8 +191,6 @@ const HeroVariant1Simplified = () => {
       initializeLocations();
     }
   }, [allLocations.length, initializeLocations]);
-  
-  const locationInfo = getLocationInfo();
 
   const handleEdit = () => {
     setIsEditing(true);
@@ -268,11 +266,14 @@ const HeroVariant1Simplified = () => {
       )}
 
       {/* Location Selector */}
-      {locationInfo.isMultiLocation && (
+      {hasMultipleLocations() && (
         <LocationSelector 
-          locations={allLocations}
-          currentLocation={currentLocation}
           onLocationChange={handleLocationChange}
+          title={hero?.bussinesName || hero?.title || ''}
+          subtitle={hero?.bussinesSlug || hero?.subtitle || ''}
+          allLocations={allLocations}
+          currentLocation={currentLocation}
+          hasMultipleLocations={hasMultipleLocations()}
         />
       )}
 

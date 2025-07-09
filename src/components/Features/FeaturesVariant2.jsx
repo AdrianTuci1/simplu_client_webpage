@@ -1,56 +1,49 @@
-import React, { useState, useEffect } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import React from 'react';
 import { useServicesData } from '../../utils/componentHelpers';
-import 'swiper/css';
-import 'swiper/css/pagination';
 import styles from './FeaturesVariant2.module.css';
 
 const FeaturesVariant2 = () => {
-  const [swiperInstance, setSwiperInstance] = useState(null);
-  
-  // Use the new homepage data system
   const { data: services, loading, error } = useServicesData();
 
-  // Transform services data to match the expected format
-  const transformServicesToFeatures = (servicesList) => {
-    return servicesList.map((service, index) => ({
-      id: service.id || index + 1,
-      name: service.name,
-      description: service.description || service.category,
-      images: service.images || [service.image] || [],
-      category: service.category,
-      color: getServiceColor(index)
-    }));
-  };
-
-  // Generate colors for services
-  const getServiceColor = (index) => {
+  // Generate random colors for cards
+  const generateRandomColor = () => {
     const colors = [
       '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-      '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'
+      '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+      '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D7BDE2'
     ];
-    return colors[index % colors.length];
+    return colors[Math.floor(Math.random() * colors.length)];
   };
 
-  // Set initial selected service
-  const [selectedService, setSelectedService] = useState(
-    services && services.length > 0 ? transformServicesToFeatures(services)[0] : null
-  );
-
-  // Update selected service when services data changes
-  useEffect(() => {
-    if (services && services.length > 0 && !selectedService) {
-      const features = transformServicesToFeatures(services);
-      setSelectedService(features[0]);
+  // Create 4 cards with services data
+  const createCards = () => {
+    const cards = [];
+    
+    // Add existing services
+    if (services && services.length > 0) {
+      services.forEach((service, index) => {
+        if (index < 4) {
+          cards.push({
+            id: service.id || index + 1,
+            type: 'TRATAMENT',
+            name: service.name,
+            color: generateRandomColor()
+          });
+        }
+      });
     }
-  }, [services, selectedService]);
-
-  const handleServiceChange = (service) => {
-    setSelectedService(service);
-    if (swiperInstance) {
-      swiperInstance.slideTo(0);
+    
+    // Fill remaining slots with "categorie lipsa"
+    while (cards.length < 4) {
+      cards.push({
+        id: `missing-${cards.length + 1}`,
+        type: 'CATEGORIE',
+        name: 'categorie lipsa',
+        color: generateRandomColor()
+      });
     }
+    
+    return cards;
   };
 
   if (loading) {
@@ -78,87 +71,24 @@ const FeaturesVariant2 = () => {
     );
   }
 
-  if (!selectedService || !services || services.length === 0) {
-    return (
-      <section className={`features ${styles.featuresVariant2}`}>
-        <div className={styles.container}>
-          <div className={styles.noDataContainer}>
-            <p>Nu sunt servicii disponibile</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  const features = transformServicesToFeatures(services);
+  const cards = createCards();
 
   return (
     <section className={`features ${styles.featuresVariant2}`}>
       <div className={styles.container}>
-        <div className={styles.headerSection}>
-          <div className={styles.servicesList}>
-            {features.map((service) => (
-              <button
-                key={service.id}
-                className={`${styles.serviceBtn} ${selectedService.id === service.id ? styles.active : ''}`}
-                onClick={() => handleServiceChange(service)}
-                style={{ 
-                  backgroundColor: selectedService.id === service.id ? service.color : 'transparent',
-                  borderColor: service.color
-                }}
-              >
-                {service.name}
-              </button>
-            ))}
-          </div>
-          
-          <div className={styles.navigationControls}>
-            <button 
-              className={`${styles.navBtn} ${styles.prevBtn}`}
-              onClick={() => swiperInstance?.slidePrev()}
+        <div className={styles.cardsGrid}>
+          {cards.map((card) => (
+            <div
+              key={card.id}
+              className={styles.card}
+              style={{ backgroundColor: card.color }}
             >
-              <FaChevronLeft />
-            </button>
-            <button 
-              className={`${styles.navBtn} ${styles.nextBtn}`}
-              onClick={() => swiperInstance?.slideNext()}
-            >
-              <FaChevronRight />
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.carouselContainer}>
-          <Swiper
-            spaceBetween={20}
-            slidesPerView={1}
-            breakpoints={{
-              640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-              },
-              1024: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-              },
-            }}
-            onSwiper={setSwiperInstance}
-            className={styles.swiper}
-          >
-            {selectedService.images && selectedService.images.map((image, index) => (
-              <SwiperSlide key={index} className={styles.swiperSlide}>
-                <div className={styles.carouselItem}>
-                  <div className={styles.imageContainer}>
-                    <img src={image} alt={`${selectedService.name} ${index + 1}`} />
-                  </div>
-                  <div className={styles.imageInfo}>
-                    <h3>{selectedService.name}</h3>
-                    <p>{selectedService.description}</p>
-                  </div>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+              <div className={styles.cardContent}>
+                <div className={styles.cardType}>{card.type}</div>
+                <div className={styles.cardName}>{card.name}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

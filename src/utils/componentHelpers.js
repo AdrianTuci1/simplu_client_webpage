@@ -190,7 +190,15 @@ export const useServicesData = (options = {}) => {
   
   // Use provided locationId or current location from store
   const { locationId = currentLocationId } = options;
-  const data = getComponentData('services', locationId);
+  
+  // Get demo data
+  const demoData = getDemoData();
+  
+  // Get location-specific data
+  const locationData = demoData?.homeData?.locations?.find(loc => loc.id === locationId);
+  
+  // Return services from location data
+  const data = locationData?.data?.services || [];
   
   return {
     data,
