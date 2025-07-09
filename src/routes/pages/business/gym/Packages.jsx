@@ -1,10 +1,31 @@
 import React from 'react';
-import usePackagesStore from '../../../../components/Packages/packagesStore';
+import { usePackages } from '../../../../hooks';
 import styles from './Packages.module.css';
 import PackageCard from '../../../../components/Packages/PackageCard';
 
 const Packages = () => {
-  const packages = usePackagesStore(state => state.getAllPackages());
+  const { data: packages, loading, error } = usePackages({ locationId: 1 });
+
+  // Handle loading state
+  if (loading) {
+    return (
+      <div className={styles.packagesPage}>
+        <div className={styles.loading}>Se încarcă pachetele...</div>
+      </div>
+    );
+  }
+
+  // Handle error state
+  if (error) {
+    return (
+      <div className={styles.packagesPage}>
+        <div className={styles.error}>
+          <p>Eroare la încărcarea datelor: {error}</p>
+          <button onClick={() => window.location.reload()}>Încearcă din nou</button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.packagesPage}>

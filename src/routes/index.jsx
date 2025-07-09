@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import simplifiedConfig from '../config/simplifiedConfig';
-import { useHomepageData } from '../contexts/HomepageDataContext';
+import { getDemoData } from '../config/demoMode';
 import PageError from '../components/PageError';
 
 // Import pages
@@ -44,27 +44,11 @@ const ProtectedRoute = ({ page, Component }) => {
   return <Component />;
 };
 
-// Location-aware route component
-const LocationRoute = ({ page, Component }) => {
-  const { data } = useHomepageData();
-  const currentLocation = data?.currentLocation;
-  
-  if (!simplifiedConfig.isPageActive(page)) {
-    return (
-      <PageError 
-        message={`This page is not available for the current business type (${simplifiedConfig.getType()})`}
-      />
-    );
-  }
-
-  return <Component location={currentLocation} />;
-};
-
 // Location redirect component
 const LocationRedirect = () => {
-  const { data } = useHomepageData();
-  const currentLocation = data?.currentLocation;
-  const allLocations = data?.locations || [];
+  const demoData = getDemoData();
+  const allLocations = demoData?.homeData?.locations || [];
+  const currentLocation = allLocations.find(loc => loc.id === 1) || allLocations[0];
   
   // If no location is selected, redirect to the first available location
   if (!currentLocation && allLocations.length > 0) {
@@ -81,8 +65,8 @@ const LocationRedirect = () => {
 };
 
 const AppRoutes = () => {
-  const { data } = useHomepageData();
-  const allLocations = data?.locations || [];
+  const demoData = getDemoData();
+  const allLocations = demoData?.homeData?.locations || [];
   const hasMultipleLocations = allLocations.length > 1;
 
   return (
@@ -115,7 +99,7 @@ const AppRoutes = () => {
               <Route 
                 key={`${location.slug}-${page}`}
                 path={`/${location.slug}/${page.toLowerCase()}`}
-                element={<LocationRoute page={page} Component={Component} />}
+                element={<ProtectedRoute page={page} Component={Component} />}
               />
             ))
           )}

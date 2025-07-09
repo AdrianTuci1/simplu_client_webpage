@@ -1,15 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FaBed, FaUsers, FaArrowRight, FaCalendarAlt, FaArrowLeft } from 'react-icons/fa';
-// Demo hotel store
-const useHotelStore = () => ({
-  ui: {
-    isLoading: false,
-    error: null
-  }
-});
+import { useRooms } from '../../../../hooks';
 import styles from './Rooms.module.css';
-
 
 const Rooms = () => {
   const navigate = useNavigate();
@@ -17,9 +10,8 @@ const Rooms = () => {
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
 
-  // Use the simplified hooks
-  const { data: roomsData, loading, error, isDemoMode } = useRooms({ locationId: 1 });
-  const { ui } = useHotelStore();
+  // Use the new hook to get rooms data
+  const { data: roomsData, loading, error } = useRooms({ locationId: 1 });
 
   // Hide navbar for this page
   useEffect(() => {
@@ -54,7 +46,7 @@ const Rooms = () => {
   };
 
   // Handle loading state
-  if (loading || ui.isLoading) {
+  if (loading) {
     return (
       <div className={styles.roomsPage}>
         <div className={styles.loading}>Se încarcă...</div>
@@ -63,11 +55,11 @@ const Rooms = () => {
   }
 
   // Handle error state
-  if (error || ui.error) {
+  if (error) {
     return (
       <div className={styles.roomsPage}>
         <div className={styles.error}>
-          <p>Eroare la încărcarea datelor: {error?.message || ui.error}</p>
+          <p>Eroare la încărcarea datelor: {error}</p>
           <button onClick={() => window.location.reload()}>Încearcă din nou</button>
         </div>
       </div>

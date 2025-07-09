@@ -2,13 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaBed, FaUsers, FaStar, FaCheck, FaMapMarkerAlt, FaPhone, FaEnvelope, FaHeart, FaShare, FaCalendarAlt } from 'react-icons/fa';
 import { useRooms } from '../../../../hooks';
-// Demo hotel store
-const useHotelStore = () => ({
-  ui: {
-    isLoading: false,
-    error: null
-  }
-});
 import Calendar from '../../../../components/Calendar/Calendar';
 import styles from './RoomDetails.module.css';
 
@@ -20,23 +13,22 @@ const RoomDetails = () => {
   const [nights, setNights] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
 
-  // Use the new data flow architecture
-  const { data: roomsData, loading, error, isDemoMode } = useRooms({ locationId: 1 });
-  const { ui } = useHotelStore();
+  // Use the new hook to get rooms data
+  const { data: roomsData, loading, error } = useRooms({ locationId: 1 });
 
   // Find room data from the fetched rooms
   const room = roomsData?.find(r => r.id === parseInt(roomId));
 
   // Handle loading state
-  if (loading || ui.isLoading) {
+  if (loading) {
     return <div className={styles.loading}>Se încarcă...</div>;
   }
 
   // Handle error state
-  if (error || ui.error) {
+  if (error) {
     return (
       <div className={styles.error}>
-        <p>Eroare la încărcarea datelor: {error?.message || ui.error}</p>
+        <p>Eroare la încărcarea datelor: {error}</p>
         <button onClick={() => window.location.reload()}>Încearcă din nou</button>
       </div>
     );

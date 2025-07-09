@@ -152,11 +152,13 @@ const HeroVariant1 = () => {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
   
-  // Use the new homepage data system
+  // Use the new homepage data system with location store
   const { data: hero, loading: isLoading, error } = useHeroData();
   const { 
     switchLocation, 
     allLocations,
+    currentLocation,
+    hasMultipleLocations
   } = useLocationSwitcher();
   
   const handleEdit = () => {
@@ -169,16 +171,14 @@ const HeroVariant1 = () => {
 
   // Handle location change and navigation
   const handleLocationChange = (location) => {
-    switchLocation(location.id);
+    // Switch location in the store
+    const newLocation = switchLocation(location.id);
     
-    // Navigate to the new location's home page
-    if (location.slug) {
-      navigate(`/${location.slug}`);
+    if (newLocation && newLocation.slug) {
+      // Navigate to the new location's home page
+      navigate(`/${newLocation.slug}`);
     }
   };
-
-  // Check if we have multiple locations
-  const isMultiLocation = allLocations.length > 1;
 
   // Show loading state
   if (isLoading || !hero) {
@@ -235,12 +235,15 @@ const HeroVariant1 = () => {
       {/* Content container - moved outside main-frame */}
       <div className="content-container">
         <div className="content">
-          {isMultiLocation && (
+          {hasMultipleLocations && (
             <div className="location-content">
               <LocationSelector 
                 onLocationChange={handleLocationChange} 
                 title={hero?.bussinesName || hero?.title || ''} 
                 subtitle={hero?.bussinesSlug || hero?.subtitle || ''} 
+                allLocations={allLocations}
+                currentLocation={currentLocation}
+                hasMultipleLocations={hasMultipleLocations}
               />
             </div>
           )}

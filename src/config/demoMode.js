@@ -61,20 +61,6 @@ export const getHomeData = (params) => {
 };
 
 /**
- * Get services data - either from demo data or indicates real API call needed
- * @param {number} locationId - Location ID
- * @returns {Object|string} Demo data if in demo mode, or 'API_CALL' if real API needed
- */
-export const getServicesData = (locationId = 1) => {
-  if (isDemoMode()) {
-    const demoData = getDemoData();
-    const locationData = demoData?.homeData?.locations?.find(loc => loc.id === locationId);
-    return locationData?.data?.services || [];
-  }
-  return 'API_CALL'; // Indicates that a real API call should be made
-};
-
-/**
  * Authenticate user - either from demo data or indicates real API call needed
  * @param {Object} credentials - User credentials (email, password)
  * @returns {Object|string} Demo authentication data if in demo mode, or 'API_CALL' if real API needed
@@ -87,12 +73,79 @@ export const authenticateUser = (credentials) => {
   return 'API_CALL'; // Indicates that a real API call should be made
 };
 
+/**
+ * Get medics data - either from demo data or indicates real API call needed
+ * @param {Object} params - Parameters for the API call (tenantId, locationId)
+ * @returns {Object|string} Demo data if in demo mode, or 'API_CALL' if real API needed
+ */
+export const getMedicsData = (params) => {
+  if (isDemoMode()) {
+    const demoData = getDemoData();
+    return demoData?.medics || null;
+  }
+  return 'API_CALL'; // Indicates that a real API call should be made
+};
+
+/**
+ * Get services data - either from demo data or makes real API call
+ * @param {Object} params - Parameters for the API call (locationId, businessType)
+ * @returns {Object} Demo data if in demo mode, or real API response if not in demo mode
+ */
+export const getServicesData = async (params) => {
+  if (isDemoMode()) {
+    const { locationId = 1, businessType = getBusinessType() } = params;
+    const demoData = getDemoData();
+    
+    // Get location-specific data
+    const locationData = demoData?.homeData?.locations?.find(loc => loc.id === locationId);
+    
+    if (!locationData) {
+      return null;
+    }
+    
+    // Return different services based on business type
+    switch (businessType) {
+      case 'clinic':
+      case 'dental':
+        // For clinic, return treatments from the services object
+        return demoData?.services || { treatments: [] };
+      
+      case 'gym':
+        // For gym, return packages from location data
+        return { packages: locationData.data?.packages || [] };
+      
+      case 'hotel':
+        // For hotel, return rooms from location data
+        return { rooms: locationData.data?.rooms || [] };
+      
+      default:
+        return null;
+    }
+  }
+  
+  // Not in demo mode, make real API call
+  const API_BASE_URL = import.meta.env.VITE_API || '';
+  const { locationId = 1, businessType = getBusinessType() } = params;
+  
+  const queryParams = new URLSearchParams({
+    locationId: locationId.toString(),
+    ...(businessType && { businessType })
+  });
+  
+  const response = await fetch(`${API_BASE_URL}/api/services?${queryParams}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch services data');
+  }
+  return await response.json();
+};
+
 // Export all functions
 export default {
   isDemoMode,
   getBusinessType,
   getDemoData,
   getHomeData,
-  getServicesData,
   authenticateUser,
+  getMedicsData,
+  getServicesData,
 }; 

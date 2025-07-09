@@ -13,6 +13,8 @@ const customIcon = new L.Icon({
 
 
 const LocationMap = ({ position }) => {
+  // Debug logging
+  console.log('LocationMap: position prop:', position);
 
   const mapboxStyle = 'mapbox/streets-v10'; // You can change to any Mapbox style
 

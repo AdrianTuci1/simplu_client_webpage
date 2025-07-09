@@ -10,6 +10,11 @@ const DescriptionVariant1 = () => {
   // Use the new homepage data system
   const { data: descriptionData, loading, error } = useDescriptionData();
   
+  // Debug logging
+  console.log('DescriptionVariant1: descriptionData:', descriptionData);
+  console.log('DescriptionVariant1: loading:', loading);
+  console.log('DescriptionVariant1: error:', error);
+  
   // State for markdown content
   const [markdownContent, setMarkdownContent] = useState('');
 

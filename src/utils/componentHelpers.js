@@ -1,110 +1,335 @@
 // Component Helpers
 // Utilities for components to easily access their specific data
 
-import { useComponentData, useLocationData, useHomepageData } from '../contexts/HomepageDataContext';
+import { getDemoData, getBusinessType } from '../config/demoMode';
+import React from 'react';
+import useLocationStore from '../components/LocationSelector/locationStore';
+
+/**
+ * Get location-specific data for a component
+ * @param {string} componentType - Component type
+ * @param {number} locationId - Location ID
+ * @returns {Object} Component data
+ */
+const getComponentData = (componentType, locationId = 1) => {
+  const demoData = getDemoData();
+  const businessType = getBusinessType();
+  
+  // Debug logging
+  console.log('getComponentData: componentType:', componentType);
+  console.log('getComponentData: locationId:', locationId);
+  console.log('getComponentData: demoData:', demoData);
+  
+  // Get location-specific data
+  const locationData = demoData?.homeData?.locations?.find(loc => loc.id === locationId);
+  
+  // Debug logging
+  console.log('getComponentData: locationData:', locationData);
+  
+  if (!locationData) {
+    console.log('getComponentData: No location data found for locationId:', locationId);
+    return null;
+  }
+  
+  // Return component-specific data based on business type
+  switch (componentType) {
+    case 'hero':
+      return locationData.data?.hero;
+    
+    case 'description':
+      return {
+        description: locationData.data?.description,
+        coordinates: locationData.data?.coordinates
+      };
+    
+    case 'facilities':
+      return locationData.data?.facilities;
+    
+    case 'attractions':
+      return locationData.data?.attractions;
+    
+    case 'rooms':
+      return locationData.data?.rooms;
+    
+    case 'packages':
+      return locationData.data?.packages;
+    
+    case 'classes':
+      return locationData.data?.classes;
+    
+    case 'gallery':
+      return locationData.data?.gallery;
+    
+    case 'footer':
+      return locationData.data?.footer;
+    
+    case 'clinicStats':
+      return locationData.data?.clinicStats;
+    
+    case 'medics':
+      return demoData?.medics;
+    
+    case 'treatments':
+      return demoData?.services?.treatments;
+    
+    default:
+      return null;
+  }
+};
 
 /**
  * Hook for Hero component data
- * @returns {Object} Hero data and loading state
+ * @returns {Object} Hero data
  */
-export const useHeroData = () => {
-  return useComponentData('hero');
+export const useHeroData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('hero', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Description component data
- * @returns {Object} Description data and loading state
+ * @returns {Object} Description data
  */
-export const useDescriptionData = () => {
-  return useComponentData('description');
+export const useDescriptionData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  
+  // Debug logging
+  console.log('useDescriptionData: currentLocationId:', currentLocationId);
+  console.log('useDescriptionData: locationId:', locationId);
+  
+  const data = getComponentData('description', locationId);
+  
+  // Debug logging
+  console.log('useDescriptionData: data:', data);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Facilities component data
- * @returns {Object} Facilities data and loading state
+ * @returns {Object} Facilities data
  */
-export const useFacilitiesData = () => {
-  return useComponentData('facilities');
+export const useFacilitiesData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('facilities', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Attractions component data
- * @returns {Object} Attractions data and loading state
+ * @returns {Object} Attractions data
  */
-export const useAttractionsData = () => {
-  return useComponentData('attractions');
+export const useAttractionsData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('attractions', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Rooms component data
- * @returns {Object} Rooms data and loading state
+ * @returns {Object} Rooms data
  */
-export const useRoomsData = () => {
-  return useComponentData('rooms');
+export const useRoomsData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('rooms', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Services component data
- * @returns {Object} Services data and loading state
+ * @returns {Object} Services data
  */
-export const useServicesData = () => {
-  return useComponentData('services');
+export const useServicesData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('services', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Packages component data
- * @returns {Object} Packages data and loading state
+ * @returns {Object} Packages data
  */
-export const usePackagesData = () => {
-  return useComponentData('packages');
+export const usePackagesData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('packages', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Classes component data
- * @returns {Object} Classes data and loading state
+ * @returns {Object} Classes data
  */
-export const useClassesData = () => {
-  return useComponentData('classes');
+export const useClassesData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('classes', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Gallery component data
- * @returns {Object} Gallery data and loading state
+ * @returns {Object} Gallery data
  */
-export const useGalleryData = () => {
-  return useComponentData('gallery');
+export const useGalleryData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('gallery', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Footer component data
- * @returns {Object} Footer data and loading state
+ * @returns {Object} Footer data
  */
-export const useFooterData = () => {
-  return useComponentData('footer');
+export const useFooterData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('footer', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Clinic Stats component data
- * @returns {Object} Clinic stats data and loading state
+ * @returns {Object} Clinic stats data
  */
-export const useClinicStatsData = () => {
-  return useComponentData('clinicStats');
+export const useClinicStatsData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('clinicStats', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Medics component data
- * @returns {Object} Medics data and loading state
+ * @returns {Object} Medics data
  */
-export const useMedicsData = () => {
-  return useComponentData('medics');
+export const useMedicsData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('medics', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
  * Hook for Treatments component data
- * @returns {Object} Treatments data and loading state
+ * @returns {Object} Treatments data
  */
-export const useTreatmentsData = () => {
-  return useComponentData('treatments');
+export const useTreatmentsData = (options = {}) => {
+  // Get current location from the store
+  const { currentLocationId } = useLocationStore();
+  
+  // Use provided locationId or current location from store
+  const { locationId = currentLocationId } = options;
+  const data = getComponentData('treatments', locationId);
+  
+  return {
+    data,
+    loading: false,
+    error: null
+  };
 };
 
 /**
@@ -112,11 +337,13 @@ export const useTreatmentsData = () => {
  * @returns {Object} Business type and available pages
  */
 export const useBusinessInfo = () => {
-  const { businessType, getAvailablePages } = useHomepageData();
+  const businessType = getBusinessType();
+  const demoData = getDemoData();
+  const availablePages = demoData?.homeData?.availablePages || [];
   
   return {
     businessType,
-    availablePages: getAvailablePages()
+    availablePages
   };
 };
 
@@ -125,18 +352,29 @@ export const useBusinessInfo = () => {
  * @returns {Object} Location switching functions and data
  */
 export const useLocationSwitcher = () => {
-  const { 
-    currentLocationId, 
-    switchLocation, 
-    getAllLocations,
-    dataContext 
-  } = useHomepageData();
+  // Get state and actions from the store
+  const {
+    currentLocationId,
+    allLocations,
+    switchLocation,
+    getCurrentLocation,
+    initializeLocations,
+    hasMultipleLocations
+  } = useLocationStore();
+  
+  // Initialize locations if not already done
+  React.useEffect(() => {
+    if (allLocations.length === 0) {
+      initializeLocations();
+    }
+  }, [allLocations.length, initializeLocations]);
   
   return {
     currentLocationId,
+    allLocations,
+    currentLocation: getCurrentLocation(),
     switchLocation,
-    allLocations: getAllLocations(),
-    currentLocation: dataContext?.location
+    hasMultipleLocations: hasMultipleLocations()
   };
 };
 
@@ -145,23 +383,14 @@ export const useLocationSwitcher = () => {
  * @returns {Object} Global homepage data
  */
 export const useGlobalData = () => {
-  const { 
-    homepageData, 
-    dataContext, 
-    loading, 
-    error,
-    refresh 
-  } = useHomepageData();
+  const demoData = getDemoData();
+  const businessType = getBusinessType();
   
   return {
-    homepageData,
-    dataContext,
-    loading,
-    error,
-    refresh,
-    tenantId: dataContext?.tenantId,
-    businessType: dataContext?.businessType,
-    availablePages: dataContext?.availablePages
+    homepageData: demoData?.homeData,
+    businessType,
+    availablePages: demoData?.homeData?.availablePages || [],
+    tenantId: demoData?.homeData?.tenantId
   };
 };
 

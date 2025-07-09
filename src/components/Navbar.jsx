@@ -1,15 +1,17 @@
 import { Link, useLocation } from 'react-router-dom';
 import simplifiedConfig from '../config/simplifiedConfig';
-import { useHomepageData } from '../contexts/HomepageDataContext';
+import { getDemoData, getBusinessType } from '../config/demoMode';
 import { FaHome, FaUserMd, FaTooth, FaDumbbell, FaCalendarAlt, FaBed, FaSwimmingPool, FaMapMarkedAlt, FaCog, FaChartLine } from 'react-icons/fa';
 import './Navbar.css';
-import { useEffect } from 'react';
 
 const Navbar = () => {
   const location = useLocation();
-  const { data } = useHomepageData();
-  const currentLocation = data?.currentLocation;
-  const allLocations = data?.locations || [];
+  
+  // Get data directly from demo data instead of context
+  const demoData = getDemoData();
+  const businessType = getBusinessType();
+  const allLocations = demoData?.homeData?.locations || [];
+  const currentLocation = allLocations.find(loc => loc.id === 1) || allLocations[0]; // Default to first location
   const hasMultipleLocations = allLocations.length > 1;
   
   const getPageIcon = (page) => {

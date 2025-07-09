@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useHomepageData } from '../../contexts/HomepageDataContext';
 import { FaMapMarkerAlt, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './LocationSelector.css';
 
-const LocationSelector = ({ onLocationChange, title, subtitle }) => {
-  const { data } = useHomepageData();
-  const currentLocation = data?.currentLocation;
-  const allLocations = data?.locations || [];
+const LocationSelector = ({ 
+  onLocationChange, 
+  title, 
+  subtitle, 
+  allLocations, 
+  currentLocation, 
+  hasMultipleLocations 
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState({});
   const selectorRef = useRef(null);
@@ -31,17 +34,12 @@ const LocationSelector = ({ onLocationChange, title, subtitle }) => {
     };
   }, [isOpen]);
   
-  // Check if we have multiple locations
-  const isMultiLocation = allLocations.length > 1;
-  
   // If no multiple locations, don't show selector
-  if (!isMultiLocation) {
+  if (!hasMultipleLocations) {
     return null;
   }
 
   const handleLocationSelect = (location) => {
-    // For now, just call the callback if provided
-    // In a real implementation, you might want to update the homepage data context
     setIsOpen(false);
     
     if (onLocationChange) {
@@ -97,10 +95,10 @@ const LocationSelector = ({ onLocationChange, title, subtitle }) => {
       >
         <div className="location-selector-content">
           <h1 className="location-selector-title">{title}</h1>
-                  <div className="location-selector-location">
-          <FaMapMarkerAlt className="location-icon" />
-          <span className="location-name">{subtitle || "Selectează locația"}</span>
-        </div>
+          <div className="location-selector-location">
+            <FaMapMarkerAlt className="location-icon" />
+            <span className="location-name">{subtitle || "Selectează locația"}</span>
+          </div>
         </div>
         {isOpen ? <FaChevronUp className="chevron" /> : <FaChevronDown className="chevron" />}
       </button>
